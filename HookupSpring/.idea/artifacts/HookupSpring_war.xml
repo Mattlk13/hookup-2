@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="HookupSpring:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="HookupSpring.war">
+      <element id="artifact" artifact-name="HookupSpring:war exploded" />
+    </root>
+  </artifact>
+</component>
