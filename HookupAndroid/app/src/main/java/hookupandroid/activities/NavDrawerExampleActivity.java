@@ -1,4 +1,4 @@
-package hookup.hookupandroid.activities;
+package hookupandroid.activities;
 
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +11,10 @@ import android.support.v7.widget.Toolbar;
 import java.util.ArrayList;
 import java.util.List;
 
-import hookup.hookupandroid.R;
-import hookup.hookupandroid.adapters.NavigationDrawerAdapter;
-import hookup.hookupandroid.fragments.NavigationDrawerFragment;
-import hookup.hookupandroid.model.NavigationDrawerItem;
+import hookupandroid.R;
+import hookupandroid.adapters.NavigationDrawerAdapter;
+import hookupandroid.fragments.NavigationDrawerFragment;
+import hookupandroid.model.NavigationDrawerItem;
 
 public class NavDrawerExampleActivity extends AppCompatActivity {
 

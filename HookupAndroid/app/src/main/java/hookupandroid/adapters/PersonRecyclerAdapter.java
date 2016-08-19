@@ -1,4 +1,4 @@
-package hookup.hookupandroid.adapters;
+package hookupandroid.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import hookup.hookupandroid.R;
-import hookup.hookupandroid.model.Person;
+import hookupandroid.R;
+import hookupandroid.model.Person;
 
 /**
  * Created by Bandjur on 8/3/2016.

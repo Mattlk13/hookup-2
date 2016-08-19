@@ -1,4 +1,4 @@
-package hookup.hookupandroid.model;
+package hookupandroid.model;
 
 /**
  * Created by Bandjur on 8/3/2016.

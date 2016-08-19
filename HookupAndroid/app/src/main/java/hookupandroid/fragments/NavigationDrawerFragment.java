@@ -1,4 +1,4 @@
-package hookup.hookupandroid.fragments;
+package hookupandroid.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,9 +14,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import hookup.hookupandroid.R;
-import hookup.hookupandroid.adapters.NavigationDrawerAdapter;
-import hookup.hookupandroid.model.NavigationDrawerItem;
+import hookupandroid.R;
+import hookupandroid.adapters.NavigationDrawerAdapter;
+import hookupandroid.model.NavigationDrawerItem;
 
 public class NavigationDrawerFragment extends Fragment {
 
@@ -39,22 +39,6 @@ public class NavigationDrawerFragment extends Fragment {
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(getActivity(), getNavigationDrawerItems());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.drawerList);
-//
-//        NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(getActivity(), getNavigationDrawerItems());
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        // *****
-//        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.drawerList);
-//        NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(getActivity(), getNavigationDrawerItems());
-//        recyclerView.setAdapter(adapter);
-//
-//        LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(getActivity()); // (Context context, int spanCount)
-//        mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
-//        recyclerView.setLayoutManager(mLinearLayoutManagerVertical);
-//
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     public void setUpDrawer(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar) {

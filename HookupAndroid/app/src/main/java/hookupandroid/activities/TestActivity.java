@@ -1,9 +1,9 @@
-package hookup.hookupandroid.activities;
+package hookupandroid.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import hookup.hookupandroid.R;
+import hookupandroid.R;
 
 public class TestActivity extends AppCompatActivity {
 

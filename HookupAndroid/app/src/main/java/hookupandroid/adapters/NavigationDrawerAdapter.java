@@ -1,4 +1,4 @@
-package hookup.hookupandroid.adapters;
+package hookupandroid.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -12,8 +12,8 @@ import android.widget.Toast;
 import java.util.Collections;
 import java.util.List;
 
-import hookup.hookupandroid.R;
-import hookup.hookupandroid.model.NavigationDrawerItem;
+import hookupandroid.R;
+import hookupandroid.model.NavigationDrawerItem;
 
 /**
  * Created by Bandjur on 8/5/2016.

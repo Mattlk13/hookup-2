@@ -1,4 +1,4 @@
-package hookup.hookupandroid.activities;
+package hookupandroid.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import android.support.v7.widget.Toolbar;
 import java.util.ArrayList;
 import java.util.List;
 
-import hookup.hookupandroid.R;
-import hookup.hookupandroid.adapters.PersonRecyclerAdapter;
-import hookup.hookupandroid.model.Person;
+import hookupandroid.R;
+import hookupandroid.adapters.PersonRecyclerAdapter;
+import hookupandroid.model.Person;
 
 public class PersonRecyclerViewActivity extends AppCompatActivity {
 
