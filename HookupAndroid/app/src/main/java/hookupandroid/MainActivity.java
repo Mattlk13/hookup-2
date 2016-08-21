@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,9 +25,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import hookupandroid.activities.NavDrawerExampleActivity;
 import hookupandroid.activities.PersonRecyclerViewActivity;
+import hookupandroid.model.UserData;
+import hookupandroid.tasks.RegisterUserTask;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -93,7 +97,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                Log.d("RESIGSTRATION SUCESS", "debug console write test");
                                 Toast.makeText(MainActivity.this, "You have successfully registered ", Toast.LENGTH_SHORT).show();
+                                String token = FirebaseInstanceId.getInstance().getToken();
+                                RegisterUserTask registerAsyncTask = new RegisterUserTask();
+                                UserData data = new UserData();
+                                data.setEmail(txtEmail.getText().toString());
+                                data.setUid(auth.getCurrentUser().getUid());
+                                data.setLatitude("13");
+                                data.setLongitude("44");
+                                data.setToken(token);
+                                registerAsyncTask.execute(data);
                             }
                             else {
                                 Toast.makeText(MainActivity.this, "Registration failed. Try again...", Toast.LENGTH_SHORT).show();
