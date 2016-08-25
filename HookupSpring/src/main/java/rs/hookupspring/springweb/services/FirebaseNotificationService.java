@@ -12,6 +12,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.stereotype.Service;
+import rs.hookupspring.entity.User;
 import rs.hookupspring.springweb.dto.FcmJsonBody;
 
 import java.io.UnsupportedEncodingException;
@@ -27,6 +28,35 @@ import java.util.concurrent.CompletableFuture;
 public class FirebaseNotificationService {
 
     private final String PROJECT_KEY = "AIzaSyAbgfNI9_awcBn2g59hqlYXmEr-tbf78eQ";
+
+    public void sendHookupNotification(User a, User b) {
+        HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
+
+        String userToken ="c1w-Q5Sh_NU:APA91bHDP7pDXQuRLg2ZMa2D5LcTup-c5bKhpcT-1VpeJ2Z-cnhtvb0JT7tQmZEsXJvuLqgfb6I4eOah7IGBu4tZnLHPeqvaPNKMR_uOgjItZdX7o8n0CBSrVsZjIzm1O89k5ZA1jgVM";
+
+        FcmJsonBody fcmData = new FcmJsonBody();
+        fcmData.setTo(a.getFirebaseInstaceToken());
+        Map<String, String> data = new HashMap<String, String>();
+//        data.put("message","Message tebra");
+        data.put("personName", b.getFirebaseUID());
+        fcmData.setData(data);
+
+        try {
+            HttpPost request = new HttpPost("https://fcm.googleapis.com/fcm/send");
+            String jsonExample = new Gson().toJson(fcmData);
+            StringEntity params = new StringEntity(new Gson().toJson(fcmData));
+            request.addHeader("content-type", "application/json");
+            request.addHeader("authorization", "key="+PROJECT_KEY);
+            request.setEntity(params);
+            HttpResponse response = httpClient.execute(request);
+
+        }catch (Exception ex) {
+            // handle exception here
+        } finally {
+            httpClient.getConnectionManager().shutdown(); //Deprecated
+        }
+    }
+
 
     public void httpApachePostExample() {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead

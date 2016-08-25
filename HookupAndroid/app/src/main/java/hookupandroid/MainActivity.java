@@ -54,34 +54,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         auth = FirebaseAuth.getInstance();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        toolbar.setTitle("Hook up");
-        toolbar.setSubtitle("lets do dis!");
+        setUpToolbar();
 
         Button button = (Button) findViewById(R.id.button);
-
         button.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, TestActivity.class);
                 Intent intent = new Intent(MainActivity.this, PersonRecyclerViewActivity.class);
                 startActivity(intent);
             }
         });
 
         final Button btnGotoNavDrawActity = (Button) findViewById(R.id.btnGotoNavDrawActivity);
-
         btnGotoNavDrawActity.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, TestActivity.class);
                 Intent intent = new Intent(MainActivity.this, NavDrawerExampleActivity.class);
                 startActivity(intent);
             }
         });
-
 
         Button btnLogin = (Button) findViewById(R.id.btnLogin);
         Button btnRegister = (Button) findViewById(R.id.btnRegister);
@@ -104,8 +95,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                 UserData data = new UserData();
                                 data.setEmail(txtEmail.getText().toString());
                                 data.setUid(auth.getCurrentUser().getUid());
-                                data.setLatitude("13");
-                                data.setLongitude("44");
+                                data.setLatitude(String.valueOf(mLastLocation.getLatitude()));
+                                data.setLongitude(String.valueOf(mLastLocation.getLongitude()));
                                 data.setToken(token);
                                 registerAsyncTask.execute(data);
                             }
@@ -153,6 +144,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
             }
         });
+    }
+
+    private void setUpToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        toolbar.setTitle("Hook up");
+        toolbar.setSubtitle("lets do dis!");
     }
 
     protected void onStart() {
@@ -220,8 +219,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 mGoogleApiClient);
         if (mLastLocation != null) {
             Toast.makeText(this, String.valueOf(mLastLocation.getLatitude()) + " " + String.valueOf(mLastLocation.getLongitude()), Toast.LENGTH_SHORT).show();
-//            mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
-//            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
         }
     }
 

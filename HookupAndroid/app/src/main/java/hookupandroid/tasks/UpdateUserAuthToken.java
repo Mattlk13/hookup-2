@@ -31,7 +31,7 @@ public class UpdateUserAuthToken extends AsyncTask<String, String, String> {
                 .build();
 
         Request request = new Request.Builder()
-                .url(serverUrl + "/firebaseUser/updateToken/" + currentUser.getUid())
+                .url(serverUrl + "/firebaseUser/" + currentUser.getUid() + "/updateToken")
                 .post(body)
                 .build();
 

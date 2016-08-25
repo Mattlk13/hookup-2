@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import rs.hookupspring.dao.UserRepository;
 import rs.hookupspring.entity.User;
+import rs.hookupspring.springweb.services.FirebaseNotificationService;
+import rs.hookupspring.springweb.services.LocationsDistanceService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Bandjur on 8/20/2016.
@@ -21,6 +26,12 @@ public class FirebaseUserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private LocationsDistanceService locationsDistanceService;
+
+    @Autowired
+    private FirebaseNotificationService firebaseNotificationService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
@@ -63,8 +74,39 @@ public class FirebaseUserController {
         }
     }
 
-    @RequestMapping(value = "/{uid}/updateLocation", method = RequestMethod.POST)
-    public void updateLocation(@PathVariable String uid) {
 
+    @RequestMapping(value = "/updateLocation", method = RequestMethod.POST)
+    public void tryUpdateLocation(@RequestParam(value="latitude") String latitude,
+                                  @RequestParam(value="longitude") String longitude) {
+        int a = 1;
+    }
+
+    @RequestMapping(value = "/{uid}/updateLocation", method = RequestMethod.POST)
+    public void updateLocation(@PathVariable String uid,
+                               @RequestParam(value="latitude") String latitude,
+                               @RequestParam(value="longitude") String longitude) {
+
+        User user = userRepository.findByFirebaseUID(uid);
+        user.setLatitude(Double.parseDouble(latitude));
+        user.setLongitude(Double.parseDouble(longitude));
+        userRepository.save(user);
+
+        double distance = Double.MAX_VALUE;
+        List<User> nearbyHookups = new ArrayList<User>();
+
+        for (User hookup : user.getHookups()) {
+            distance = locationsDistanceService.distance(user.getLatitude(),
+                    user.getLongitude(), hookup.getLatitude(), hookup.getLongitude(), 'K');
+
+
+            if(distance < 0.5 && distance > 0.0) {
+                nearbyHookups.add(hookup);
+            }
+        }
+
+        for(User nearbyHookup: nearbyHookups) {
+            firebaseNotificationService.sendHookupNotification(user, nearbyHookup);
+            firebaseNotificationService.sendHookupNotification(nearbyHookup, user);
+        }
     }
 }

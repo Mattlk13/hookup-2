@@ -1,8 +1,7 @@
 package rs.hookupspring.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Bandjur on 8/20/2016.
@@ -20,6 +19,12 @@ public class User {
 
     private Double latitude;
     private Double longitude;
+
+    //@JoinTable(
+    //name="t_students_friends"
+    @ManyToMany
+    @JoinTable(name="hookups")
+    private List<User> hookups;
 
     public int getRowId() {
         return rowId;
@@ -67,5 +72,13 @@ public class User {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    public List<User> getHookups() {
+        return hookups;
+    }
+
+    public void setHookups(List<User> hookups) {
+        this.hookups = hookups;
     }
 }

@@ -31,10 +31,11 @@ public class HookupMessageService extends FirebaseMessagingService {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setAutoCancel(true)
-                .setContentTitle("FCM Hookup Test")
-                .setContentText(personName)
+                .setContentTitle("Mmmm! New hook up request")
+                .setContentText(personName + " is nearby.")
                 .setSmallIcon(R.drawable.wc)
                 .setContentIntent(pendingIntent);
+
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
