@@ -28,11 +28,19 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <service android:name=".services.FirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver android:name=".receivers.HookupRequestReceiver">
+            <intent-filter>
+                <action android:name="HOOKUP_REQUEST_YES_ACTION"/>
+                <action android:name="HOOKUP_REQUEST_NO_ACTION"/>
+            </intent-filter>
+        </receiver>
 
         <activity android:name=".activities.MockLocationActivity"></activity>
     </application>

@@ -3,10 +3,13 @@ package hookupandroid.services;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.UUID;
 
 import hookupandroid.MainActivity;
 import hookupandroid.R;
@@ -16,6 +19,9 @@ import hookupandroid.R;
  */
 public class HookupMessageService extends FirebaseMessagingService {
 
+    private final String HOOKUP_REQUEST_YES_ACTION = "HOOKUP_REQUEST_YES_ACTION";
+    private final String HOOKUP_REQUEST_NO_ACTION = "HOOKUP_REQUEST_NO_ACTION";
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         String personName = remoteMessage.getData().get("personName");
@@ -24,6 +30,7 @@ public class HookupMessageService extends FirebaseMessagingService {
     }
 
     private void pushNotification(String personName) {
+        int notificationID = UUID.randomUUID().toString().hashCode();
         Intent i = new Intent(this, MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -38,7 +45,32 @@ public class HookupMessageService extends FirebaseMessagingService {
 
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        buildHookupRequestActions(builder, notificationID);
 
-        manager.notify(0,builder.build());
+        manager.notify(notificationID,builder.build());
+    }
+
+
+
+    private void buildHookupRequestActions(NotificationCompat.Builder builder, int notificationId) {
+        int requestCode = notificationId;
+
+        Intent yesReceive = new Intent();
+        yesReceive.setAction(HOOKUP_REQUEST_YES_ACTION);
+        Bundle yesBundle = new Bundle();
+        yesBundle.putInt("notificationId", notificationId);
+        yesReceive.putExtras(yesBundle);
+        PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, requestCode, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+//        PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_CANCEL_CURRENT);
+        builder.addAction(R.drawable.heart, "Yes", pendingIntentYes);
+
+        Intent noReceive = new Intent();
+        noReceive.setAction(HOOKUP_REQUEST_NO_ACTION);
+        Bundle noBundle = new Bundle();
+        noBundle.putInt("notificationId", notificationId);
+        noReceive.putExtras(noBundle);
+        PendingIntent pendingIntentNo = PendingIntent.getBroadcast(this, requestCode, noReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+//        PendingIntent pendingIntentNo = PendingIntent.getBroadcast(this, requestCode, noReceive, PendingIntent.FLAG_CANCEL_CURRENT);
+        builder.addAction(R.drawable.broken_heart, "No", pendingIntentNo);
     }
 }

@@ -14,6 +14,8 @@ public class User {
     private int rowId;
 
     private String email;
+    private String firstname;
+    private String lastname;
     private String firebaseUID;
     private String firebaseInstaceToken;
 
@@ -81,4 +83,21 @@ public class User {
     public void setHookups(List<User> hookups) {
         this.hookups = hookups;
     }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
 }
