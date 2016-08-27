@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                 Log.d("RESIGSTRATION SUCESS", "debug console write test");
                                 Toast.makeText(MainActivity.this, "You have successfully registered ", Toast.LENGTH_SHORT).show();
                                 String token = FirebaseInstanceId.getInstance().getToken();
-                                RegisterUserTask registerAsyncTask = new RegisterUserTask();
+                                RegisterUserTask registerAsyncTask = new RegisterUserTask(MainActivity.this);
                                 UserData data = new UserData();
                                 data.setEmail(txtEmail.getText().toString());
                                 data.setUid(auth.getCurrentUser().getUid());
@@ -205,16 +205,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {

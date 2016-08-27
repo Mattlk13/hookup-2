@@ -3,8 +3,8 @@
     package="hookupandroid">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+     <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
 
     <application
         android:allowBackup="true"
@@ -28,7 +28,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".services.FirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
@@ -37,12 +36,16 @@
 
         <receiver android:name=".receivers.HookupRequestReceiver">
             <intent-filter>
-                <action android:name="HOOKUP_REQUEST_YES_ACTION"/>
-                <action android:name="HOOKUP_REQUEST_NO_ACTION"/>
+                <action android:name="HOOKUP_REQUEST_YES_ACTION" />
+                <action android:name="HOOKUP_REQUEST_NO_ACTION" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activities.MockLocationActivity"></activity>
+        <activity android:name=".activities.MockLocationActivity" />
+        <activity
+            android:name=".activities.OldGeoLocActivity"
+            android:label="@string/title_activity_old_geo_loc"
+            android:theme="@style/MaterialTheme"></activity>
     </application>
 
 </manifest>

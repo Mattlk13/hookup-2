@@ -1,5 +1,6 @@
 package hookupandroid.tasks;
 
+import android.content.Context;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -9,6 +10,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 
+import hookupandroid.R;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -20,7 +22,12 @@ import okhttp3.Response;
  */
 public class UpdateUserLocationTask extends AsyncTask<Location, String, String> {
 
-    private final String serverUrl = "http://192.168.0.14:8080";
+//    private final String serverUrl = "http://192.168.0.14:8080";
+    private String serverUrl;
+
+    public UpdateUserLocationTask(Context context) {
+        serverUrl = context.getString(R.string.server_url);
+    }
 
     @Override
     protected String doInBackground(Location... params) {

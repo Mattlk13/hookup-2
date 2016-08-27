@@ -1,10 +1,12 @@
 package hookupandroid.tasks;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.IOException;
 
+import hookupandroid.R;
 import hookupandroid.model.UserData;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -17,9 +19,16 @@ import okhttp3.Response;
  */
 public class RegisterUserTask extends AsyncTask<UserData, String, String> {
 
-    private final String serverUrl = "http://192.168.0.14:8080";
+//    private final String serverUrl = "http://192.168.0.14:8080";
+    private String mServerUrl;
+
+    private Context mContext;
 
     // TODO stavi String kao ulazni parametar umesto UserData
+    public RegisterUserTask(Context context) {
+        mContext = context;
+        mServerUrl = context.getString(R.string.server_url);
+    }
 
     @Override
     protected String doInBackground(UserData... params) {
@@ -36,7 +45,7 @@ public class RegisterUserTask extends AsyncTask<UserData, String, String> {
                 .build();
 
         Request request = new Request.Builder()
-                .url(serverUrl + "/firebaseUser/add")
+                .url(mServerUrl + "/firebaseUser/add")
                 .post(body)
                 .build();
 

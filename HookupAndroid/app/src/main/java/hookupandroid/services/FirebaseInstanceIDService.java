@@ -27,6 +27,6 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
     }
 
     private void updateUserToken(String token) {
-        new UpdateUserAuthToken().execute(token);
+        new UpdateUserAuthToken(getApplicationContext()).execute(token);
     }
 }

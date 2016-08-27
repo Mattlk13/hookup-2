@@ -7,6 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+
+import hookupandroid.tasks.UpdateHookupResponseTask;
+
 /**
  * Created by Bandjur on 8/26/2016.
  */
@@ -24,12 +28,15 @@ public class HookupRequestReceiver extends BroadcastReceiver {
 
         Bundle notificationBundle = intent.getExtras();
         int notificationId = notificationBundle.getInt("notificationId");
+        String hookupUserUID = notificationBundle.getString("hookupUserUID");
 
-        if(YES_ACTION.equals(action)) {
-            Log.v("shuffTest","Pressed YES");
-        } else if(NO_ACTION.equals(action)) {
+
+        if (YES_ACTION.equals(action)) {
+            Log.v("shuffTest", "Pressed YES");
+            new UpdateHookupResponseTask().execute(new String[]{FirebaseAuth.getInstance().getCurrentUser().getUid(), hookupUserUID});
+        } else if (NO_ACTION.equals(action)) {
             mNotificationManager.cancel(notificationId);
-            Log.v("shuffTest","Pressed NO");
+            Log.v("shuffTest", "Pressed NO");
         }
     }
 }

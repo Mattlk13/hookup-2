@@ -4,22 +4,25 @@ import com.google.gson.Gson;
 import com.ning.http.client.AsyncCompletionHandler;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.Response;
-import com.ning.http.client.multipart.Part;
 import com.ning.http.client.multipart.StringPart;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import rs.hookupspring.common.enums.Enums;
+import rs.hookupspring.common.utils.DateUtils;
+import rs.hookupspring.dao.HookupRepository;
+import rs.hookupspring.entity.Hookup;
 import rs.hookupspring.entity.User;
 import rs.hookupspring.springweb.dto.FcmJsonBody;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 /**
 * Created by Bandjur on 8/20/2016.
@@ -27,12 +30,20 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class FirebaseNotificationService {
 
+    @Autowired
+    private UserHookupService userHookupService;
+
+    @Autowired
+    private HookupRepository hookupRepository;
+
     private final String PROJECT_KEY = "AIzaSyAbgfNI9_awcBn2g59hqlYXmEr-tbf78eQ";
 
     public void sendHookupNotification(User a, User b) {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
 
-//        String userToken ="c1w-Q5Sh_NU:APA91bHDP7pDXQuRLg2ZMa2D5LcTup-c5bKhpcT-1VpeJ2Z-cnhtvb0JT7tQmZEsXJvuLqgfb6I4eOah7IGBu4tZnLHPeqvaPNKMR_uOgjItZdX7o8n0CBSrVsZjIzm1O89k5ZA1jgVM";
+        if(!isRequestDateValid(a, b)) {
+            return;
+        }
 
         FcmJsonBody fcmData = new FcmJsonBody();
         fcmData.setTo(a.getFirebaseInstaceToken());
@@ -56,6 +67,28 @@ public class FirebaseNotificationService {
         }
     }
 
+    private boolean isRequestDateValid(User a, User b) {
+        Hookup hookupPair = userHookupService.findHookupPair(a, b);
+        if(hookupPair.getHookupRequestDate() != null) {
+            long dateDifferenceInMinutes = DateUtils.getDatetimeDifference(new Date(),
+                    hookupPair.getHookupRequestDate(), Enums.TimeUnit.Minute);
+
+            if(dateDifferenceInMinutes<5) {
+                return false;
+            }
+            else {
+                hookupPair.setHookupRequestDate(new Date());
+                hookupRepository.save(hookupPair);
+            }
+        }
+        else {
+            hookupPair.setHookupRequestDate(new Date());
+            hookupRepository.save(hookupPair);
+            return true;
+        }
+
+        return true;
+    }
 
     public void httpApachePostExample() {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
@@ -135,46 +168,5 @@ public class FirebaseNotificationService {
         });
 
     }
-
-//    public void test(){
-//        String host = "fcm.googleapis.com";
-//        String requestURI = "/fcm/send";
-//        String CLIENT_TOKEN = "ASK_YOUR_MOBILE_CLIENT_DEV"; // https://developers.google.com/instance-id/
-//
-//        CompletableFuture<String> fut = new CompletableFuture<String>();
-//        JsonObject body = new JsonObject();
-//        // JsonArray registration_ids = new JsonArray();
-//        // body.put("registration_ids", registration_ids);
-//        body.put("to", CLIENT_TOKEN);
-//        body.put("priority", "high");
-//        // body.put("dry_run", true);
-//
-//        JsonObject notification = new JsonObject();
-//        notification.put("body", "body string here");
-//        notification.put("title", "title string here");
-//        // notification.put("icon", "myicon");
-//
-//        JsonObject data = new JsonObject();
-//        data.put("key1", "value1");
-//        data.put("key2", "value2");
-//
-//        body.put("notification", notification);
-//        body.put("data", data);
-//
-//        HttpClientRequest hcr = httpsClient.post(443, host, requestURI).handler(response -> {
-//            response.bodyHandler(buffer -> {
-//                logger.debug("FcmTest1 rcvd: {}, {}", response.statusCode(), buffer.toString());
-//                if (response.statusCode() == 200) {
-//                    fut.complete(buffer.toString());
-//                } else {
-//                    fut.completeExceptionally(new RuntimeException(buffer.toString()));
-//                }
-//            });
-//        });
-//        hcr.putHeader("Authorization", "key=" + Utils.FIREBASE_SERVER_KEY)
-//                .putHeader("content-type", "application/json").end(body.encode());
-//        return fut;
-//
-//    }
 
 }

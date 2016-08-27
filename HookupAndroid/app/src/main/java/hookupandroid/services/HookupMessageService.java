@@ -25,11 +25,12 @@ public class HookupMessageService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         String personName = remoteMessage.getData().get("personName");
+        String hookupUserUID = remoteMessage.getData().get("hookupUserUID");
 
-        pushNotification(personName);
+        pushNotification(personName, hookupUserUID);
     }
 
-    private void pushNotification(String personName) {
+    private void pushNotification(String personName, String hookupUserUID) {
         int notificationID = UUID.randomUUID().toString().hashCode();
         Intent i = new Intent(this, MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -37,28 +38,29 @@ public class HookupMessageService extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setAutoCancel(true)
+                .setAutoCancel(false)
                 .setContentTitle("Mmmm! New hook up request")
-                .setContentText(personName + " is nearby.")
-                .setSmallIcon(R.drawable.wc)
+                .setContentText(personName + " is nearby. Would you like to accept " + personName + " as friend?")
+                .setSmallIcon(R.drawable.heart)
                 .setContentIntent(pendingIntent);
 
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        buildHookupRequestActions(builder, notificationID);
+        buildHookupRequestActions(builder, notificationID, hookupUserUID);
 
         manager.notify(notificationID,builder.build());
     }
 
 
 
-    private void buildHookupRequestActions(NotificationCompat.Builder builder, int notificationId) {
+    private void buildHookupRequestActions(NotificationCompat.Builder builder, int notificationId, String hookupUserUID) {
         int requestCode = notificationId;
 
         Intent yesReceive = new Intent();
         yesReceive.setAction(HOOKUP_REQUEST_YES_ACTION);
         Bundle yesBundle = new Bundle();
         yesBundle.putInt("notificationId", notificationId);
+        yesBundle.putString("hookupUserUID", hookupUserUID);
         yesReceive.putExtras(yesBundle);
         PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, requestCode, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
 //        PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_CANCEL_CURRENT);

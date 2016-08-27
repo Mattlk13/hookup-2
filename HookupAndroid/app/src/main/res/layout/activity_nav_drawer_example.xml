@@ -21,8 +21,15 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Open Mock Location Activity"
+            android:text="Open Google Location Activity"
             android:id="@+id/btnShowMockLocActivity"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OPEN ANDROID LOCATION ACTIVITY"
+            android:id="@+id/btnAndroidLocActivity"
             android:layout_gravity="center_horizontal" />
 
         <!--<android.support.v7.widget.RecyclerView-->

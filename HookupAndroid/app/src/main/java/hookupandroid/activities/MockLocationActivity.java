@@ -1,161 +1,180 @@
 package hookupandroid.activities;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.IntentSender;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.location.LocationProvider;
-import android.os.Build;
-import android.os.SystemClock;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStates;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 import hookupandroid.R;
-import hookupandroid.tasks.UpdateUserLocationTask;
 
-public class MockLocationActivity extends AppCompatActivity {
+public class MockLocationActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
-    private LocationManager mLocationManager;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+
+    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mock_location);
 
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        MyLocationListener myLocationListener = new MyLocationListener();
-
-        myLocationListener = new MyLocationListener();
-        if (mLocationManager.getProvider("Test") == null) {
-            mLocationManager.addTestProvider("Test", false, false, false, false, false, false, false, 0, 1);
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(MockLocationActivity.this)
+                    .addApi(LocationServices.API)
+                    .build();
         }
-        mLocationManager.setTestProviderEnabled("Test", true);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        mLocationManager.requestLocationUpdates("Test", 0, 0, myLocationListener);
+    }
 
-//        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//            @Override
-//            public void onMapClick(LatLng l) {
-//                Location loc = new Location("Test");
-//                loc.setLatitude(l.latitude);
-//                loc.setLongitude(l.longitude);
-//                loc.setAltitude(0);
-//                loc.setAccuracy(10f);
-//                loc.setElapsedRealtimeNanos(System.nanoTime());
-//                loc.setTime(System.currentTimeMillis());
-//                lm.setTestProviderLocation("Test", loc);
-//            }
-//        };
+    private void locationSettingsRequest() {
+        createLocationRequest();
 
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest);
+        builder.setAlwaysShow(true);
 
-        Button btnGetMockLocation = (Button) findViewById(R.id.btnGetMockLocation);
-        btnGetMockLocation.setOnClickListener(new View.OnClickListener() {
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+        PendingResult<LocationSettingsResult> result =
+                LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient,
+                        builder.build());
+
+        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
             @Override
-            public void onClick(View v) {
-//                getMockLocation();
-
-                Location loc = new Location("Test");
-                loc.setLatitude (45.251502);
-                loc.setLongitude(19.875464);
-                loc.setAltitude(0);
-                loc.setAccuracy(10f);
-                loc.setElapsedRealtimeNanos(System.nanoTime());
-                loc.setTime(System.currentTimeMillis());
-                mLocationManager.setTestProviderLocation("Test", loc);
+            public void onResult(LocationSettingsResult result) {
+                final Status status = result.getStatus();
+                final LocationSettingsStates state = result.getLocationSettingsStates();
+                switch (status.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
+                        // All location settings are satisfied. The client can initialize location
+                        // requests here.
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        // Location settings are not satisfied. But could be fixed by showing the user
+                        // a dialog.
+                        try {
+                            // Show the dialog by calling startResolutionForResult(),
+                            // and check the result in onActivityResult().
+                            status.startResolutionForResult(MockLocationActivity.this, REQUEST_CHECK_SETTINGS);
+                        } catch (IntentSender.SendIntentException e) {
+                            // Ignore the error.
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        // Location settings are not satisfied. However, we have no way to fix the
+                        // settings so we won't show the dialog.
+                        break;
+                }
             }
         });
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+// Check for the integer request code originally supplied to startResolutionForResult().
+            case REQUEST_CHECK_SETTINGS:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        startLocationUpdates();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        locationSettingsRequest();//keep asking if imp or do whatever
+                        break;
+                }
+                break;
+        }
+    }
+
+    protected void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+//        mLocationRequest.setInterval(60000);
+//        mLocationRequest.setFastestInterval(15000);
+        mLocationRequest.setInterval(5000);
+        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+    }
+
+
+
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        locationSettingsRequest();
+        super.onStart();
+    }
+
+    protected void onStop() {
+        stopLocationUpdates();
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+//        stopLocationUpdates();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        if (mGoogleApiClient.isConnected() && !mRequestingLocationUpdates) {
+        if (mGoogleApiClient.isConnected()) {
+            startLocationUpdates();
+        }
+    }
+
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(
+                mGoogleApiClient, this);
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        startLocationUpdates();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
 
     }
 
-    @TargetApi(17)
-    private void getMockLocation()
-    {
-        if(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//            mLocationManager.removeTestProvider(LocationManager.GPS_PROVIDER);
-        }
-        mLocationManager.addTestProvider
-                (
-                        LocationManager.GPS_PROVIDER,
-                        "requiresNetwork" == "",
-                        "requiresSatellite" == "",
-                        "requiresCell" == "",
-                        "hasMonetaryCost" == "",
-                        "supportsAltitude" == "",
-                        "supportsSpeed" == "",
-                        "supportsBearing" == "",
-                        android.location.Criteria.POWER_LOW,
-                        android.location.Criteria.ACCURACY_FINE
-                );
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-        Location newLocation = new Location(LocationManager.GPS_PROVIDER);
-
-//        newLocation.setLatitude (45.251502);
-        newLocation.setLatitude (100.251502);
-        newLocation.setLongitude(19.875464);
-        newLocation.setAccuracy(500);
-//        newLocation.setAccuracy(16F);
-//        newLocation.setAltitude(0D);
-        newLocation.setTime(System.currentTimeMillis());
-        newLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
-//        newLocation.setBearing(0F);
-
-        mLocationManager.setTestProviderEnabled
-                (
-                        LocationManager.GPS_PROVIDER,
-                        true
-                );
-
-        mLocationManager.setTestProviderStatus
-                (
-                        LocationManager.GPS_PROVIDER,
-                        LocationProvider.AVAILABLE,
-                        null,
-                        System.currentTimeMillis()
-                );
-
-        mLocationManager.setTestProviderLocation
-                (
-                        LocationManager.GPS_PROVIDER,
-                        newLocation
-                );
     }
 
-    private class MyLocationListener implements LocationListener {
-        @Override
-        public void onLocationChanged(Location location) {
-            // do whatever you want, scroll the map, etc.
-            new UpdateUserLocationTask().execute(location);
-        }
+    protected void startLocationUpdates() {
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient, mLocationRequest, MockLocationActivity.this);
+    }
 
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
+    @Override
+    public void onLocationChanged(Location location) {
+//        new UpdateUserLocationTask(MockLocationActivity.this).execute(location);
+        Toast.makeText(MockLocationActivity.this, "Current location: " + location.getLatitude() +
+                ", " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+//        Snackbar.make(findViewById(R.id.drawer_layout), "Current location: " + location.getLatitude() +
+//                ", " + location.getLongitude(), Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show();
     }
 }

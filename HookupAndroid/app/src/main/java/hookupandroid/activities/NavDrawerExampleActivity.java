@@ -41,6 +41,15 @@ public class NavDrawerExampleActivity extends AppCompatActivity {
             }
         });
 
+        Button btnAndroidLocActivity = (Button) findViewById(R.id.btnAndroidLocActivity);
+        btnAndroidLocActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NavDrawerExampleActivity.this, OldGeoLocActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void setUpToolbar() {
