@@ -13,6 +13,7 @@ import rs.hookupspring.dao.UserRepository;
 import rs.hookupspring.entity.User;
 import rs.hookupspring.springweb.services.FirebaseNotificationService;
 import rs.hookupspring.springweb.services.LocationsDistanceService;
+import rs.hookupspring.springweb.services.UserHookupService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,9 @@ public class FirebaseUserController {
 
     @Autowired
     private FirebaseNotificationService firebaseNotificationService;
+
+    @Autowired
+    private UserHookupService userHookupService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
@@ -94,10 +98,10 @@ public class FirebaseUserController {
         double distance = Double.MAX_VALUE;
         List<User> nearbyHookups = new ArrayList<User>();
 
-        for (User hookup : user.getHookups()) {
+        List<User> hookups = userHookupService.getHookupList(user, false);
+        for (User hookup : hookups) {
             distance = locationsDistanceService.distance(user.getLatitude(),
                     user.getLongitude(), hookup.getLatitude(), hookup.getLongitude(), 'K');
-
 
             if(distance < 0.5 && distance > 0.0) {
                 nearbyHookups.add(hookup);

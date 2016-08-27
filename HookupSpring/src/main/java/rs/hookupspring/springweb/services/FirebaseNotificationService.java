@@ -32,13 +32,12 @@ public class FirebaseNotificationService {
     public void sendHookupNotification(User a, User b) {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
 
-        String userToken ="c1w-Q5Sh_NU:APA91bHDP7pDXQuRLg2ZMa2D5LcTup-c5bKhpcT-1VpeJ2Z-cnhtvb0JT7tQmZEsXJvuLqgfb6I4eOah7IGBu4tZnLHPeqvaPNKMR_uOgjItZdX7o8n0CBSrVsZjIzm1O89k5ZA1jgVM";
+//        String userToken ="c1w-Q5Sh_NU:APA91bHDP7pDXQuRLg2ZMa2D5LcTup-c5bKhpcT-1VpeJ2Z-cnhtvb0JT7tQmZEsXJvuLqgfb6I4eOah7IGBu4tZnLHPeqvaPNKMR_uOgjItZdX7o8n0CBSrVsZjIzm1O89k5ZA1jgVM";
 
         FcmJsonBody fcmData = new FcmJsonBody();
         fcmData.setTo(a.getFirebaseInstaceToken());
         Map<String, String> data = new HashMap<String, String>();
-//        data.put("message","Message tebra");
-        data.put("personName", b.getFirebaseUID());
+        data.put("personName", b.getFirstname() + " " + b.getLastname());
         fcmData.setData(data);
 
         try {

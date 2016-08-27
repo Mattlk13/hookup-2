@@ -9,6 +9,7 @@ import rs.hookupspring.dao.UserRepository;
 import rs.hookupspring.entity.User;
 import rs.hookupspring.springweb.services.FirebaseNotificationService;
 import rs.hookupspring.springweb.services.LocationsDistanceService;
+import rs.hookupspring.springweb.services.UserHookupService;
 
 import java.util.List;
 
@@ -27,6 +28,9 @@ public class TestController {
 
     @Autowired
     private LocationsDistanceService locationsDistanceService;
+
+    @Autowired
+    private UserHookupService userHookupService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
@@ -52,13 +56,13 @@ public class TestController {
         User userTest = userRepository.findOne(8);
         double distance = 0.0;
 
-        for (User hookup : userTest.getHookups()) {
-            distance = locationsDistanceService.distance(userTest.getLatitude(),
-                    userTest.getLongitude(), hookup.getLatitude(), hookup.getLongitude(), 'K');
-
-            message.append("For user (rowId = " + hookup.getRowId() + ")" +
-                    ", DISTANCE (KM): " + distance + "\n");
-        }
+//        for (User hookup : userTest.getHookups()) {
+//            distance = locationsDistanceService.distance(userTest.getLatitude(),
+//                    userTest.getLongitude(), hookup.getLatitude(), hookup.getLongitude(), 'K');
+//
+//            message.append("For user (rowId = " + hookup.getRowId() + ")" +
+//                    ", DISTANCE (KM): " + distance + "\n");
+//        }
 
         model.addAttribute("message", message);
         return "hello";
@@ -66,29 +70,30 @@ public class TestController {
 
     @RequestMapping(value = "/testHookupUpdateList", method = RequestMethod.GET)
     public String updateHookupListForUser(ModelMap model) {
-
+        String message = " Mjau....   ";
         User userTest = userRepository.findOne(8);
 
         User hookupOne = userRepository.findOne(9);
         User hookupTwo = userRepository.findOne(10);
         User hookupThree = userRepository.findOne(11);
 
-        List<User> hookups = userTest.getHookups();
-        hookups.add(hookupOne);
-        hookups.add(hookupTwo);
-        hookups.add(hookupThree);
-        userTest.setHookups(hookups);
+//        if(userHookupService.findHookupPair(userTest, hookupOne) == null) {
+//            userHookupService.AddHookupPair(userTest, hookupOne);
+//        }
+//
+//        if(userHookupService.findHookupPair(hookupOne,userTest) == null) {
+//            message += "TREBALO BI DA POSTOJI HOOK UP PAIR AKO SAM GA VEC DODAO MALO PRE!";
+//        }
 
-        hookupOne.getHookups().add(userTest);
-        hookupTwo.getHookups().add(userTest);
-        hookupThree.getHookups().add(userTest);
+        userHookupService.AddHookupPair(userTest, hookupOne);
+        userHookupService.AddHookupPair(userTest, hookupTwo);
+        userHookupService.AddHookupPair(userTest, hookupThree);
 
-        userRepository.save(userTest);
-        userRepository.save(hookupOne);
-        userRepository.save(hookupTwo);
-        userRepository.save(hookupThree);
+        userHookupService.AddHookupPair(hookupOne, userTest);
+        userHookupService.AddHookupPair(hookupTwo, userTest);
+        userHookupService.AddHookupPair(hookupThree, userTest);
 
-        model.addAttribute("message", "Added hookup users to user with rowId = 8!");
+        model.addAttribute("message", message);
         return "hello";
     }
 }

@@ -6,6 +6,7 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
     <persistence-unit name="hookup" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <class>rs.hookupspring.entity.User</class>
+        <class>rs.hookupspring.entity.Hookup</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

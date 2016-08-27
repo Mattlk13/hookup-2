@@ -22,11 +22,9 @@ public class User {
     private Double latitude;
     private Double longitude;
 
-    //@JoinTable(
-    //name="t_students_friends"
-    @ManyToMany
-    @JoinTable(name="hookups")
-    private List<User> hookups;
+//    @ManyToMany
+//    @JoinTable(name="hookups")
+//    private List<User> hookups;
 
     public int getRowId() {
         return rowId;
@@ -76,14 +74,6 @@ public class User {
         this.longitude = longitude;
     }
 
-    public List<User> getHookups() {
-        return hookups;
-    }
-
-    public void setHookups(List<User> hookups) {
-        this.hookups = hookups;
-    }
-
     public String getFirstname() {
         return firstname;
     }
@@ -100,4 +90,24 @@ public class User {
         this.lastname = lastname;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof User))
+            return false;
+        if (obj == this)
+            return true;
+
+        User that = (User) obj;
+
+        if (firebaseUID.equals(that.firebaseUID)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return firebaseUID.hashCode();
+    }
 }
