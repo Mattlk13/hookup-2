@@ -25,12 +25,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import hookupandroid.activities.NavDrawerExampleActivity;
 import hookupandroid.activities.PersonRecyclerViewActivity;
 import hookupandroid.model.UserData;
 import hookupandroid.tasks.RegisterUserTask;
+import hookupandroid.tasks.UpdateUserAuthToken;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -115,11 +117,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void onClick(View v) {
                 if(txtEmail!= null && !TextUtils.isEmpty(txtEmail.getText().toString())
                         && txtPassword != null && !TextUtils.isEmpty(txtPassword.getText().toString())) {
+
+
                     auth.signInWithEmailAndPassword(txtEmail.getText().toString(), txtPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 Toast.makeText(MainActivity.this, "You have successfully logged in ", Toast.LENGTH_SHORT).show();
+                                String token = FirebaseInstanceId.getInstance().getToken();
+                                // TODO check if token equals token in SQLite
+                                new UpdateUserAuthToken(MainActivity.this).execute(token);
                             }
                             else {
                                 Toast.makeText(MainActivity.this, "Authentification failed. Try again...", Toast.LENGTH_SHORT).show();

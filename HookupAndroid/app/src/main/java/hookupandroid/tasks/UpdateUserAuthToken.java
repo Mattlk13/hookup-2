@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.io.IOException;
 
 import hookupandroid.R;
+import hookupandroid.common.Constants;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -21,12 +22,10 @@ import okhttp3.Response;
  */
 public class UpdateUserAuthToken extends AsyncTask<String, String, String> {
 
-//    private final String serverUrl = "http://192.168.0.14:8080";
     private String serverUrl;
 
-
     public UpdateUserAuthToken(Context context) {
-        serverUrl = context.getString(R.string.server_url);
+//        serverUrl = context.getString(R.string.server_url);
     }
 
     @Override
@@ -39,7 +38,7 @@ public class UpdateUserAuthToken extends AsyncTask<String, String, String> {
                 .build();
 
         Request request = new Request.Builder()
-                .url(serverUrl + "/firebaseUser/" + currentUser.getUid() + "/updateToken")
+                .url(Constants.SERVER_URL + "/firebaseUser/" + currentUser.getUid() + "/updateToken")
                 .post(body)
                 .build();
 

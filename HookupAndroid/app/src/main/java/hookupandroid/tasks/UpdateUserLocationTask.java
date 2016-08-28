@@ -36,6 +36,10 @@ public class UpdateUserLocationTask extends AsyncTask<Location, String, String> 
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        if(currentUser == null) {
+            return "";
+        }
+
         OkHttpClient client = new OkHttpClient();
         RequestBody body = new FormBody.Builder()
                 .add("latitude", String.valueOf(params[0].getLatitude()))

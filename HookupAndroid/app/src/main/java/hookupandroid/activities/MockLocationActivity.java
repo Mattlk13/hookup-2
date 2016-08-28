@@ -1,14 +1,18 @@
 package hookupandroid.activities;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -25,6 +29,7 @@ import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 import hookupandroid.R;
+import hookupandroid.tasks.UpdateUserLocationTask;
 
 public class MockLocationActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
@@ -45,6 +50,27 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
                     .addApi(LocationServices.API)
                     .build();
         }
+
+        Button btnGetFusedLocation = (Button) findViewById(R.id.btnGetMockLocation);
+        btnGetFusedLocation.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+            @Override
+            public void onClick(View v) {
+                Location loc = new Location("Test");
+//                45.253244, 19.875299
+//                loc.setLatitude (45.251502);
+//                loc.setLongitude(19.875464);
+                loc.setLatitude (45.253244);
+                loc.setLongitude(19.875299);
+                loc.setAltitude(0);
+                loc.setAccuracy(10f);
+                loc.setElapsedRealtimeNanos(System.nanoTime());
+                loc.setTime(System.currentTimeMillis());
+
+                LocationServices.FusedLocationApi.setMockLocation(mGoogleApiClient, loc);
+            }
+        });
+
     }
 
     private void locationSettingsRequest() {
@@ -107,10 +133,12 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
-//        mLocationRequest.setInterval(60000);
-//        mLocationRequest.setFastestInterval(15000);
-        mLocationRequest.setInterval(5000);
-        mLocationRequest.setFastestInterval(1000);
+        // for wi-fi and tower settings
+        mLocationRequest.setInterval(30000);
+        mLocationRequest.setFastestInterval(6000);
+        // for GPS settings, precise location
+//        mLocationRequest.setInterval(5000);
+//        mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
     }
 
@@ -118,7 +146,7 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
 
     protected void onStart() {
         mGoogleApiClient.connect();
-        locationSettingsRequest();
+//        locationSettingsRequest();
         super.onStart();
     }
 
@@ -149,7 +177,9 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
     }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
+    public void onConnected(@Nullable Bundle bundle)
+    {
+        LocationServices.FusedLocationApi.setMockMode(mGoogleApiClient,true);
         startLocationUpdates();
     }
 
@@ -170,7 +200,7 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
 
     @Override
     public void onLocationChanged(Location location) {
-//        new UpdateUserLocationTask(MockLocationActivity.this).execute(location);
+        new UpdateUserLocationTask(MockLocationActivity.this).execute(location);
         Toast.makeText(MockLocationActivity.this, "Current location: " + location.getLatitude() +
                 ", " + location.getLongitude(), Toast.LENGTH_SHORT).show();
 //        Snackbar.make(findViewById(R.id.drawer_layout), "Current location: " + location.getLatitude() +

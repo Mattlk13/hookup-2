@@ -1,5 +1,6 @@
 package rs.hookupspring.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,9 +21,12 @@ public class Hookup {
 
     private boolean paired;
     private Date hookupPairCreated;
+    @Column(nullable = true)
     private Date hookupRequestDate;
+    @Column(nullable = true)
     private Date hookupPairedDate;
     private int hookupPositiveResponseCount;
+    private int hookupRequestSentCount;
 
     public int getId() {
         return id;
@@ -87,4 +91,13 @@ public class Hookup {
     public void setHookupPairedDate(Date hookupPairedDate) {
         this.hookupPairedDate = hookupPairedDate;
     }
+
+    public int getHookupRequestSentCount() {
+        return hookupRequestSentCount;
+    }
+
+    public void setHookupRequestSentCount(int hookupRequestSentCount) {
+        this.hookupRequestSentCount = hookupRequestSentCount;
+    }
+
 }

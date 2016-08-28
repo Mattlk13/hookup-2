@@ -41,7 +41,7 @@ public class FirebaseNotificationService {
     public void sendHookupNotification(User a, User b) {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
 
-        if(!isRequestDateValid(a, b)) {
+        if(!isHookupPairValidToBeNotified(a, b)) {
             return;
         }
 
@@ -68,22 +68,38 @@ public class FirebaseNotificationService {
         }
     }
 
-    private boolean isRequestDateValid(User a, User b) {
+    private boolean isHookupPairValidToBeNotified(User a, User b) {
         Hookup hookupPair = userHookupService.findHookupPair(a, b);
+        int hookupRequestSentCount = hookupPair.getHookupRequestSentCount();
         if(hookupPair.getHookupRequestDate() != null) {
             long dateDifferenceInMinutes = DateUtils.getDatetimeDifference(new Date(),
                     hookupPair.getHookupRequestDate(), Enums.TimeUnit.Minute);
 
-            if(dateDifferenceInMinutes<5) {
+//            if(hookupRequestSentCount >= 2) { // == 2 treba
+//                return false;
+//            }
+
+//            if(dateDifferenceInMinutes < 5) {
+//            if(dateDifferenceInMinutes < 5 || hookupRequestSentCount == 2 ) {
+            if( hookupRequestSentCount >=2 && dateDifferenceInMinutes < 5) { // == 2 treba
                 return false;
             }
             else {
+                // reset counters and send new request again
+                if(hookupRequestSentCount>=2) {
+                    hookupRequestSentCount = 0;
+                    hookupPair.setHookupRequestSentCount(hookupRequestSentCount);
+                    hookupPair.setHookupPositiveResponseCount(0);
+                }
+
+                hookupPair.setHookupRequestSentCount(hookupRequestSentCount+1);
                 hookupPair.setHookupRequestDate(new Date());
                 hookupRepository.save(hookupPair);
             }
         }
         else {
             hookupPair.setHookupRequestDate(new Date());
+            hookupPair.setHookupRequestSentCount(1);
             hookupRepository.save(hookupPair);
             return true;
         }

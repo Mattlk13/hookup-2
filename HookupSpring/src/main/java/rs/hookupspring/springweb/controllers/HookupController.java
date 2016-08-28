@@ -12,6 +12,8 @@ import rs.hookupspring.entity.Hookup;
 import rs.hookupspring.entity.User;
 import rs.hookupspring.springweb.services.UserHookupService;
 
+import java.util.Date;
+
 /**
  * Created by Bandjur on 8/28/2016.
  */
@@ -42,6 +44,7 @@ public class HookupController {
 
             if(positiveResponseCount==2) {
                 hookup.setPaired(true);
+                hookup.setHookupPairedDate(new Date());
             }
 
             hookupRepository.save(hookup);
