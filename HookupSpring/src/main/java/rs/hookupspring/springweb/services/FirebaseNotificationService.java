@@ -49,6 +49,7 @@ public class FirebaseNotificationService {
         fcmData.setTo(a.getFirebaseInstaceToken());
         Map<String, String> data = new HashMap<String, String>();
         data.put("personName", b.getFirstname() + " " + b.getLastname());
+        data.put("hookupUserUID", b.getFirebaseUID());
         fcmData.setData(data);
 
         try {

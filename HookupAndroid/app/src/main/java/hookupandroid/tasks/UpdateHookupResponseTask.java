@@ -21,13 +21,13 @@ public class UpdateHookupResponseTask extends AsyncTask<String,String,String> {
     protected String doInBackground(String... params) {
 
         String currentUserUID = params[0];
-        String hookupPersonUid= params[1];
+        String hookupPersonUID= params[1];
 
 
         OkHttpClient client = new OkHttpClient();
         RequestBody body = new FormBody.Builder()
                 .add("currentUserUID", currentUserUID)
-                .add("hookupPersonUid", hookupPersonUid)
+                .add("hookupPersonUID", hookupPersonUID)
                 .build();
 
         Request request = new Request.Builder()

@@ -34,6 +34,7 @@ public class HookupRequestReceiver extends BroadcastReceiver {
         if (YES_ACTION.equals(action)) {
             Log.v("shuffTest", "Pressed YES");
             new UpdateHookupResponseTask().execute(new String[]{FirebaseAuth.getInstance().getCurrentUser().getUid(), hookupUserUID});
+            mNotificationManager.cancel(notificationId);
         } else if (NO_ACTION.equals(action)) {
             mNotificationManager.cancel(notificationId);
             Log.v("shuffTest", "Pressed NO");
