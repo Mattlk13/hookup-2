@@ -180,17 +180,18 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
     public void onConnected(@Nullable Bundle bundle)
     {
         LocationServices.FusedLocationApi.setMockMode(mGoogleApiClient,true);
+        locationSettingsRequest();
         startLocationUpdates();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        int a = 0;
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        int a = 0;
     }
 
     protected void startLocationUpdates() {
