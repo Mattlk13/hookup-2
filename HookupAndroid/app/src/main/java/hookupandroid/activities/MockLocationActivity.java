@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -27,6 +29,8 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 
 import hookupandroid.R;
 import hookupandroid.tasks.UpdateUserLocationTask;
@@ -37,6 +41,8 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
     private LocationRequest mLocationRequest;
 
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
+
+    protected static final int PLACE_PICKER_REQUEST = 0x2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +76,22 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
                 LocationServices.FusedLocationApi.setMockLocation(mGoogleApiClient, loc);
             }
         });
+
+//        Button btnFindPlace = (Button) findViewById(R.id.btnFindPlace);
+//        btnFindPlace.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+//
+//                try {
+//                    startActivityForResult(builder.build(MockLocationActivity.this), PLACE_PICKER_REQUEST);
+//                } catch (GooglePlayServicesRepairableException e) {
+//                    e.printStackTrace();
+//                } catch (GooglePlayServicesNotAvailableException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
     }
 
@@ -117,7 +139,7 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-// Check for the integer request code originally supplied to startResolutionForResult().
+        // Check for the integer request code originally supplied to startResolutionForResult().
             case REQUEST_CHECK_SETTINGS:
                 switch (resultCode) {
                     case Activity.RESULT_OK:
@@ -128,21 +150,26 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
                         break;
                 }
                 break;
+            case PLACE_PICKER_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    Place place = PlacePicker.getPlace(data, this);
+                    String toastMsg = String.format("Place: %s", place.getName());
+                    Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+                }
         }
     }
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         // for wi-fi and tower settings
-        mLocationRequest.setInterval(30000);
-        mLocationRequest.setFastestInterval(6000);
+//        mLocationRequest.setInterval(30000);
+//        mLocationRequest.setFastestInterval(6000);
         // for GPS settings, precise location
-//        mLocationRequest.setInterval(5000);
-//        mLocationRequest.setFastestInterval(1000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        mLocationRequest.setInterval(5000);
+        mLocationRequest.setFastestInterval(1000);
+//        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
-
-
 
     protected void onStart() {
         mGoogleApiClient.connect();
@@ -179,7 +206,7 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
     @Override
     public void onConnected(@Nullable Bundle bundle)
     {
-        LocationServices.FusedLocationApi.setMockMode(mGoogleApiClient,true);
+//        LocationServices.FusedLocationApi.setMockMode(mGoogleApiClient,true);
         startLocationUpdates();
     }
 
