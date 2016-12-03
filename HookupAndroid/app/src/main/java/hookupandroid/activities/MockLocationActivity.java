@@ -30,7 +30,10 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import hookupandroid.R;
 import hookupandroid.tasks.UpdateUserLocationTask;
@@ -39,10 +42,10 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    private Location mLastLocation;
 
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
-
-    protected static final int PLACE_PICKER_REQUEST = 0x2;
+    protected static final int PLACE_PICKER_REQUEST = 0x3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,9 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(MockLocationActivity.this)
                     .addApi(LocationServices.API)
+                    .addApi(Places.GEO_DATA_API)
+                    .addApi(Places.PLACE_DETECTION_API)
+                    .enableAutoManage(this, this)
                     .build();
         }
 
@@ -77,21 +83,27 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
             }
         });
 
-//        Button btnFindPlace = (Button) findViewById(R.id.btnFindPlace);
-//        btnFindPlace.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-//
-//                try {
-//                    startActivityForResult(builder.build(MockLocationActivity.this), PLACE_PICKER_REQUEST);
-//                } catch (GooglePlayServicesRepairableException e) {
-//                    e.printStackTrace();
-//                } catch (GooglePlayServicesNotAvailableException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+        Button btnFindPlace = (Button) findViewById(R.id.btnFindPlace);
+        btnFindPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                        mGoogleApiClient);
+                // default should give start activity with current location but it doesn't
+                //                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder()
+                        .setLatLngBounds(new LatLngBounds(new LatLng(45.252112, 19.797040), new LatLng(45.252112, 19.797040)));
+//                        .setLatLngBounds(new LatLngBounds(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude())));
+
+                try {
+                    startActivityForResult(builder.build(MockLocationActivity.this), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
@@ -136,6 +148,7 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
         });
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
@@ -155,6 +168,15 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
                     Place place = PlacePicker.getPlace(data, this);
                     String toastMsg = String.format("Place: %s", place.getName());
                     Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+
+                    Location loc = new Location("Test");
+                    loc.setLatitude (place.getLatLng().latitude);
+                    loc.setLongitude(place.getLatLng().longitude);
+                    loc.setAltitude(0);
+                    loc.setAccuracy(10f);
+                    loc.setElapsedRealtimeNanos(System.nanoTime());
+                    loc.setTime(System.currentTimeMillis());
+                    LocationServices.FusedLocationApi.setMockLocation(mGoogleApiClient, loc);
                 }
         }
     }
@@ -206,7 +228,8 @@ public class MockLocationActivity extends AppCompatActivity implements GoogleApi
     @Override
     public void onConnected(@Nullable Bundle bundle)
     {
-//        LocationServices.FusedLocationApi.setMockMode(mGoogleApiClient,true);
+        LocationServices.FusedLocationApi.setMockMode(mGoogleApiClient,true);
+        locationSettingsRequest();
         startLocationUpdates();
     }
 

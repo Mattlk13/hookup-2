@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                             }
                             else {
                                 Toast.makeText(MainActivity.this, "Registration failed. Try again...", Toast.LENGTH_SHORT).show();
-
                             }
                         }
                     });

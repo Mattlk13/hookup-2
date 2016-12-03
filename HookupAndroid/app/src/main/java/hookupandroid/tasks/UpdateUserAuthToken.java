@@ -32,9 +32,11 @@ public class UpdateUserAuthToken extends AsyncTask<String, String, String> {
     protected String doInBackground(String... params) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        String token = params[0];
+
         OkHttpClient client = new OkHttpClient();
         RequestBody body = new FormBody.Builder()
-                .add("token",params[0])
+                .add("token", token)
                 .build();
 
         Request request = new Request.Builder()

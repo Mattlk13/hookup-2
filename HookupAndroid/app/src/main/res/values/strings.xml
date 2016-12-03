@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Hookup</string>
-    <string name="server_url">http://192.168.0.14:8080</string>
+    <string name="server_url">http://192.168.0.18:8080</string>
     <string name="delete">Delete</string>
     <string name="search">Search</string>
     <string name="settings">Settings</string>
