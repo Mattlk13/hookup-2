@@ -10,6 +10,7 @@ import rs.hookupspring.entity.User;
 import rs.hookupspring.springweb.services.FirebaseNotificationService;
 import rs.hookupspring.springweb.services.LocationsDistanceService;
 import rs.hookupspring.springweb.services.UserHookupService;
+import rs.hookupspring.springweb.services.WekaMiningService;
 
 import java.util.List;
 
@@ -32,11 +33,15 @@ public class TestController {
     @Autowired
     private UserHookupService userHookupService;
 
+    @Autowired
+    private WekaMiningService wekaMiningService;
+
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
 
         model.addAttribute("message", "Hello world from test controller. There are " + userRepository.findAll().size() + " users in the database. !");
 
+        wekaMiningService.Test();
 
         try {
 //            notificationService.asyncHttpTest();
