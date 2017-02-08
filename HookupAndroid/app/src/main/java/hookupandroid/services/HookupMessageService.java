@@ -32,10 +32,10 @@ public class HookupMessageService extends FirebaseMessagingService {
 
     private void pushNotification(String personName, String hookupUserUID) {
         int notificationID = UUID.randomUUID().toString().hashCode();
-        Intent i = new Intent(this, MainActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setAutoCancel(false)
@@ -63,7 +63,6 @@ public class HookupMessageService extends FirebaseMessagingService {
         yesBundle.putString("hookupUserUID", hookupUserUID);
         yesReceive.putExtras(yesBundle);
         PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, requestCode, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
-//        PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_CANCEL_CURRENT);
         builder.addAction(R.drawable.heart, "Yes", pendingIntentYes);
 
         Intent noReceive = new Intent();
@@ -72,7 +71,6 @@ public class HookupMessageService extends FirebaseMessagingService {
         noBundle.putInt("notificationId", notificationId);
         noReceive.putExtras(noBundle);
         PendingIntent pendingIntentNo = PendingIntent.getBroadcast(this, requestCode, noReceive, PendingIntent.FLAG_UPDATE_CURRENT);
-//        PendingIntent pendingIntentNo = PendingIntent.getBroadcast(this, requestCode, noReceive, PendingIntent.FLAG_CANCEL_CURRENT);
         builder.addAction(R.drawable.broken_heart, "No", pendingIntentNo);
     }
 }
