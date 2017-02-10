@@ -4,43 +4,49 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
 
-
+    <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC_bMHvvD4K4JkSn4x4U_t9ySqxJx0OuH8"/>
+            android:value="AIzaSyC_bMHvvD4K4JkSn4x4U_t9ySqxJx0OuH8" />
 
         <activity android:name=".activities.TestActivity" />
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name=".activities.PersonRecyclerViewActivity" />
         <activity android:name=".activities.NavDrawerExampleActivity" />
         <activity android:name=".activities.MockLocationActivity" />
         <activity
             android:name=".activities.OldGeoLocActivity"
-            android:label="@string/title_activity_old_geo_loc"
             android:theme="@style/MaterialTheme">
         </activity>
+
+        <activity
+            android:name=".activities.NavDrawerMainActivity"
+            android:theme="@style/MaterialTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
 
         <service android:name=".services.HookupMessageService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".services.FirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
@@ -53,7 +59,6 @@
                 <action android:name="HOOKUP_REQUEST_NO_ACTION" />
             </intent-filter>
         </receiver>
-
 
 
     </application>

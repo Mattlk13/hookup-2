@@ -4,6 +4,7 @@ package hookupandroid.model;
  * Created by Bandjur on 8/3/2016.
  */
 public class Person {
+    private String id;
     private String firstname;
     private String lastname;
     private String age;
@@ -11,6 +12,23 @@ public class Person {
     private String city;
     private String country;
     private int image_id;
+
+    public Person() {
+
+    }
+
+    public Person(String firstname, String lastname) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getFirstname() {
         return firstname;
