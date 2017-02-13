@@ -1,18 +1,24 @@
 package hookupandroid.fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.Toolbar;
 
-import hookupandroid.MainActivity;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 import hookupandroid.R;
-import hookupandroid.activities.PersonRecyclerViewActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,12 +39,21 @@ public class AuthFragment extends Fragment {
     private String mParam2;
 
     private OnAuthFragmentInteractionListener mListener;
+    private Unbinder unbinder;
+
+    @BindView(R.id.authScrollview) ScrollView scrollView;
+//    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.btnSignup) Button btnRegister;
+    @BindView(R.id.input_email) EditText txtEmail;
+    @BindView(R.id.input_password) EditText txtPassword;
+    @BindView(R.id.btnLogin) Button btnLogin;
+    @BindView(R.id.imgFacebookLogin) ImageView imgFacebookLogin;
+    @BindView(R.id.imgGoogleLogin) ImageView imgGoogleLogin;
 
     View inflatedView = null;
 
     public AuthFragment() {
         // Required empty public constructor
-        int a = 0;
     }
 
     /**
@@ -59,6 +74,7 @@ public class AuthFragment extends Fragment {
         return fragment;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,24 +89,22 @@ public class AuthFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         inflatedView = inflater.inflate(R.layout.fragment_auth, container, false);
-
-        Button btnTest = (Button) inflatedView.findViewById(R.id.btnTest);
-
-
-        btnTest.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onTestButtonPressed();
-            }
-        });
+        unbinder = ButterKnife.bind(this,inflatedView);
 
         return inflatedView;
+    }
+
+    @OnClick(R.id.btnSignup)
+    public void onRegisterButtonClicked() {
+        if (mListener != null) {
+            mListener.onRegisterButtonClicked("Signup button from Auth Fragment has just been clicked");
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onTestButtonPressed() {
         if (mListener != null) {
-            mListener.onButtonClicked("Button from Auth Fragment has just been clicked");
+            mListener.onRegisterButtonClicked("Button from Auth Fragment has just been clicked");
         }
     }
 
@@ -105,10 +119,26 @@ public class AuthFragment extends Fragment {
         }
     }
 
+//    @OnFocusChange(R.id.input_email)
+//    public void onEmailInputFocusChanged(boolean focused) {
+//        if (focused) {
+//            scrollView.scrollTo(0, txtEmail.getBottom());
+//        }
+//        else {
+//            int a = 1;
+//        }
+//    }
+
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind(); // set views = null, Butter knifes does it for all views
     }
 
     /**
@@ -123,6 +153,6 @@ public class AuthFragment extends Fragment {
      */
     public interface OnAuthFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onButtonClicked(String myMessage);
+        void onRegisterButtonClicked(String myMessage);
     }
 }

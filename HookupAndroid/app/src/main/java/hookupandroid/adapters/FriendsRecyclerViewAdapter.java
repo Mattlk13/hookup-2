@@ -4,9 +4,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import hookupandroid.R;
+import hookupandroid.common.enums.PersonRelation;
 import hookupandroid.fragments.FriendsFragment;
 import hookupandroid.model.Person;
 
@@ -29,13 +33,27 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.person_list_item, parent, false);
+                .inflate(R.layout.friend_list_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
+        holder.mItem.setTempPosition(position);
+
+        int mod = position%3;
+
+        if(mod == 0) {
+            holder.mItem.setPersonRelation(PersonRelation.NON_FRIEND);
+        }
+        else if (mod == 1) {
+            holder.mItem.setPersonRelation(PersonRelation.FRIEND);
+        }
+        else {
+            holder.mItem.setPersonRelation(PersonRelation.PENDING);
+        }
+
         holder.setPersonData();
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -61,16 +79,15 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView txtFullname;
-        public TextView txtHometown;
         public Person mItem;
+
+        @BindView(R.id.txt_friend_fullname) TextView txtFullname;
+        @BindView(R.id.txt_friend_hometown) TextView txtHometown;
+        @BindView(R.id.img_friend_delete) ImageView imgDelete;
 
         public ViewHolder(View view) {
             super(view);
-//            imgProfile = (ImageView) itemView.findViewById(R.id.img_profile);
-//            imgDelete = (ImageView) itemView.findViewById(R.id.img_row_delete);
-            txtFullname = (TextView) view.findViewById(R.id.txtFullname);
-            txtHometown = (TextView) view.findViewById(R.id.txtHometown);
+            ButterKnife.bind(this, view);
         }
 
         public void setPersonData() {

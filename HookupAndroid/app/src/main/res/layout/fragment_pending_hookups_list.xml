@@ -2,12 +2,12 @@
 <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/recyler_view_friends"
-    android:name="hookupandroid.fragments.FriendsFragment"
+    android:id="@+id/recyler_view_pending_hookups"
+    android:name="hookupandroid.fragments.PendingHookupsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="hookupandroid.fragments.FriendsFragment"
-    tools:listitem="@layout/fragment_friends" />
+    tools:context="hookupandroid.fragments.PendingHookupsFragment"
+    tools:listitem="@layout/fragment_pending_hookups" />

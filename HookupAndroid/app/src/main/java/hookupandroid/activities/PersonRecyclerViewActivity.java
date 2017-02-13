@@ -26,7 +26,6 @@ public class PersonRecyclerViewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         setRecyclerView();
-
     }
 
     private void setRecyclerView() {

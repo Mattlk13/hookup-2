@@ -46,14 +46,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnLoginMain"
         android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register"
-        android:id="@+id/btnRegister"
+        android:id="@+id/btnSignup"
         android:layout_gravity="center_horizontal" />
 
     <Button

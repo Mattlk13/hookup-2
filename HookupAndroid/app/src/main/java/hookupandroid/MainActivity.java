@@ -1,11 +1,9 @@
 package hookupandroid;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -25,7 +23,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import hookupandroid.activities.NavDrawerExampleActivity;
@@ -77,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         });
 
         Button btnLogin = (Button) findViewById(R.id.btnLogin);
-        Button btnRegister = (Button) findViewById(R.id.btnRegister);
+        Button btnRegister = (Button) findViewById(R.id.btnSignup);
         final EditText txtEmail = (EditText) findViewById(R.id.txtEmail);
         final EditText txtPassword = (EditText) findViewById(R.id.txtPassword);
 

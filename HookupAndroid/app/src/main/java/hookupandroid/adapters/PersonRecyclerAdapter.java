@@ -28,7 +28,7 @@ public class PersonRecyclerAdapter extends RecyclerView.Adapter<PersonRecyclerAd
 
     @Override
     public PersonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.person_list_item, parent, false);
+        View view = inflater.inflate(R.layout.friend_list_item, parent, false);
         PersonViewHolder personViewHolder = new PersonViewHolder(view);
         personViewHolder.setListeners();
 
@@ -72,9 +72,9 @@ public class PersonRecyclerAdapter extends RecyclerView.Adapter<PersonRecyclerAd
             super(itemView);
 
             imgProfile = (ImageView) itemView.findViewById(R.id.img_profile);
-            imgDelete = (ImageView) itemView.findViewById(R.id.img_row_delete);
-            txtFullname = (TextView) itemView.findViewById(R.id.txtFullname);
-            txtHometown = (TextView) itemView.findViewById(R.id.txtHometown);
+            imgDelete = (ImageView) itemView.findViewById(R.id.img_friend_delete);
+            txtFullname = (TextView) itemView.findViewById(R.id.txt_friend_fullname);
+            txtHometown = (TextView) itemView.findViewById(R.id.txt_friend_hometown);
         }
 
         public void setData(Person person, int position) {
@@ -95,7 +95,7 @@ public class PersonRecyclerAdapter extends RecyclerView.Adapter<PersonRecyclerAd
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.img_row_delete:
+                case R.id.img_friend_delete:
                     removeItem(position);
                     break;
 

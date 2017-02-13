@@ -30,7 +30,7 @@
             android:orientation="vertical">
             
             <TextView
-                android:id="@+id/txtFullname"
+                android:id="@+id/txt_friend_fullname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
@@ -39,7 +39,7 @@
                 android:textColor="@color/colorPrimary"/>
 
             <TextView
-                android:id="@+id/txtHometown"
+                android:id="@+id/txt_friend_hometown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
@@ -70,7 +70,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/img_row_delete"
+                android:id="@+id/img_friend_delete"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
@@ -78,7 +78,7 @@
                 android:tint="@color/grey_500"/>
 
             <ImageView
-                android:id="@+id/img_row_placeFinder"
+                android:id="@+id/img_friend_place_finder"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"

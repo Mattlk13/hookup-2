@@ -1,9 +1,15 @@
 package hookupandroid.model;
 
+import java.io.Serializable;
+
+import hookupandroid.common.enums.PersonRelation;
+
 /**
  * Created by Bandjur on 8/3/2016.
  */
-public class Person {
+public class Person implements Serializable {
+    private int tempPosition;
+    private PersonRelation personRelation;
     private String id;
     private String firstname;
     private String lastname;
@@ -84,5 +90,21 @@ public class Person {
 
     public void setImage_id(int image_id) {
         this.image_id = image_id;
+    }
+
+    public int getTempPosition() {
+        return tempPosition;
+    }
+
+    public void setTempPosition(int tempPostion) {
+        this.tempPosition = tempPostion;
+    }
+
+    public PersonRelation getPersonRelation() {
+        return personRelation;
+    }
+
+    public void setPersonRelation(PersonRelation personRelation) {
+        this.personRelation = personRelation;
     }
 }

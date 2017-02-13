@@ -1,7 +1,9 @@
 package hookupandroid.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,29 +14,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import hookupandroid.R;
+import hookupandroid.common.enums.PersonRelation;
 import hookupandroid.fragments.AuthFragment;
+import hookupandroid.fragments.DiscoverMatchesFragment;
 import hookupandroid.fragments.FriendsFragment;
+import hookupandroid.fragments.PendingHookupsFragment;
+import hookupandroid.fragments.ViewFriendProfileFragment;
+import hookupandroid.fragments.ViewNonFriendProfileFragment;
+import hookupandroid.fragments.ViewPendingProfileFragment;
 import hookupandroid.model.Person;
 
 public class NavDrawerMainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, AuthFragment.OnAuthFragmentInteractionListener, FriendsFragment.OnFriendsListFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AuthFragment.OnAuthFragmentInteractionListener,
+        FriendsFragment.OnFriendsListFragmentInteractionListener, PendingHookupsFragment.OnPendingHookupInteractionListener {
+
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_drawer_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -84,24 +89,33 @@ public class NavDrawerMainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        Fragment frag = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
+        String toolbarTitle = "Home";
 
         if (id == R.id. nav_discover) {
-            // Handle the camera action
+            frag = new DiscoverMatchesFragment();
+            toolbarTitle = "Discover matches";
         } else if (id == R.id.nav_friends) {
-            FriendsFragment frag=new FriendsFragment();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_nav_drawer_main, frag)
-                    .commit();
+            frag=new FriendsFragment();
+            toolbarTitle = "Friends";
         } else if (id == R.id.nav_pendingHookups) {
-
+            frag=new PendingHookupsFragment();
+            toolbarTitle = "Pending hookups";
         } else if (id == R.id.nav_settings) {
-
+            Intent intent = new Intent(NavDrawerMainActivity.this, SettingsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_signOut) {
 
         } else if (id == R.id.nav_exitApp) {
+            frag = new AuthFragment();
+        }
+
+        if(frag != null) {
+            toolbar.setTitle(toolbarTitle);
+
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_nav_drawer_main, new AuthFragment())
+                    .replace(R.id.content_nav_drawer_main, frag)
                     .commit();
         }
 
@@ -111,12 +125,44 @@ public class NavDrawerMainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onButtonClicked(String myMessage) {
+    public void onRegisterButtonClicked(String myMessage) {
         Toast.makeText(this, myMessage, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onPersonViewClicked(Person item) {
-        Toast.makeText(this, "You've just clicked on " + item.getFirstname(), Toast.LENGTH_SHORT).show();
+        PersonRelation relation = item.getPersonRelation();
+
+        Fragment frag = null;
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("personData", item);
+
+        switch (relation) {
+            case FRIEND: {
+                frag = new ViewFriendProfileFragment();
+                break;
+            }
+            case NON_FRIEND: {
+                frag = new ViewNonFriendProfileFragment();
+                break;
+            }
+            case PENDING: {
+                frag = new ViewPendingProfileFragment();
+                break;
+            }
+        }
+
+        frag.setArguments(bundle);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_nav_drawer_main, frag)
+                .commit();
+
+    }
+
+    @Override
+    public void onPendingHookupItemClicked(Person item) {
+        onPersonViewClicked(item);
     }
 }

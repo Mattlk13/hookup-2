@@ -77,34 +77,16 @@ public class NavigationDrawerFragment extends Fragment {
         List<NavigationDrawerItem> list = new ArrayList<>();
 
         NavigationDrawerItem item = new NavigationDrawerItem();
-        item.setTitle("Discover matches");
+        item.setTitle("Krmacenje");
         item.setImageId(R.drawable.food);
         list.add(item);
 
         item = new NavigationDrawerItem();
-        item.setTitle("Friends");
+        item.setTitle("WC");
         item.setImageId(R.drawable.wc);
         list.add(item);
 
-        item = new NavigationDrawerItem();
-        item.setTitle("Pending hookups");
-        item.setImageId(R.drawable.wc);
-        list.add(item);
 
-        item = new NavigationDrawerItem();
-        item.setTitle("Settings");
-        item.setImageId(R.drawable.wc);
-        list.add(item);
-
-        item = new NavigationDrawerItem();
-        item.setTitle("Sign out");
-        item.setImageId(R.drawable.wc);
-        list.add(item);
-
-        item = new NavigationDrawerItem();
-        item.setTitle("Exit application");
-        item.setImageId(R.drawable.wc);
-        list.add(item);
 
         return list;
     }
