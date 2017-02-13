@@ -99,12 +99,19 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_discover_matches_fragment">Hello discover matches fragment</string>
+    <string name="about_me_dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="profile_not_complete_message">Your profile seems incomplete. In order to receive notifcations for recommended partners, please complete fully your profile.</string>
+
     <string name="press_and_hold_heart">If you like this person, press the heart and hold it 3 seconds.</string>
     <string name="lbl_about_me">About me</string>
+    <string name="hint_firstname">Firstname</string>
+    <string name="hint_lastname">Lastname</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_register">Register</string>
+    <string name="hint_login_email">Email</string>
+    <string name="hint_login_password">Password</string>
 
 </resources>

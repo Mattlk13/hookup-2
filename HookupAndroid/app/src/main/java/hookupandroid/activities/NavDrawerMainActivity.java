@@ -21,7 +21,9 @@ import hookupandroid.common.enums.PersonRelation;
 import hookupandroid.fragments.AuthFragment;
 import hookupandroid.fragments.DiscoverMatchesFragment;
 import hookupandroid.fragments.FriendsFragment;
+import hookupandroid.fragments.HomeFragment;
 import hookupandroid.fragments.PendingHookupsFragment;
+import hookupandroid.fragments.SignupFragment;
 import hookupandroid.fragments.ViewFriendProfileFragment;
 import hookupandroid.fragments.ViewNonFriendProfileFragment;
 import hookupandroid.fragments.ViewPendingProfileFragment;
@@ -93,7 +95,11 @@ public class NavDrawerMainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         String toolbarTitle = "Home";
 
-        if (id == R.id. nav_discover) {
+        if (id == R.id.nav_home) {
+            frag = new HomeFragment();
+            toolbarTitle = "Home";
+        }
+        else if (id == R.id.nav_discover) {
             frag = new DiscoverMatchesFragment();
             toolbarTitle = "Discover matches";
         } else if (id == R.id.nav_friends) {
@@ -125,8 +131,14 @@ public class NavDrawerMainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRegisterButtonClicked(String myMessage) {
-        Toast.makeText(this, myMessage, Toast.LENGTH_SHORT).show();
+    public void onRegisterButtonClicked() {
+        Fragment signupFragment = new SignupFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        toolbar.setTitle("Sign up");
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_nav_drawer_main, signupFragment)
+                .commit();
     }
 
     @Override

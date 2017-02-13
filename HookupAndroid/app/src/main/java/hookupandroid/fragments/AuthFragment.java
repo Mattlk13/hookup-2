@@ -41,11 +41,11 @@ public class AuthFragment extends Fragment {
     private OnAuthFragmentInteractionListener mListener;
     private Unbinder unbinder;
 
-    @BindView(R.id.authScrollview) ScrollView scrollView;
+    @BindView(R.id.auth_scroll_view) ScrollView scrollView;
 //    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.btnSignup) Button btnRegister;
-    @BindView(R.id.input_email) EditText txtEmail;
-    @BindView(R.id.input_password) EditText txtPassword;
+    @BindView(R.id.input_login_email) EditText txtEmail;
+    @BindView(R.id.input_login_password) EditText txtPassword;
     @BindView(R.id.btnLogin) Button btnLogin;
     @BindView(R.id.imgFacebookLogin) ImageView imgFacebookLogin;
     @BindView(R.id.imgGoogleLogin) ImageView imgGoogleLogin;
@@ -97,16 +97,16 @@ public class AuthFragment extends Fragment {
     @OnClick(R.id.btnSignup)
     public void onRegisterButtonClicked() {
         if (mListener != null) {
-            mListener.onRegisterButtonClicked("Signup button from Auth Fragment has just been clicked");
+            mListener.onRegisterButtonClicked();
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onTestButtonPressed() {
-        if (mListener != null) {
-            mListener.onRegisterButtonClicked("Button from Auth Fragment has just been clicked");
-        }
-    }
+//    // TODO: Rename method, update argument and hook method into UI event
+//    public void onTestButtonPressed() {
+//        if (mListener != null) {
+//            mListener.onRegisterButtonClicked("Button from Auth Fragment has just been clicked");
+//        }
+//    }
 
     @Override
     public void onAttach(Context context) {
@@ -153,6 +153,6 @@ public class AuthFragment extends Fragment {
      */
     public interface OnAuthFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onRegisterButtonClicked(String myMessage);
+        void onRegisterButtonClicked();
     }
 }
