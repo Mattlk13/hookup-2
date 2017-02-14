@@ -6,14 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
 import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.Min;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
+import com.mukesh.countrypicker.fragments.CountryPicker;
+import com.mukesh.countrypicker.interfaces.CountryPickerListener;
 
 import java.util.List;
 
@@ -43,16 +48,31 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
     private View inflatedView;
     private Validator validator;
 
+    private CountryPicker countryPicker;
+
 
     @NotEmpty
     @Email
     @BindView(R.id.input_signup_email) EditText emailEditText;
 
-    @Password(min = 6, scheme = Password.Scheme.ALPHA_NUMERIC_MIXED_CASE_SYMBOLS)
+    @Password(min = 6, scheme = Password.Scheme.ANY)
     @BindView(R.id.input_signup_password) EditText passwordEditText;
 
-//    @ConfirmPassword
-//    private EditText confirmPasswordEditText;
+    @ConfirmPassword
+    @BindView(R.id.input_signup_repeat_password) EditText repeatPasswordEditText;
+
+    @BindView(R.id.txt_signup_country) TextView txtCountry;
+    @BindView(R.id.img_signup_country) ImageView imgCountry;
+
+    @NotEmpty
+    @BindView(R.id.input_signup_firstname) EditText firstnameEditText;
+    @NotEmpty
+    @BindView(R.id.input_signup_lastname) EditText lastnameEditText;
+
+
+    @NotEmpty
+    @Min(value = 18, message = "Should be greather than 18 years")
+    @BindView(R.id.input_signup_age) EditText ageEditText;
 
     private OnSignupFragmentInteractionListner mListener;
 
@@ -85,6 +105,17 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
 
         validator = new Validator(this);
         validator.setValidationListener(this);
+
+        countryPicker = CountryPicker.newInstance("Select Country");
+        countryPicker.setListener(new CountryPickerListener() {
+            @Override
+            public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
+                Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
+                txtCountry.setText(name);
+                imgCountry.setImageResource(flagDrawableResID);
+                countryPicker.dismiss();
+            }
+        });
     }
 
     @Override
@@ -93,8 +124,6 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
         // Inflate the layout for this fragment
         inflatedView = inflater.inflate(R.layout.fragment_signup, container, false);
         unbinder = ButterKnife.bind(this, inflatedView);
-
-
 
         return inflatedView;
     }
@@ -108,6 +137,7 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
     @Override
     public void onValidationSucceeded() {
         Toast.makeText(getContext(), "Yay! we got it right!", Toast.LENGTH_SHORT).show();
+        // TODO: firebase call + serverCall
     }
 
     @Override
@@ -127,8 +157,12 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
 
     @OnClick(R.id.btn_register)
     public void Register() {
-        // TO DO firebase call + serverCall
         validator.validate();
+    }
+
+    @OnClick(R.id.signup_layout_country)
+    public void SelectCountryOnClick() {
+        countryPicker.show(getFragmentManager(), "COUNTRY_PICKER");
     }
 
     // TODO: Add TextWatcher for realtime validation...

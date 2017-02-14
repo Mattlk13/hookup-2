@@ -12,7 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
-import android.widget.Toolbar;
+import android.widget.Toast;
+
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Password;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +36,7 @@ import hookupandroid.R;
  * Use the {@link AuthFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AuthFragment extends Fragment {
+public class AuthFragment extends Fragment implements Validator.ValidationListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -40,15 +48,23 @@ public class AuthFragment extends Fragment {
 
     private OnAuthFragmentInteractionListener mListener;
     private Unbinder unbinder;
+    private Validator validator;
 
     @BindView(R.id.auth_scroll_view) ScrollView scrollView;
 //    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.btnSignup) Button btnRegister;
+    @BindView(R.id.btn_signup) Button btnRegister;
+
+    @NotEmpty
+    @Email
     @BindView(R.id.input_login_email) EditText txtEmail;
+
+    @Password(min = 6, scheme = Password.Scheme.ANY)
     @BindView(R.id.input_login_password) EditText txtPassword;
-    @BindView(R.id.btnLogin) Button btnLogin;
-    @BindView(R.id.imgFacebookLogin) ImageView imgFacebookLogin;
-    @BindView(R.id.imgGoogleLogin) ImageView imgGoogleLogin;
+
+    @BindView(R.id.btn_login) Button btnLogin;
+
+    @BindView(R.id.img_facebook_login) ImageView imgFacebookLogin;
+    @BindView(R.id.img_google_login) ImageView imgGoogleLogin;
 
     View inflatedView = null;
 
@@ -82,6 +98,9 @@ public class AuthFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        validator = new Validator(this);
+        validator.setValidationListener(this);
     }
 
     @Override
@@ -94,11 +113,17 @@ public class AuthFragment extends Fragment {
         return inflatedView;
     }
 
-    @OnClick(R.id.btnSignup)
+    @OnClick(R.id.btn_signup)
     public void onRegisterButtonClicked() {
         if (mListener != null) {
             mListener.onRegisterButtonClicked();
         }
+    }
+
+    @OnClick(R.id.btn_login)
+    public void onLoginButtonClicked() {
+        // notify MainActivity to replace fragment content with Home fragment, if successfully logged
+        validator.validate();
     }
 
 //    // TODO: Rename method, update argument and hook method into UI event
@@ -119,16 +144,6 @@ public class AuthFragment extends Fragment {
         }
     }
 
-//    @OnFocusChange(R.id.input_email)
-//    public void onEmailInputFocusChanged(boolean focused) {
-//        if (focused) {
-//            scrollView.scrollTo(0, txtEmail.getBottom());
-//        }
-//        else {
-//            int a = 1;
-//        }
-//    }
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -139,6 +154,26 @@ public class AuthFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind(); // set views = null, Butter knifes does it for all views
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        Toast.makeText(getContext(), "Yay! we got it right!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(getContext());
+
+            // Display error messages ;)
+            if (view instanceof EditText) {
+                ((EditText) view).setError(message);
+            } else {
+                Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     /**

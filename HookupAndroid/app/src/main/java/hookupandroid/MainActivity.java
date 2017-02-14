@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         });
 
-        Button btnLogin = (Button) findViewById(R.id.btnLogin);
-        Button btnRegister = (Button) findViewById(R.id.btnSignup);
+        Button btnLogin = (Button) findViewById(R.id.btn_login);
+        Button btnRegister = (Button) findViewById(R.id.btn_signup);
         final EditText txtEmail = (EditText) findViewById(R.id.txtEmail);
         final EditText txtPassword = (EditText) findViewById(R.id.txtPassword);
 
