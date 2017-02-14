@@ -1,4 +1,4 @@
-package hookupandroid.fragments;
+package hookupandroid.fragments.personalizationFragmentPages;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,38 +7,28 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 import hookupandroid.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnHomeFragmentInteractionListener} interface
+ * {@link OnPsychologyPageFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
+ * Use the {@link PsychologyPageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class PsychologyPageFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
+    // TODO: Rename and change types of parameters
     private String mParam1;
 
-    private View inflatedView;
-    private Unbinder unbinder;
+    private OnPsychologyPageFragmentInteractionListener mListener;
 
-    private OnHomeFragmentInteractionListener mListener;
-
-//    @BindView(R.id.btn_personalization) Button btnPersonalization;
-
-    public HomeFragment() {
+    public PsychologyPageFragment() {
         // Required empty public constructor
     }
 
@@ -48,11 +38,11 @@ public class HomeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
+     * @return A new instance of fragment PsychologyPageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
+    public static PsychologyPageFragment newInstance(String param1, String param2) {
+        PsychologyPageFragment fragment = new PsychologyPageFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
@@ -71,46 +61,26 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        inflatedView = inflater.inflate(R.layout.fragment_home, container, false);
-        unbinder = ButterKnife.bind(this, inflatedView);
-
-        return inflatedView;
+        return inflater.inflate(R.layout.fragment_psychology_page, container, false);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
-    @OnClick(R.id.btn_personalization)
-    public void openPersonalizationFragment() {
-        mListener.onPersonalizationButtonClicked();
-    }
-
-    //    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        if (context instanceof OnPsychologyPageFragmentInteractionListener) {
+//            mListener = (OnPsychologyPageFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnPsychologyPageFragmentInteractionListener");
 //        }
 //    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnHomeFragmentInteractionListener) {
-            mListener = (OnHomeFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnHomeFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+//
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        mListener = null;
+//    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -122,8 +92,8 @@ public class HomeFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnHomeFragmentInteractionListener {
+    public interface OnPsychologyPageFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onPersonalizationButtonClicked();
+//        void onFragmentInteraction(Uri uri);
     }
 }

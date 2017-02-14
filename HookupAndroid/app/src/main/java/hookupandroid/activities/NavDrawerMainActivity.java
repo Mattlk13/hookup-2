@@ -23,6 +23,7 @@ import hookupandroid.fragments.DiscoverMatchesFragment;
 import hookupandroid.fragments.FriendsFragment;
 import hookupandroid.fragments.HomeFragment;
 import hookupandroid.fragments.PendingHookupsFragment;
+import hookupandroid.fragments.PersonalizationFragment;
 import hookupandroid.fragments.SignupFragment;
 import hookupandroid.fragments.ViewFriendProfileFragment;
 import hookupandroid.fragments.ViewNonFriendProfileFragment;
@@ -31,7 +32,8 @@ import hookupandroid.model.Person;
 
 public class NavDrawerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AuthFragment.OnAuthFragmentInteractionListener,
-        FriendsFragment.OnFriendsListFragmentInteractionListener, PendingHookupsFragment.OnPendingHookupInteractionListener {
+        FriendsFragment.OnFriendsListFragmentInteractionListener, PendingHookupsFragment.OnPendingHookupInteractionListener,
+        PersonalizationFragment.OnPersonalizationFragmentInteractionListener, HomeFragment.OnHomeFragmentInteractionListener {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -176,5 +178,16 @@ public class NavDrawerMainActivity extends AppCompatActivity
     @Override
     public void onPendingHookupItemClicked(Person item) {
         onPersonViewClicked(item);
+    }
+
+    @Override
+    public void onPersonalizationButtonClicked() {
+        Fragment personalizationFragment = new PersonalizationFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        toolbar.setTitle("Personalization");
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_nav_drawer_main, personalizationFragment)
+                .commit();
     }
 }

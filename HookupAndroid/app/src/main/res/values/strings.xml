@@ -118,4 +118,74 @@
     <string name="hint_age">Age</string>
     <string name="hint_country">Country</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_pers_race">Race</string>
+    <string name="go_out_question">How often do you go out (not necessarily on dates)?</string>
+    <string name="imprace_question">How important is it to you (on a scale of 1 - 10) that a person you date be of the same racial/ethnic background?</string>
+    <string name="imprelig_question">How important is it to you (on a scale 1-10) that person you date be of the same religious background?</string>
+    <string name="activities_question">How interested are you in the following activities? (on a scale of 1 - 10)</string>
+    <string name="hint_pers_career">Career</string>
+    <string name="hint_pers_go_out">How often do you go out?</string>
+
+    <string-array name="race_array">
+        <item>Black/African-American</item>
+        <item>European/Caucasian-American</item>
+        <item>Latino/Hispanic-American</item>
+        <item>Asian/Hispanic-American</item>
+        <item>Asian/Pacific Islander/Asian-American</item>
+        <item>Native American</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="field_array">
+        <item>Law</item>
+        <item>Math</item>
+        <item>Social Science/Psychologist</item>
+        <item>Medical Science/Pharmaceuticals/Bio Tech</item>
+        <item>Engineering</item>
+        <item>Native Language/Creative Writing/Journalism</item>
+        <item>History/Religion/Philosophy</item>
+        <item>Business/Econ/Finance</item>
+        <item>Education/Academia</item>
+        <item>Biological Sciences/Chemistry/Physics</item>
+        <item>Undergrad/Undecided</item>
+        <item>Political Science/International Affairs</item>
+        <item>Film</item>
+        <item>Fine Arts/International Affairs</item>
+        <item>Languages</item>
+        <item>Architecture</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="career_array">
+        <item>Lawyer</item>
+        <item>Academic/Research</item>
+        <item>Psychologist</item>
+        <item>Doctor/Medicine</item>
+        <item>Engineer</item>
+        <item>Creative Arts/Entertainment</item>
+        <item>Banking/Consulting/Finance/Marketing/Business/CEO/Entrepreneur/Admin</item>
+        <item>Real Estate</item>
+        <item>International/Humanitarian Affairs</item>
+        <item>Undecided</item>
+        <item>Social Work</item>
+        <item>Speech Patalogy</item>
+        <item>Politics</item>
+        <item>Pro sports/Athletics</item>
+        <item>Other</item>
+        <item>Journalism</item>
+        <item>Architecture</item>
+    </string-array>
+
+    <string-array name="go_out_array">
+        <item>Several times a week</item>
+        <item>Twice a week</item>
+        <item>Once a week</item>
+        <item>Twice a month</item>
+        <item>Once a month</item>
+        <item>Several times a year</item>
+        <item>Almost never</item>
+    </string-array>
+
 </resources>
