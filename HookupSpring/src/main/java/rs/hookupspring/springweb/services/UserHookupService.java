@@ -26,7 +26,7 @@ public class UserHookupService {
     public List<User> getHookupList(User user, boolean paired) {
         List<User> hookupList = new ArrayList<User>();
 
-        for (Hookup hookup : hookupRepository.findAllByUserAId(user.getRowId())) {
+        for (Hookup hookup : hookupRepository.findAllByUserAId(user.getId())) {
             if (hookup.isPaired() == paired) {
                 User compareUser = userRepository.findOne(hookup.getUserBId());
                 if (!hookupList.contains(compareUser)) {
@@ -35,7 +35,7 @@ public class UserHookupService {
             }
         }
 
-        for (Hookup hookup : hookupRepository.findAllByUserBId(user.getRowId())) {
+        for (Hookup hookup : hookupRepository.findAllByUserBId(user.getId())) {
             if (hookup.isPaired() == paired) {
                 User compareUser = userRepository.findOne(hookup.getUserAId());
                 if (!hookupList.contains(compareUser)) {
@@ -54,14 +54,14 @@ public class UserHookupService {
         }
 
 //        // check if this pair is already in db (check in both direction UserA-UserB and UserB-UserA
-//        for (Hookup hookup : hookupRepository.findAllByUserAId(userA.getRowId())) {
-//            if (hookup.getUserBId() == userB.getRowId()) {
+//        for (Hookup hookup : hookupRepository.findAllByUserAId(userA.getId())) {
+//            if (hookup.getUserBId() == userB.getId()) {
 //                return;
 //            }
 //        }
 //
-//        for (Hookup hookup : hookupRepository.findAllByUserBId(userB.getRowId())) {
-//            if (hookup.getUserAId() == userA.getRowId()) {
+//        for (Hookup hookup : hookupRepository.findAllByUserBId(userB.getId())) {
+//            if (hookup.getUserAId() == userA.getId()) {
 //                return;
 //            }
 //        }
@@ -69,8 +69,8 @@ public class UserHookupService {
         Date now = new Date();
 
         Hookup hookup = new Hookup();
-        hookup.setUserAId(userA.getRowId());
-        hookup.setUserBId(userB.getRowId());
+        hookup.setUserAId(userA.getId());
+        hookup.setUserBId(userB.getId());
         hookup.setHookupPairCreated(now);
         hookupRepository.save(hookup);
     }
@@ -79,18 +79,18 @@ public class UserHookupService {
     public Hookup findHookupPair(User userA, User userB) {
         Hookup retVal = null;
 
-        List<Hookup> hookupPairsForUserA = hookupRepository.findAllByUserAId(userA.getRowId());
+        List<Hookup> hookupPairsForUserA = hookupRepository.findAllByUserAId(userA.getId());
         for (Hookup hookup : hookupPairsForUserA) {
             User compareUser = userRepository.findOne(hookup.getUserBId());
-            if (compareUser != null && compareUser.getRowId() == userB.getRowId()) {
+            if (compareUser != null && compareUser.getId() == userB.getId()) {
                 return hookup;
             }
         }
 
-        List<Hookup> hookupPairsForUserB = hookupRepository.findAllByUserBId(userA.getRowId());
+        List<Hookup> hookupPairsForUserB = hookupRepository.findAllByUserBId(userA.getId());
         for (Hookup hookup : hookupPairsForUserB) {
             User compareUser = userRepository.findOne(hookup.getUserAId());
-            if (compareUser != null && compareUser.getRowId() == userB.getRowId()) {
+            if (compareUser != null && compareUser.getId() == userB.getId()) {
                 return hookup;
             }
         }

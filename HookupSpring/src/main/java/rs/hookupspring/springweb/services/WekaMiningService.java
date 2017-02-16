@@ -1,5 +1,6 @@
 package rs.hookupspring.springweb.services;
 
+import rs.hookupspring.entity.User;
 import weka.classifiers.Classifier;
 import org.springframework.stereotype.Service;
 import weka.core.Attribute;
@@ -7,6 +8,7 @@ import weka.core.Instance;
 import weka.core.Instances;
 
 import java.io.*;
+import java.util.logging.Logger;
 
 /**
  * Created by Bandjur on 2/4/2017.
@@ -73,6 +75,52 @@ public class WekaMiningService {
 
             e.printStackTrace();
         }
+    }
+
+
+    public void generateWekaInstance(User male, User female) {
+
+    }
+
+    public String readArffData() {
+
+        StringBuilder sb= new StringBuilder();
+
+        try {
+            Instances instances = new Instances(
+                    new BufferedReader(
+                            new FileReader("E:\\!FAKS\\!MSC\\Speed hookup\\20170216-final\\weka\\male-non-redudant-set.arff")));
+
+            int a =0;
+            for(Instance instance : instances) {
+                a++;
+//                System.out.println("*******************    " + a + "    ********************");
+                log.info("*******************    " + a + "    ********************");
+                sb.append("*******************    " + a + "    ********************\n");
+
+                for(int i = 0 ; i < instance.numAttributes() - 1 ; i++) {
+                    log.info("attribute index (" + i + "), attribute name (" + instance.attribute(i).name()+ "), value = " + instance.value(i) + "\n");
+
+                    sb.append("attribute name = " + instance.attribute(i).name() + "\n");
+                    sb.append("attribute index (" + i + "), value = " + instance.value(i) +"\n\n");
+
+                }
+//                System.out.println("*******************************************************");
+//                log.info("*******************************************************");
+                sb.append("\n*******************************************************\n");
+            }
+
+        }
+        catch (Exception e) {
+
+        }
+
+        return sb.toString();
+    }
+
+
+    public void AnotherWekaTest() {
+
     }
 
 }

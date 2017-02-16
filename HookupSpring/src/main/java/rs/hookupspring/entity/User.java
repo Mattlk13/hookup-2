@@ -1,7 +1,6 @@
 package rs.hookupspring.entity;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Created by Bandjur on 8/20/2016.
@@ -11,7 +10,7 @@ public class User {
 
     @Id
     @GeneratedValue
-    private int rowId;
+    private int id;
 
     private String email;
     private String firstname;
@@ -22,16 +21,32 @@ public class User {
     private Double latitude;
     private Double longitude;
 
+    private String city;
+    private String country;
+    private int age;
+
+    @OneToOne
+    @JoinColumn(name = "basicInfo_id")
+    private UserBasicInfo basicInfo;
+
+    @OneToOne
+    @JoinColumn(name = "activities_id")
+    private UserActivities activities;
+
+    @OneToOne
+    @JoinColumn(name = "psychology_id")
+    private UserPsychology psychology;
+
 //    @ManyToMany
 //    @JoinTable(name="hookups")
 //    private List<User> hookups;
 
-    public int getRowId() {
-        return rowId;
+    public int getId() {
+        return id;
     }
 
-    public void setRowId(int rowId) {
-        this.rowId = rowId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -88,6 +103,54 @@ public class User {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public UserBasicInfo getBasicInfo() {
+        return basicInfo;
+    }
+
+    public void setBasicInfo(UserBasicInfo basicInfo) {
+        this.basicInfo = basicInfo;
+    }
+
+    public UserActivities getActivities() {
+        return activities;
+    }
+
+    public void setActivities(UserActivities activities) {
+        this.activities = activities;
+    }
+
+    public UserPsychology getPsychology() {
+        return psychology;
+    }
+
+    public void setPsychology(UserPsychology psychology) {
+        this.psychology = psychology;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     @Override

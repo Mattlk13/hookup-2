@@ -7,6 +7,10 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <class>rs.hookupspring.entity.User</class>
         <class>rs.hookupspring.entity.Hookup</class>
+        <!--<class>rs.hookupspring.entity.UserPersonalization</class>-->
+        <class>rs.hookupspring.entity.UserBasicInfo</class>
+        <class>rs.hookupspring.entity.UserActivities</class>
+        <class>rs.hookupspring.entity.UserPsychology</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
