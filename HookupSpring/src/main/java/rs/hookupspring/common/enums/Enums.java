@@ -17,21 +17,51 @@ public class Enums {
     public static enum Race {
         Black,
         White,
+        Latino,
         Asian,
-        NativeAmerican
+        NativeAmerican,
+        Other
     }
 
     public static enum Field {
         Law,
-        Engineering,
+        Math,
+        SocialScienceOrPsychology,
         MedicalScience,
-        Architecture
+        MedicalScienceOrPharmaceuticalsOrBioTech,
+        Engineering,
+        NativeLanguageOrCreativeWritingOrJournalism,
+        HistoryOrReligionOrPhilosophy,
+        BusinessOrEconOrFinance,
+        EducationOrAcademia,
+        BiologicalSciencesOrChemistryOrPhysics,
+        SocialWork,
+        UndergradOrUndecided,
+        PoliticalScienceOrInternationalAffairs,
+        Film,
+        FineArtsOrArtsAdministration,
+        Languages,
+        Architecture,
+        Other
     }
 
     public static enum Career {
         Lawyer,
+        AcademicOrResearch,
+        Psychologist,
+        DoctorOrMedicine,
         Engineer,
-        Doctor,
+        CreativeArtsOrEntertainment,
+        BankingOrConsultingOrFinanceOrMarketingOrAdminOrCEO,
+        RealEstate,
+        InternationalOrHumanitarianAffairs,
+        Undecided,
+        SocialWork,
+        SpeechPathology,
+        Politics,
+        ProSportsOrAthletics,
+        Other,
+        Journalism,
         Architect
     }
 
@@ -40,5 +70,10 @@ public class Enums {
         OnceInAWeek,
         AFewTimesInAWeek,
         AlmostNever
+    }
+
+    public static enum Gender {
+        Female,
+        Male
     }
 }

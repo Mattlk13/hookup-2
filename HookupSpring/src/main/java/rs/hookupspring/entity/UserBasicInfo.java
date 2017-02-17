@@ -18,18 +18,14 @@ public class UserBasicInfo {
     private Enums.Race race;
     private Enums.Field field;
     private Enums.Career career;
-    private Enums.GoOut goOut;
+//    private Enums.GoOut goOut;
+
     private int imprace;
     private int imprelig;
-
-//    @OneToOne
-//    @JoinColumn(name = "personalization_id")
-//    private UserPersonalization userPersonalization;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-
 
     public int getRowId() {
         return rowId;
@@ -63,13 +59,13 @@ public class UserBasicInfo {
         this.career = career;
     }
 
-    public Enums.GoOut getGoOut() {
-        return goOut;
-    }
-
-    public void setGoOut(Enums.GoOut goOut) {
-        this.goOut = goOut;
-    }
+//    public Enums.GoOut getGoOut() {
+//        return goOut;
+//    }
+//
+//    public void setGoOut(Enums.GoOut goOut) {
+//        this.goOut = goOut;
+//    }
 
     public int getImprace() {
         return imprace;

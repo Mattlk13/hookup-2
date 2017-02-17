@@ -17,29 +17,47 @@ public class UserPsychology {
     private User user;
 
     // A stands for 1_1, what user looks in the opposite sex
-    private int attrA;
-    private int intelA;
-    private int ambA;
-    private int sincA;
-    private int funA;
-    private int sharA;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double attrA = 0.0;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double intelA = 0.0;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double ambA = 0.0;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double sincA = 0.0;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double funA = 0.0;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double sharA = 0.0;
 
 
     // B stands for 2_1, what user thinks the opposite sex looks for
-    private int attrB;
-    private int intelB;
-    private int ambB;
-    private int sincB;
-    private int funB;
-    private int sharB;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double attrB = 0.0;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double intelB = 0.0;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double ambB = 0.0;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double sincB = 0.0;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double funB = 0.0;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double sharB = 0.0;
 
     // C stands for 3_1, how user measure himself/herself up
-    private int attrC;
-    private int intelC;
-    private int ambC;
-    private int sincC;
-    private int funC;
-    private int sharC;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double attrC = 0.0;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double intelC = 0.0;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double ambC = 0.0;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double sincC = 0.0;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double funC = 0.0;
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    private double sharC = 0.0;
 
     public int getId() {
         return id;
@@ -57,147 +75,147 @@ public class UserPsychology {
         this.user = user;
     }
 
-    public int getAttrA() {
+    public double getAttrA() {
         return attrA;
     }
 
-    public void setAttrA(int attrA) {
+    public void setAttrA(double attrA) {
         this.attrA = attrA;
     }
 
-    public int getIntelA() {
+    public double getIntelA() {
         return intelA;
     }
 
-    public void setIntelA(int intelA) {
+    public void setIntelA(double intelA) {
         this.intelA = intelA;
     }
 
-    public int getAmbA() {
+    public double getAmbA() {
         return ambA;
     }
 
-    public void setAmbA(int ambA) {
+    public void setAmbA(double ambA) {
         this.ambA = ambA;
     }
 
-    public int getSincA() {
+    public double getSincA() {
         return sincA;
     }
 
-    public void setSincA(int sincA) {
+    public void setSincA(double sincA) {
         this.sincA = sincA;
     }
 
-    public int getFunA() {
+    public double getFunA() {
         return funA;
     }
 
-    public void setFunA(int funA) {
+    public void setFunA(double funA) {
         this.funA = funA;
     }
 
-    public int getSharA() {
+    public double getSharA() {
         return sharA;
     }
 
-    public void setSharA(int sharA) {
+    public void setSharA(double sharA) {
         this.sharA = sharA;
     }
 
-    public int getAttrB() {
+    public double getAttrB() {
         return attrB;
     }
 
-    public void setAttrB(int attrB) {
+    public void setAttrB(double attrB) {
         this.attrB = attrB;
     }
 
-    public int getIntelB() {
+    public double getIntelB() {
         return intelB;
     }
 
-    public void setIntelB(int intelB) {
+    public void setIntelB(double intelB) {
         this.intelB = intelB;
     }
 
-    public int getAmbB() {
+    public double getAmbB() {
         return ambB;
     }
 
-    public void setAmbB(int ambB) {
+    public void setAmbB(double ambB) {
         this.ambB = ambB;
     }
 
-    public int getSincB() {
+    public double getSincB() {
         return sincB;
     }
 
-    public void setSincB(int sincB) {
+    public void setSincB(double sincB) {
         this.sincB = sincB;
     }
 
-    public int getFunB() {
+    public double getFunB() {
         return funB;
     }
 
-    public void setFunB(int funB) {
+    public void setFunB(double funB) {
         this.funB = funB;
     }
 
-    public int getSharB() {
+    public double getSharB() {
         return sharB;
     }
 
-    public void setSharB(int sharB) {
+    public void setSharB(double sharB) {
         this.sharB = sharB;
     }
 
-    public int getAttrC() {
+    public double getAttrC() {
         return attrC;
     }
 
-    public void setAttrC(int attrC) {
+    public void setAttrC(double attrC) {
         this.attrC = attrC;
     }
 
-    public int getIntelC() {
+    public double getIntelC() {
         return intelC;
     }
 
-    public void setIntelC(int intelC) {
+    public void setIntelC(double intelC) {
         this.intelC = intelC;
     }
 
-    public int getAmbC() {
+    public double getAmbC() {
         return ambC;
     }
 
-    public void setAmbC(int ambC) {
+    public void setAmbC(double ambC) {
         this.ambC = ambC;
     }
 
-    public int getSincC() {
+    public double getSincC() {
         return sincC;
     }
 
-    public void setSincC(int sincC) {
+    public void setSincC(double sincC) {
         this.sincC = sincC;
     }
 
-    public int getFunC() {
+    public double getFunC() {
         return funC;
     }
 
-    public void setFunC(int funC) {
+    public void setFunC(double funC) {
         this.funC = funC;
     }
 
-    public int getSharC() {
+    public double getSharC() {
         return sharC;
     }
 
-    public void setSharC(int sharC) {
+    public void setSharC(double sharC) {
         this.sharC = sharC;
     }
 }

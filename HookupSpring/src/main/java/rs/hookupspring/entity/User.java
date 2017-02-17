@@ -1,6 +1,9 @@
 package rs.hookupspring.entity;
 
+import rs.hookupspring.common.enums.Enums;
+
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by Bandjur on 8/20/2016.
@@ -24,6 +27,9 @@ public class User {
     private String city;
     private String country;
     private int age;
+    private Enums.Gender gender;
+    private Date birthDate;
+    private String aboutMe;
 
     @OneToOne
     @JoinColumn(name = "basicInfo_id")
@@ -151,6 +157,30 @@ public class User {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Enums.Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Enums.Gender gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
     }
 
     @Override

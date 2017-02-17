@@ -1,5 +1,6 @@
 package rs.hookupspring.springweb.controllers;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,6 +19,10 @@ import rs.hookupspring.springweb.services.FirebaseNotificationService;
 import rs.hookupspring.springweb.services.LocationsDistanceService;
 import rs.hookupspring.springweb.services.UserHookupService;
 import rs.hookupspring.springweb.services.WekaMiningService;
+import weka.classifiers.Classifier;
+import weka.core.Instance;
+
+import java.util.List;
 
 /**
  * Created by Bandjur on 8/20/2016.
@@ -25,6 +30,8 @@ import rs.hookupspring.springweb.services.WekaMiningService;
 @Controller
 @RequestMapping("/test")
 public class TestController {
+
+    private static final Logger logger = Logger.getLogger(TestController.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -53,11 +60,9 @@ public class TestController {
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
 
-//        model.addAttribute("message", "Hello world from test controller. There are " + userRepository.findAll().size() + " users in the database. !");
+        model.addAttribute("message", "Hello world from test controller. There are " + userRepository.findAll().size() + " users in the database. !");
 
-//        wekaMiningService.Test();
-        String result = wekaMiningService.readArffData();
-        model.addAttribute("message", result);
+//        wekaMiningService.createSingleInstanceDataset();
 
         try {
 //            notificationService.asyncHttpTest();
@@ -84,6 +89,10 @@ public class TestController {
 //            message.append("For user (rowId = " + hookup.getId() + ")" +
 //                    ", DISTANCE (KM): " + distance + "\n");
 //        }
+
+
+        wekaMiningService.insertExperimentDataUsersInDb();
+        message.append("wooohooooo");
 
         model.addAttribute("message", message);
         return "hello";
@@ -118,84 +127,99 @@ public class TestController {
         return "hello";
     }
 
-    @RequestMapping(value = "/jpa", method = RequestMethod.GET)
-    public String jpaTest(ModelMap model) {
+//    @RequestMapping(value = "/jpa", method = RequestMethod.GET)
+//    public String jpaTest(ModelMap model) {
+//
+////        User bakiUser = userRepository.findOne(8);
+//        User newUser = new User();
+//        newUser.setFirstname("Imenko");
+//        newUser.setLastname("Prezimenic");
+//        newUser.setEmail("imenko@gmail.com");
+//
+//        User user = userRepository.save(newUser);
+//
+//        UserBasicInfo basicInfo = new UserBasicInfo();
+//        basicInfo.setImprelig(4);
+//        basicInfo.setCareer(Enums.Career.Engineer);
+//        basicInfo.setField(Enums.Field.Engineering);
+//        basicInfo.setRace(Enums.Race.White);
+////        basicInfo.setGoOut(Enums.GoOut.AFewTimesInAWeek);
+//        basicInfo.setUser(user);
+//        basicInfo = basicInfoRepository.save(basicInfo);
+//        user.setBasicInfo(basicInfo);
+//        user = userRepository.save(newUser);
+//
+//
+//        UserActivities userActivities = new UserActivities();
+//        userActivities.setArt(8);
+//        userActivities.setClubbing(10);
+//        userActivities.setGaming(7);
+//        userActivities.setConcerts(8);
+//        userActivities.setDining(9);
+//        userActivities.setHiking(8);
+//        userActivities.setMusic(10);
+//        // TODO: rest of activities
+//        userActivities.setUser(user);
+//        userActivities = activitiesRepository.save(userActivities);
+//        user.setActivities(userActivities);
+//        user = userRepository.save(user);
+//
+//
+//        UserPsychology userPsychology = new UserPsychology();
+//
+//        userPsychology.setAmbA(20);
+//        userPsychology.setAttrA(19.5);
+//        userPsychology.setSincA(20.5);
+//        userPsychology.setFunA(10);
+//        userPsychology.setIntelA(15);
+//        userPsychology.setSharA(15);
+//        userPsychology.setUser(user);
+//        userPsychology = psychologyRepository.save(userPsychology);
+//        user.setPsychology(userPsychology);
+//
+//        user = userRepository.save(user);
+//
+//
+//        model.addAttribute("message", "uuu fuck yeah .. basic info exist");
+//
+//
+////        if (newUp.getBasicInfo() != null) {
+////            model.addAttribute("message", "uuu fuck yeah .. basic info exist");
+////        }
+//
+//        return "hello";
+//    }
 
-//        User bakiUser = userRepository.findOne(8);
-        User newUser = new User();
-        newUser.setFirstname("Imenko");
-        newUser.setLastname("Prezimenic");
-        newUser.setEmail("imenko@gmail.com");
-
-        User user = userRepository.save(newUser);
-
-        UserBasicInfo basicInfo = new UserBasicInfo();
-        basicInfo.setImprelig(0);
-        basicInfo.setImprace(4);
-        basicInfo.setCareer(Enums.Career.Engineer);
-        basicInfo.setField(Enums.Field.Engineering);
-        basicInfo.setRace(Enums.Race.White);
-        basicInfo.setGoOut(Enums.GoOut.AFewTimesInAWeek);
-        basicInfo.setUser(user);
-        basicInfo = basicInfoRepository.save(basicInfo);
-        user.setBasicInfo(basicInfo);
-        user = userRepository.save(newUser);
-
-
-        UserActivities userActivities = new UserActivities();
-        userActivities.setArt(8);
-        userActivities.setClubbing(10);
-        userActivities.setGaming(7);
-        userActivities.setConcerts(8);
-        userActivities.setDining(9);
-        userActivities.setHiking(8);
-        userActivities.setMusic(10);
-        // TODO: rest of activities
-        userActivities.setUser(user);
-        userActivities = activitiesRepository.save(userActivities);
-        user.setActivities(userActivities);
-        user = userRepository.save(user);
-
-
-        UserPsychology userPsychology = new UserPsychology();
-
-        userPsychology.setAmbA(20);
-        userPsychology.setAttrA(20);
-        userPsychology.setSincA(20);
-        userPsychology.setFunA(10);
-        userPsychology.setIntelA(15);
-        userPsychology.setSharA(15);
-        userPsychology.setUser(user);
-        userPsychology = psychologyRepository.save(userPsychology);
-        user.setPsychology(userPsychology);
-
-        user = userRepository.save(user);
-
-
-        model.addAttribute("message", "uuu fuck yeah .. basic info exist");
-
-
-//        if (newUp.getBasicInfo() != null) {
-//            model.addAttribute("message", "uuu fuck yeah .. basic info exist");
-//        }
-
-        return "hello";
-    }
-
-    @RequestMapping(value = "/jpaGet", method = RequestMethod.GET)
+    @RequestMapping(value = "/classifyTestEntries", method = RequestMethod.GET)
     public String jpaGetTest(ModelMap model) {
 
-//        UserPersonalization newUp = userPersonalizationRepository.findOne(52);
-//
-//        if (newUp.getBasicInfo() != null) {
-//            model.addAttribute("message", "uuu fuck yeah .. basic info exist");
-//        }
-//        else {
-//            model.addAttribute("message", "meeeeeeeh... null je");
-//        }
+        try {
+            List<User> males = userRepository.findAllByGender(Enums.Gender.Male);
+            List<User> females = userRepository.findAllByGender(Enums.Gender.Female);
+
+            User theMale = males.get(0);
+            Classifier randomForest = (Classifier) weka.core.SerializationHelper.read("E:\\!FAKS\\!MSC\\Speed hookup\\20170216-final\\weka\\random-forest-model.model");
+
+            for (User female : females) {
+                Instance instance = wekaMiningService.createPairEntryInstance(theMale, female);
+                instance.dataset().setClassIndex(instance.dataset().numAttributes() - 1);
+
+                double result = randomForest.classifyInstance(instance);
+                logger.info("Results for pair (" + theMale.getFirstname() + " " + theMale.getLastname() + " & " + female.getFirstname() + " " + female.getLastname()+") = " + result);
+            }
+
+        }
+        catch (Exception e) {
+
+        }
+
 
         return "hello";
     }
+
+
+
+
 
 
 }

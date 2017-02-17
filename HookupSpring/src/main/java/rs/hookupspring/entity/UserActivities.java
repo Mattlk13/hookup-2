@@ -185,4 +185,5 @@ public class UserActivities {
     public void setYoga(int yoga) {
         this.yoga = yoga;
     }
+
 }
