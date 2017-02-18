@@ -37,13 +37,13 @@
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitManager" ref="persistenceUnitManager" />
 
-        <property name="jpaPropertyMap">
-            <map>
-                <!-- Connection release fix -->
-                <entry key="hibernate.connection.release_mode" value="after_transaction" />
-                <entry key="hibernate.dialect" value="${hibernate.dialect}" />
-            </map>
-        </property>
+        <!--<property name="jpaPropertyMap">-->
+            <!--<map>-->
+                <!--&lt;!&ndash; Connection release fix &ndash;&gt;-->
+                <!--<entry key="hibernate.connection.release_mode" value="after_transaction" />-->
+                <!--<entry key="hibernate.dialect" value="${hibernate.dialect}" />-->
+            <!--</map>-->
+        <!--</property>-->
 
     </bean>
 

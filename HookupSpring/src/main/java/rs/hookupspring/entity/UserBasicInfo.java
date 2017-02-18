@@ -13,7 +13,7 @@ public class UserBasicInfo {
 
     @Id
     @GeneratedValue
-    public int rowId;
+    public int id;
 
     private Enums.Race race;
     private Enums.Field field;
@@ -27,12 +27,12 @@ public class UserBasicInfo {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public int getRowId() {
-        return rowId;
+    public int getId() {
+        return id;
     }
 
-    public void setRowId(int rowId) {
-        this.rowId = rowId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Enums.Race getRace() {

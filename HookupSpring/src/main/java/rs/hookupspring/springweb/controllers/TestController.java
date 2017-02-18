@@ -3,6 +3,7 @@ package rs.hookupspring.springweb.controllers;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -76,7 +77,7 @@ public class TestController {
     }
 
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @RequestMapping(value = "/insertExperimentData", method = RequestMethod.GET)
     public String customMethod(ModelMap model) {
         StringBuilder message = new StringBuilder();
 //        User userTest = userRepository.findOne(8);
@@ -86,7 +87,7 @@ public class TestController {
 //            distance = locationsDistanceService.distance(userTest.getLatitude(),
 //                    userTest.getLongitude(), hookup.getLatitude(), hookup.getLongitude(), 'K');
 //
-//            message.append("For user (rowId = " + hookup.getId() + ")" +
+//            message.append("For user (id = " + hookup.getId() + ")" +
 //                    ", DISTANCE (KM): " + distance + "\n");
 //        }
 
@@ -190,36 +191,51 @@ public class TestController {
 //        return "hello";
 //    }
 
+    @Transactional
     @RequestMapping(value = "/classifyTestEntries", method = RequestMethod.GET)
     public String jpaGetTest(ModelMap model) {
-
+        List<User> males = null;
+        List<User> females = null;
+        Classifier randomForest = null;
         try {
-            List<User> males = userRepository.findAllByGender(Enums.Gender.Male);
-            List<User> females = userRepository.findAllByGender(Enums.Gender.Female);
+            males = userRepository.findAllByGender(Enums.Gender.Male);
+            females = userRepository.findAllByGender(Enums.Gender.Female);
 
-            User theMale = males.get(0);
-            Classifier randomForest = (Classifier) weka.core.SerializationHelper.read("E:\\!FAKS\\!MSC\\Speed hookup\\20170216-final\\weka\\random-forest-model.model");
+            randomForest = (Classifier) weka.core.SerializationHelper.read("E:\\!FAKS\\!MSC\\Speed hookup\\20170216-final\\weka\\random-forest-model.model");
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+        }
+
+        for (User theMale : males) {
+            int counter = 0;
+            int positive = 0;
+            int negative = 0;
 
             for (User female : females) {
+
+                double result = 0.0;
                 Instance instance = wekaMiningService.createPairEntryInstance(theMale, female);
-                instance.dataset().setClassIndex(instance.dataset().numAttributes() - 1);
-
-                double result = randomForest.classifyInstance(instance);
-                logger.info("Results for pair (" + theMale.getFirstname() + " " + theMale.getLastname() + " & " + female.getFirstname() + " " + female.getLastname()+") = " + result);
+                if (instance != null) {
+                    try {
+                        instance.dataset().setClassIndex(instance.dataset().numAttributes() - 1);
+                        result = randomForest.classifyInstance(instance);
+                        counter++;
+                        if (result == 1.0) {
+                            positive++;
+                        } else {
+                            negative++;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-
+            logger.info("Results for " + theMale.getFirstname() + " " + theMale.getLastname() + " Ukupno = " + counter + " (positive: " + positive + ", negative: " + negative + ")");
         }
-        catch (Exception e) {
-
-        }
-
+        model.addAttribute("message", "bleja");
 
         return "hello";
     }
-
-
-
-
 
 
 }

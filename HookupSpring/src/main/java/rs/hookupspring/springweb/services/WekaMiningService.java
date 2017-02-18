@@ -2,6 +2,7 @@ package rs.hookupspring.springweb.services;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import rs.hookupspring.common.SerbianNames;
 import rs.hookupspring.common.enums.Enums;
 import rs.hookupspring.dao.UserActivitiesRepository;
@@ -195,9 +196,6 @@ public class WekaMiningService {
         return retVal;
     }
 
-//    public void RemoveAllInstances
-
-
     public void insertExperimentDataUsersInDb() {
 
         try {
@@ -205,9 +203,11 @@ public class WekaMiningService {
                     new BufferedReader(
                             new FileReader("E:\\!FAKS\\!MSC\\Speed hookup\\20170216-final\\weka\\male-non-redundant-set.arff")));
 
+            int counter = 0 ;
             for(Instance male : males) {
+                logger.info("********************************************* Creating instance [index = " + counter + "]");
                 createUserFromWekaInstance(male, Enums.Gender.Male);
-                Thread.sleep(50);
+                counter++;
             }
 
             Instances females = new Instances(
@@ -225,89 +225,92 @@ public class WekaMiningService {
 
     }
 
-    private User createUserFromWekaInstance(Instance instance, Enums.Gender gender) throws InterruptedException {
+    @Transactional
+    private User createUserFromWekaInstance(Instance instance, Enums.Gender gender) {
         User user = new User();
 
-        String firstname = gender == Enums.Gender.Male ?
-                SerbianNames.MALE_FIRSTANAMES[ThreadLocalRandom.current().nextInt(0, SerbianNames.MALE_FIRSTANAMES.length + 1)] :
-                SerbianNames.FEMALE_FIRSTANAMES[ThreadLocalRandom.current().nextInt(0, SerbianNames.FEMALE_FIRSTANAMES.length + 1)];
-        user.setFirstname(firstname);
-        user.setLastname(SerbianNames.LASTNAMES[ThreadLocalRandom.current().nextInt(0, SerbianNames.LASTNAMES.length + 1)]);
-        user.setCity("Novi Sad");
-        user.setCountry("Serbia");
-        user.setGender(gender);
-        user.setAge((int) instance.value(0));
-        user.setAboutMe("Hey, my name is " + firstname + " and I have a generic background story like most of boring people out there... ");
-        user = userRepository.save(user);
+        try {
+            String firstname = gender == Enums.Gender.Male ?
+                    SerbianNames.MALE_FIRSTANAMES[ThreadLocalRandom.current().nextInt(0, SerbianNames.MALE_FIRSTANAMES.length + 1)] :
+                    SerbianNames.FEMALE_FIRSTANAMES[ThreadLocalRandom.current().nextInt(0, SerbianNames.FEMALE_FIRSTANAMES.length + 1)];
+            user.setFirstname(firstname);
+            user.setLastname(SerbianNames.LASTNAMES[ThreadLocalRandom.current().nextInt(0, SerbianNames.LASTNAMES.length + 1)]);
+            user.setCity("Novi Sad");
+            user.setCountry("Serbia");
+            user.setGender(gender);
+            user.setAge((int) instance.value(0));
+            user.setAboutMe("Hey, my name is " + firstname + " and I have a generic background story like most of boring people out there... ");
+            user = userRepository.save(user);
 
-        UserBasicInfo basicInfo = new UserBasicInfo();
-        basicInfo.setRace(Enums.Race.values()[((int) instance.value(2))]);
-        basicInfo.setField(Enums.Field.values()[((int) instance.value(1))]);
-        basicInfo.setCareer(Enums.Career.values()[((int) instance.value(5))]);
+            UserBasicInfo basicInfo = new UserBasicInfo();
+            basicInfo.setRace(Enums.Race.values()[((int) instance.value(2))]);
+            basicInfo.setField(Enums.Field.values()[((int) instance.value(1))]);
+            basicInfo.setCareer(Enums.Career.values()[((int) instance.value(5))]);
 //        basicInfo.setGoOut();
-        basicInfo.setImprace((int) instance.value(3));
-        basicInfo.setImprelig((int) instance.value(4));
-        basicInfo.setUser(user);
-        basicInfoRepository.save(basicInfo);
-        Thread.sleep(20);
-        user.setBasicInfo(basicInfo);
-        user = userRepository.save(user);
+            basicInfo.setImprace((int) instance.value(3));
+            basicInfo.setImprelig((int) instance.value(4));
+            basicInfo.setUser(user);
+            basicInfoRepository.save(basicInfo);
+            user.setBasicInfo(basicInfo);
+//            user = userRepository.save(user);
 
 
-        UserActivities activities = new UserActivities();
-        activities.setSports((int) instance.value(6));
-        activities.setTvsports((int) instance.value(7));
-        activities.setExcersice((int) instance.value(8));
-        activities.setDining((int) instance.value(9));
-        activities.setMuseums((int) instance.value(10));
-        activities.setArt((int) instance.value(11));
-        activities.setHiking((int) instance.value(12));
-        activities.setGaming((int) instance.value(13));
-        activities.setClubbing((int) instance.value(14));
-        activities.setReading((int) instance.value(15));
-        activities.setTv((int) instance.value(16));
-        activities.setTheater((int) instance.value(17));
-        activities.setMovies((int) instance.value(18));
-        activities.setConcerts((int) instance.value(19));
-        activities.setMusic((int) instance.value(20));
-        activities.setShopping((int) instance.value(21));
-        activities.setYoga((int) instance.value(22));
-        activities.setUser(user);
-        activitiesRepository.save(activities);
-        Thread.sleep(20);
-        user.setActivities(activities);
-        user = userRepository.save(user);
+            UserActivities activities = new UserActivities();
+            activities.setSports((int) instance.value(6));
+            activities.setTvsports((int) instance.value(7));
+            activities.setExcersice((int) instance.value(8));
+            activities.setDining((int) instance.value(9));
+            activities.setMuseums((int) instance.value(10));
+            activities.setArt((int) instance.value(11));
+            activities.setHiking((int) instance.value(12));
+            activities.setGaming((int) instance.value(13));
+            activities.setClubbing((int) instance.value(14));
+            activities.setReading((int) instance.value(15));
+            activities.setTv((int) instance.value(16));
+            activities.setTheater((int) instance.value(17));
+            activities.setMovies((int) instance.value(18));
+            activities.setConcerts((int) instance.value(19));
+            activities.setMusic((int) instance.value(20));
+            activities.setShopping((int) instance.value(21));
+            activities.setYoga((int) instance.value(22));
+            activities.setUser(user);
+            activitiesRepository.save(activities);
+            user.setActivities(activities);
+//            user = userRepository.save(user);
 
-        UserPsychology psychology = new UserPsychology();
-        psychology.setAttrA(instance.value(23));
-        psychology.setSincA(instance.value(24));
-        psychology.setIntelA(instance.value(25));
-        psychology.setFunA(instance.value(26));
-        psychology.setAmbA(instance.value(27));
-        psychology.setSharA(instance.value(28));
+            UserPsychology psychology = new UserPsychology();
+            psychology.setAttrA(instance.value(23));
+            psychology.setSincA(instance.value(24));
+            psychology.setIntelA(instance.value(25));
+            psychology.setFunA(instance.value(26));
+            psychology.setAmbA(instance.value(27));
+            psychology.setSharA(instance.value(28));
 
-        psychology.setAttrB(instance.value(29));
-        psychology.setSincB(instance.value(30));
-        psychology.setIntelB(instance.value(31));
-        psychology.setFunB(instance.value(32));
-        psychology.setAmbB(instance.value(33));
-        psychology.setSharB(instance.value(34));
+            psychology.setAttrB(instance.value(29));
+            psychology.setSincB(instance.value(30));
+            psychology.setIntelB(instance.value(31));
+            psychology.setFunB(instance.value(32));
+            psychology.setAmbB(instance.value(33));
+            psychology.setSharB(instance.value(34));
 
-        psychology.setAttrC(instance.value(35));
-        psychology.setSincC(instance.value(36));
-        psychology.setFunC(instance.value(37));
-        psychology.setIntelC(instance.value(38));
-        psychology.setAmbB(instance.value(39));
+            psychology.setAttrC(instance.value(35));
+            psychology.setSincC(instance.value(36));
+            psychology.setFunC(instance.value(37));
+            psychology.setIntelC(instance.value(38));
+            psychology.setAmbB(instance.value(39));
 
-        psychology.setUser(user);
-        psychologyRepository.save(psychology);
-        Thread.sleep(20);
-        user.setPsychology(psychology);
-        user = userRepository.save(user);
+            psychology.setUser(user);
+            psychologyRepository.save(psychology);
+            user.setPsychology(psychology);
+            user = userRepository.save(user);
+        }
+        catch(Exception e) {
+            logger.info("Exception message: " +  e.getMessage());
+            logger.info("Exception stack trace: " + e.getStackTrace());
+        }
 
         return user;
     }
-
 
     public void setUserDataToWekaInstance(User user, Instance instance) {
 
