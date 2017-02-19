@@ -33,13 +33,13 @@ public class NavDrawerExampleActivity extends AppCompatActivity {
         setUpDrawer();
 
         Button btnMockLock = (Button) findViewById(R.id.btnShowMockLocActivity);
-        btnMockLock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NavDrawerExampleActivity.this, MockLocationActivity.class);
-                startActivity(intent);
-            }
-        });
+//        btnMockLock.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(NavDrawerExampleActivity.this, MockLocationActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         Button btnAndroidLocActivity = (Button) findViewById(R.id.btnAndroidLocActivity);
         btnAndroidLocActivity.setOnClickListener(new View.OnClickListener() {

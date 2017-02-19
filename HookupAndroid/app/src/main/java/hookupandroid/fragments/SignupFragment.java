@@ -179,16 +179,16 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(getContext(), "You have successfully registered ", Toast.LENGTH_SHORT).show();
-//                    String token = FirebaseInstanceId.getInstance().getToken();
-//
-//                    RegisterUserTask registerAsyncTask = new RegisterUserTask(getContext());
-//                    UserData data = new UserData();
-//                    data.setEmail(emailEditText.getText().toString());
-//                    data.setUid(auth.getCurrentUser().getUid());
-//                    data.setLatitude(String.valueOf(mLastLocation.getLatitude()));
-//                    data.setLongitude(String.valueOf(mLastLocation.getLongitude()));
-//                    data.setToken(token);
-//                    registerAsyncTask.execute(data);
+                    String token = FirebaseInstanceId.getInstance().getToken();
+
+                    RegisterUserTask registerAsyncTask = new RegisterUserTask(getContext());
+                    UserData data = new UserData();
+                    data.setEmail(emailEditText.getText().toString());
+                    data.setUid(auth.getCurrentUser().getUid());
+                    data.setLatitude(String.valueOf(mLastLocation.getLatitude()));
+                    data.setLongitude(String.valueOf(mLastLocation.getLongitude()));
+                    data.setToken(token);
+                    registerAsyncTask.execute(data);
 
                     mListener.onSuccessRegistration();
                 } else {

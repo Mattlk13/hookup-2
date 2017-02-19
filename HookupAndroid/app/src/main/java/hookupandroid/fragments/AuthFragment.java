@@ -65,7 +65,6 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
     private Validator validator;
 
     @BindView(R.id.auth_scroll_view) ScrollView scrollView;
-//    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.btn_signup) Button btnRegister;
 
     @NotEmpty
@@ -130,7 +129,6 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         inflatedView = inflater.inflate(R.layout.fragment_auth, container, false);
         unbinder = ButterKnife.bind(this,inflatedView);
 
@@ -146,16 +144,8 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
 
     @OnClick(R.id.btn_login)
     public void onLoginButtonClicked() {
-        // notify MainActivity to replace fragment content with Home fragment, if successfully logged
         validator.validate();
     }
-
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onTestButtonPressed() {
-//        if (mListener != null) {
-//            mListener.onRegisterButtonClicked("Button from Auth Fragment has just been clicked");
-//        }
-//    }
 
     @Override
     public void onAttach(Context context) {
@@ -188,9 +178,9 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(getContext(), "You have successfully logged in ", Toast.LENGTH_SHORT).show();
-//                    String token = FirebaseInstanceId.getInstance().getToken();
-                    // TODO check if token equals token in SQLite
-//                    new UpdateUserAuthToken(getContext()).execute(token);
+                    String token = FirebaseInstanceId.getInstance().getToken();
+                    // TODO check if token equals token in SQLite db
+                    new UpdateUserAuthToken(getContext()).execute(token);
                     mListener.onSuccessLogon();
                 }
                 else {
