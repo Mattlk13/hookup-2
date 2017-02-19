@@ -2,6 +2,8 @@ package hookupandroid.customComponents;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -18,6 +20,11 @@ import hookupandroid.R;
 public class HundredScaleSeekbarLayout extends LinearLayout {
 
     private Unbinder unbinder;
+
+    private int seekbarOldValue;
+    private int seekbarNewValue;
+
+     private HundredScaleSeekbarInteractionListener mListener;
 
     @BindView(R.id.seekbar_100) SeekBar seekBar;
     @BindView(R.id.seekbar100_current_value) TextView txtCurrentValue;
@@ -43,15 +50,38 @@ public class HundredScaleSeekbarLayout extends LinearLayout {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                seekbarOldValue = seekBar.getProgress();
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                seekbarNewValue = seekBar.getProgress();
+                mListener.onSeekbarProgressChanged(seekbarOldValue, seekbarNewValue, seekBar);
             }
         });
 
+    }
+
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
+//        PsychologyQuestionGroupView psychologyGroupParent = (PsychologyQuestionGroupView)((ViewGroup)getParent()).getParent(); //radi jebote
+        ViewGroup parentQuestionGroupView = (ViewGroup)getParent().getParent();
+
+        if (parentQuestionGroupView instanceof  PsychologyQuestionGroupView){
+            mListener = (PsychologyQuestionGroupView)parentQuestionGroupView;
+        }
+        else if (parentQuestionGroupView instanceof SelfMeasureQuestionGroupView) {
+            mListener = (SelfMeasureQuestionGroupView)parentQuestionGroupView;
+        }
+
+//        if(getParent() != null && getParent().getParent() instanceof PsychologyQuestionGroupView) {
+//            ((PsychologyQuestionGroupView)((PsychologyQuestionGroupView) getParent()))
+//                    .onSeekbarProgressChanged(seekbarOldValue, seekbarNewValue);
+//            mListener = psychologyGroupParent;
+//        }
     }
 
     @Override
@@ -61,5 +91,9 @@ public class HundredScaleSeekbarLayout extends LinearLayout {
         unbinder.unbind();
     }
 
+    public interface HundredScaleSeekbarInteractionListener {
+//        public void onSeekbarProgressChanged(int oldValue, int newValue);
+        public void onSeekbarProgressChanged(int oldValue, int newValue, SeekBar seekbar);
+    }
 
 }

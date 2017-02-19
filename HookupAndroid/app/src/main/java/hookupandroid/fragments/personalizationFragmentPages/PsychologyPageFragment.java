@@ -1,20 +1,18 @@
 package hookupandroid.fragments.personalizationFragmentPages;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import hookupandroid.R;
-import hookupandroid.customComponents.HundredScaleSeekbarLayout;
+import hookupandroid.customComponents.PsychologyQuestionGroupView;
+import hookupandroid.customComponents.SelfMeasureQuestionGroupView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,30 +33,51 @@ public class PsychologyPageFragment extends Fragment {
     private View inflatedView;
     private Unbinder unbinder;
 
-    @BindView(R.id.remaming_points_a_value) TextView aRemainingPointsTextView;
-    @BindView(R.id.remaming_points_b_value) TextView bRemainingPointsTextView;
-    @BindView(R.id.remaming_points_c_value) TextView cRemainingPointsTextView;
+    @BindView(R.id.psychology_view_a) PsychologyQuestionGroupView aQuestionGroupView;
+    @BindView(R.id.psychology_view_b) PsychologyQuestionGroupView bQuestionGroupView;
+//    @BindView(R.id.psychology_view_c) SelfMeasureQuestionGroupView cSelfMeasureGroupView;
 
-
-    @BindView(R.id.a_attractive_seek_bar) HundredScaleSeekbarLayout aAttrSeekbar;
-    @BindView(R.id.a_sincere_seek_bar) HundredScaleSeekbarLayout aSincSeekbar;
-    @BindView(R.id.a_intelligent_seek_bar) HundredScaleSeekbarLayout aIntSeekBar;
-    @BindView(R.id.a_fun_seek_bar) HundredScaleSeekbarLayout aFunSeekbar;
-    @BindView(R.id.a_ambitious_seek_bar) HundredScaleSeekbarLayout aAmbSeekbar;
-    @BindView(R.id.a_shared_interests_seek_bar) HundredScaleSeekbarLayout aSharSeekbar;
-
-    @BindView(R.id.b_attractive_seek_bar) HundredScaleSeekbarLayout bAttrSeekbar;
-    @BindView(R.id.b_sincere_seek_bar) HundredScaleSeekbarLayout bSincSeekbar;
-    @BindView(R.id.b_intelligent_seek_bar) HundredScaleSeekbarLayout bIntSeekBar;
-    @BindView(R.id.b_fun_seek_bar) HundredScaleSeekbarLayout bFunSeekbar;
-    @BindView(R.id.b_ambitious_seek_bar) HundredScaleSeekbarLayout bAmbSeekbar;
-    @BindView(R.id.b_shared_interests_seek_bar) HundredScaleSeekbarLayout bSharSeekbar;
-
-    @BindView(R.id.c_attractive_seek_bar) HundredScaleSeekbarLayout cAttrSeekbar;
-    @BindView(R.id.c_sincere_seek_bar) HundredScaleSeekbarLayout cSincSeekbar;
-    @BindView(R.id.c_intelligent_seek_bar) HundredScaleSeekbarLayout cIntSeekBar;
-    @BindView(R.id.c_fun_seek_bar) HundredScaleSeekbarLayout cFunSeekbar;
-    @BindView(R.id.c_ambitious_seek_bar) HundredScaleSeekbarLayout cAmbSeekbar;
+//    @BindView(R.id.remaming_points_a_value) TextView aRemainingPointsTextView;
+//    @BindView(R.id.remaming_points_b_value) TextView bRemainingPointsTextView;
+//    @BindView(R.id.remaming_points_c_value) TextView cRemainingPointsTextView;
+//
+//
+//    @BindView(R.id.a_attractive_seek_bar)
+//    PsychologyQuestionGroupView aAttrSeekbar;
+//    @BindView(R.id.a_sincere_seek_bar)
+//    PsychologyQuestionGroupView aSincSeekbar;
+//    @BindView(R.id.a_intelligent_seek_bar)
+//    PsychologyQuestionGroupView aIntSeekBar;
+//    @BindView(R.id.a_fun_seek_bar)
+//    PsychologyQuestionGroupView aFunSeekbar;
+//    @BindView(R.id.a_ambitious_seek_bar)
+//    PsychologyQuestionGroupView aAmbSeekbar;
+//    @BindView(R.id.a_shared_interests_seek_bar)
+//    PsychologyQuestionGroupView aSharSeekbar;
+//
+//    @BindView(R.id.b_attractive_seek_bar)
+//    PsychologyQuestionGroupView bAttrSeekbar;
+//    @BindView(R.id.b_sincere_seek_bar)
+//    PsychologyQuestionGroupView bSincSeekbar;
+//    @BindView(R.id.b_intelligent_seek_bar)
+//    PsychologyQuestionGroupView bIntSeekBar;
+//    @BindView(R.id.b_fun_seek_bar)
+//    PsychologyQuestionGroupView bFunSeekbar;
+//    @BindView(R.id.b_ambitious_seek_bar)
+//    PsychologyQuestionGroupView bAmbSeekbar;
+//    @BindView(R.id.b_shared_interests_seek_bar)
+//    PsychologyQuestionGroupView bSharSeekbar;
+//
+//    @BindView(R.id.c_attractive_seek_bar)
+//    PsychologyQuestionGroupView cAttrSeekbar;
+//    @BindView(R.id.c_sincere_seek_bar)
+//    PsychologyQuestionGroupView cSincSeekbar;
+//    @BindView(R.id.c_intelligent_seek_bar)
+//    PsychologyQuestionGroupView cIntSeekBar;
+//    @BindView(R.id.c_fun_seek_bar)
+//    PsychologyQuestionGroupView cFunSeekbar;
+//    @BindView(R.id.c_ambitious_seek_bar)
+//    PsychologyQuestionGroupView cAmbSeekbar;
 
     @BindView(R.id.btnPersDon) Button btnDone;
 

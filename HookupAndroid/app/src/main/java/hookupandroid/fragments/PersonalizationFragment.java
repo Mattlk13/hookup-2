@@ -86,7 +86,6 @@ public class PersonalizationFragment extends Fragment {
         fragments.add(Fragment.instantiate(getContext(), BasicInfoPageFragment.class.getName()));
         fragments.add(Fragment.instantiate(getContext(), ActivitiesPageFragment.class.getName()));
         fragments.add(Fragment.instantiate(getContext(), PsychologyPageFragment.class.getName()));
-//        fragments.add(Fragment.instantiate(this, Tab3Fragment.class.getName()));
         this.personalizationPageAdapter  = new PersonalizationPageAdapter(getChildFragmentManager(), fragments);
 
         viewPager.setOnPageChangeListener(new CircularViewPagerHandler(viewPager));

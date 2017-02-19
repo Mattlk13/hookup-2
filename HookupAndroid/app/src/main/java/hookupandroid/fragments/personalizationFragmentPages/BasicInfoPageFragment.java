@@ -76,9 +76,6 @@ public class BasicInfoPageFragment extends Fragment {
         inflatedView =  inflater.inflate(R.layout.fragment_basic_info_page, container, false);
         unbinder = ButterKnife.bind(this, inflatedView);
 
-        SeekBar impraceSeekbarTest = (SeekBar) impraceSeekbar.findViewById(R.id.seekbar_10);
-        SeekBar impreligSeekbarTest = (SeekBar) impreligSeekbar.findViewById(R.id.seekbar_10);
-
         return inflatedView;
     }
 

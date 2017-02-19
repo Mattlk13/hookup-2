@@ -155,6 +155,7 @@
     <string name="lbl_fun">Fun</string>
     <string name="lbl_ambitious">Ambitious</string>
     <string name="lbl_shared_interests">Shared Interests</string>
+    <string name="hint_pers_field">Field</string>
 
 
     <string-array name="race_array">
