@@ -1,5 +1,6 @@
 package hookupandroid.fragments;
 
+import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -57,6 +58,8 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
     // TODO: Rename and change types of parameters
     private String mParam1;
 
+    private OnSignupFragmentInteractionListner mListener;
+
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private FirebaseAuth auth;
@@ -99,7 +102,6 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
     @BindView(R.id.input_signup_age)
     EditText ageEditText;
 
-    private OnSignupFragmentInteractionListner mListener;
 
     public SignupFragment() {
         // Required empty public constructor
@@ -171,24 +173,24 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
 
     @Override
     public void onValidationSucceeded() {
-        Toast.makeText(getContext(), "Yay! we got it right!", Toast.LENGTH_SHORT).show();
         // TODO: firebase call + serverCall
-
         auth.createUserWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(getContext(), "You have successfully registered ", Toast.LENGTH_SHORT).show();
-                    String token = FirebaseInstanceId.getInstance().getToken();
+//                    String token = FirebaseInstanceId.getInstance().getToken();
+//
+//                    RegisterUserTask registerAsyncTask = new RegisterUserTask(getContext());
+//                    UserData data = new UserData();
+//                    data.setEmail(emailEditText.getText().toString());
+//                    data.setUid(auth.getCurrentUser().getUid());
+//                    data.setLatitude(String.valueOf(mLastLocation.getLatitude()));
+//                    data.setLongitude(String.valueOf(mLastLocation.getLongitude()));
+//                    data.setToken(token);
+//                    registerAsyncTask.execute(data);
 
-                    RegisterUserTask registerAsyncTask = new RegisterUserTask(getContext());
-                    UserData data = new UserData();
-                    data.setEmail(emailEditText.getText().toString());
-                    data.setUid(auth.getCurrentUser().getUid());
-                    data.setLatitude(String.valueOf(mLastLocation.getLatitude()));
-                    data.setLongitude(String.valueOf(mLastLocation.getLongitude()));
-                    data.setToken(token);
-                    registerAsyncTask.execute(data);
+                    mListener.onSuccessRegistration();
                 } else {
                     Toast.makeText(getContext(), "Registration failed. Try again...", Toast.LENGTH_SHORT).show();
                 }
@@ -254,22 +256,22 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
         super.onStop();
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-////        if (context instanceof OnSignupFragmentInteractionListner) {
-////            mListener = (OnSignupFragmentInteractionListner) context;
-////        } else {
-////            throw new RuntimeException(context.toString()
-////                    + " must implement OnHomeFragmentInteractionListener");
-////        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-////        mListener = null;
-//    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnSignupFragmentInteractionListner) {
+            mListener = (OnSignupFragmentInteractionListner) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnHomeFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -283,6 +285,6 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
      */
     public interface OnSignupFragmentInteractionListner {
         // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
+        void onSuccessRegistration();
     }
 }

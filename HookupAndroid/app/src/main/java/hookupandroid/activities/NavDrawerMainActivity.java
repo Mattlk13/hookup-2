@@ -2,6 +2,8 @@ package hookupandroid.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +15,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +40,11 @@ import hookupandroid.model.Person;
 public class NavDrawerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AuthFragment.OnAuthFragmentInteractionListener,
         FriendsFragment.OnFriendsListFragmentInteractionListener, PendingHookupsFragment.OnPendingHookupInteractionListener,
-        PersonalizationFragment.OnPersonalizationFragmentInteractionListener, HomeFragment.OnHomeFragmentInteractionListener {
+        PersonalizationFragment.OnPersonalizationFragmentInteractionListener, HomeFragment.OnHomeFragmentInteractionListener,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, SignupFragment.OnSignupFragmentInteractionListner {
+
+    private GoogleApiClient mGoogleApiClient;
+    private FirebaseAuth auth;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -44,6 +55,16 @@ public class NavDrawerMainActivity extends AppCompatActivity
         ButterKnife.bind(this);
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+
+        auth = FirebaseAuth.getInstance();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -114,7 +135,15 @@ public class NavDrawerMainActivity extends AppCompatActivity
             Intent intent = new Intent(NavDrawerMainActivity.this, SettingsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_signOut) {
-
+            if(auth.getCurrentUser()!=null ) {
+                // TODO: alert dialogue ... Are you sure you want to log out(Yes/No)
+                auth.signOut();
+                Toast.makeText(NavDrawerMainActivity.this, "Successfully signed out ...", Toast.LENGTH_SHORT).show();
+                frag = new AuthFragment();
+                toolbarTitle = "Authentification";
+            }else {
+                Toast.makeText(NavDrawerMainActivity.this, "No user signed in...", Toast.LENGTH_SHORT).show();
+            }
         } else if (id == R.id.nav_exitApp) {
             frag = new AuthFragment();
         }
@@ -134,13 +163,22 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
     @Override
     public void onRegisterButtonClicked() {
-        SignupFragment signupFragment = new SignupFragment();
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-        android.app.FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+//        android.app.FragmentManager fragmentManager = getFragmentManager();
 
         toolbar.setTitle("Sign up");
         fragmentManager.beginTransaction()
-                .replace(R.id.content_nav_drawer_main, signupFragment)
+                .replace(R.id.content_nav_drawer_main, new SignupFragment())
+                .commit();
+    }
+
+    @Override
+    public void onSuccessLogon() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        toolbar.setTitle("Home");
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_nav_drawer_main, new HomeFragment())
                 .commit();
     }
 
@@ -189,6 +227,42 @@ public class NavDrawerMainActivity extends AppCompatActivity
         toolbar.setTitle("Personalization");
         fragmentManager.beginTransaction()
                 .replace(R.id.content_nav_drawer_main, personalizationFragment)
+                .commit();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onSuccessRegistration() {
+        Fragment homeFragment = new HomeFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        toolbar.setTitle("Home");
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_nav_drawer_main, homeFragment)
                 .commit();
     }
 }

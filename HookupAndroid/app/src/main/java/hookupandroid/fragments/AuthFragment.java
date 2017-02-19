@@ -3,6 +3,8 @@ package hookupandroid.fragments;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,6 +16,14 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
@@ -27,6 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import hookupandroid.R;
+import hookupandroid.tasks.UpdateUserAuthToken;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +47,7 @@ import hookupandroid.R;
  * Use the {@link AuthFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AuthFragment extends Fragment implements Validator.ValidationListener {
+public class AuthFragment extends Fragment implements Validator.ValidationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -45,6 +56,9 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private GoogleApiClient mGoogleApiClient;
+    private FirebaseAuth auth;
 
     private OnAuthFragmentInteractionListener mListener;
     private Unbinder unbinder;
@@ -98,6 +112,16 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+
+        auth = FirebaseAuth.getInstance();
 
         validator = new Validator(this);
         validator.setValidationListener(this);
@@ -159,6 +183,21 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
     @Override
     public void onValidationSucceeded() {
         Toast.makeText(getContext(), "Yay! we got it right!", Toast.LENGTH_SHORT).show();
+        auth.signInWithEmailAndPassword(txtEmail.getText().toString(), txtPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getContext(), "You have successfully logged in ", Toast.LENGTH_SHORT).show();
+//                    String token = FirebaseInstanceId.getInstance().getToken();
+                    // TODO check if token equals token in SQLite
+//                    new UpdateUserAuthToken(getContext()).execute(token);
+                    mListener.onSuccessLogon();
+                }
+                else {
+                    Toast.makeText(getContext(), "Authentification failed. Try again...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -176,6 +215,36 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null)
+            mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onStop() {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -189,5 +258,6 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
     public interface OnAuthFragmentInteractionListener {
         // TODO: Update argument type and name
         void onRegisterButtonClicked();
+        void onSuccessLogon();
     }
 }
