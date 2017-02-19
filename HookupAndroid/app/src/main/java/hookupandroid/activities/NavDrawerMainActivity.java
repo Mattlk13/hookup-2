@@ -134,8 +134,9 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
     @Override
     public void onRegisterButtonClicked() {
-        Fragment signupFragment = new SignupFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        SignupFragment signupFragment = new SignupFragment();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+        android.app.FragmentManager fragmentManager = getFragmentManager();
 
         toolbar.setTitle("Sign up");
         fragmentManager.beginTransaction()

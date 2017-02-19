@@ -1,6 +1,9 @@
 package hookupandroid.fragments;
 
+import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
@@ -27,6 +38,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import hookupandroid.R;
+import hookupandroid.model.UserData;
+import hookupandroid.tasks.RegisterUserTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,13 +49,17 @@ import hookupandroid.R;
  * Use the {@link SignupFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SignupFragment extends Fragment implements Validator.ValidationListener {
+public class SignupFragment extends Fragment implements Validator.ValidationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
+
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
+    private FirebaseAuth auth;
 
     private Unbinder unbinder;
     private View inflatedView;
@@ -53,26 +70,34 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
 
     @NotEmpty
     @Email
-    @BindView(R.id.input_signup_email) EditText emailEditText;
+    @BindView(R.id.input_signup_email)
+    EditText emailEditText;
 
     @Password(min = 6, scheme = Password.Scheme.ANY)
-    @BindView(R.id.input_signup_password) EditText passwordEditText;
+    @BindView(R.id.input_signup_password)
+    EditText passwordEditText;
 
     @ConfirmPassword
-    @BindView(R.id.input_signup_repeat_password) EditText repeatPasswordEditText;
+    @BindView(R.id.input_signup_repeat_password)
+    EditText repeatPasswordEditText;
 
-    @BindView(R.id.txt_signup_country) TextView txtCountry;
-    @BindView(R.id.img_signup_country) ImageView imgCountry;
+    @BindView(R.id.txt_signup_country)
+    TextView txtCountry;
+    @BindView(R.id.img_signup_country)
+    ImageView imgCountry;
 
     @NotEmpty
-    @BindView(R.id.input_signup_firstname) EditText firstnameEditText;
+    @BindView(R.id.input_signup_firstname)
+    EditText firstnameEditText;
     @NotEmpty
-    @BindView(R.id.input_signup_lastname) EditText lastnameEditText;
+    @BindView(R.id.input_signup_lastname)
+    EditText lastnameEditText;
 
 
     @NotEmpty
     @Min(value = 18, message = "Should be greather than 18 years")
-    @BindView(R.id.input_signup_age) EditText ageEditText;
+    @BindView(R.id.input_signup_age)
+    EditText ageEditText;
 
     private OnSignupFragmentInteractionListner mListener;
 
@@ -102,6 +127,16 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
+
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+
+        auth = FirebaseAuth.getInstance();
 
         validator = new Validator(this);
         validator.setValidationListener(this);
@@ -138,6 +173,27 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
     public void onValidationSucceeded() {
         Toast.makeText(getContext(), "Yay! we got it right!", Toast.LENGTH_SHORT).show();
         // TODO: firebase call + serverCall
+
+        auth.createUserWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getContext(), "You have successfully registered ", Toast.LENGTH_SHORT).show();
+                    String token = FirebaseInstanceId.getInstance().getToken();
+
+                    RegisterUserTask registerAsyncTask = new RegisterUserTask(getContext());
+                    UserData data = new UserData();
+                    data.setEmail(emailEditText.getText().toString());
+                    data.setUid(auth.getCurrentUser().getUid());
+                    data.setLatitude(String.valueOf(mLastLocation.getLatitude()));
+                    data.setLongitude(String.valueOf(mLastLocation.getLongitude()));
+                    data.setToken(token);
+                    registerAsyncTask.execute(data);
+                } else {
+                    Toast.makeText(getContext(), "Registration failed. Try again...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -162,34 +218,57 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
 
     @OnClick(R.id.signup_layout_country)
     public void SelectCountryOnClick() {
-        countryPicker.show(getFragmentManager(), "COUNTRY_PICKER");
+//        countryPicker.show(getFragmentManager(), "COUNTRY_PICKER");
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 
     // TODO: Add TextWatcher for realtime validation...
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null)
+            mGoogleApiClient.connect();
+    }
 
-    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
-//
+    @Override
+    public void onStop() {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+        super.onStop();
+    }
+
 //    @Override
 //    public void onAttach(Context context) {
 //        super.onAttach(context);
-//        if (context instanceof OnSignupFragmentInteractionListner) {
-//            mListener = (OnSignupFragmentInteractionListner) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnHomeFragmentInteractionListener");
-//        }
+////        if (context instanceof OnSignupFragmentInteractionListner) {
+////            mListener = (OnSignupFragmentInteractionListner) context;
+////        } else {
+////            throw new RuntimeException(context.toString()
+////                    + " must implement OnHomeFragmentInteractionListener");
+////        }
 //    }
 //
 //    @Override
 //    public void onDetach() {
 //        super.onDetach();
-//        mListener = null;
+////        mListener = null;
 //    }
 
     /**
