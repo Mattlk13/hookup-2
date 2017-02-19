@@ -7,8 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import hookupandroid.R;
+import hookupandroid.customComponents.HundredScaleSeekbarLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +31,36 @@ public class PsychologyPageFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String mParam1;
+
+    private View inflatedView;
+    private Unbinder unbinder;
+
+    @BindView(R.id.remaming_points_a_value) TextView aRemainingPointsTextView;
+    @BindView(R.id.remaming_points_b_value) TextView bRemainingPointsTextView;
+    @BindView(R.id.remaming_points_c_value) TextView cRemainingPointsTextView;
+
+
+    @BindView(R.id.a_attractive_seek_bar) HundredScaleSeekbarLayout aAttrSeekbar;
+    @BindView(R.id.a_sincere_seek_bar) HundredScaleSeekbarLayout aSincSeekbar;
+    @BindView(R.id.a_intelligent_seek_bar) HundredScaleSeekbarLayout aIntSeekBar;
+    @BindView(R.id.a_fun_seek_bar) HundredScaleSeekbarLayout aFunSeekbar;
+    @BindView(R.id.a_ambitious_seek_bar) HundredScaleSeekbarLayout aAmbSeekbar;
+    @BindView(R.id.a_shared_interests_seek_bar) HundredScaleSeekbarLayout aSharSeekbar;
+
+    @BindView(R.id.b_attractive_seek_bar) HundredScaleSeekbarLayout bAttrSeekbar;
+    @BindView(R.id.b_sincere_seek_bar) HundredScaleSeekbarLayout bSincSeekbar;
+    @BindView(R.id.b_intelligent_seek_bar) HundredScaleSeekbarLayout bIntSeekBar;
+    @BindView(R.id.b_fun_seek_bar) HundredScaleSeekbarLayout bFunSeekbar;
+    @BindView(R.id.b_ambitious_seek_bar) HundredScaleSeekbarLayout bAmbSeekbar;
+    @BindView(R.id.b_shared_interests_seek_bar) HundredScaleSeekbarLayout bSharSeekbar;
+
+    @BindView(R.id.c_attractive_seek_bar) HundredScaleSeekbarLayout cAttrSeekbar;
+    @BindView(R.id.c_sincere_seek_bar) HundredScaleSeekbarLayout cSincSeekbar;
+    @BindView(R.id.c_intelligent_seek_bar) HundredScaleSeekbarLayout cIntSeekBar;
+    @BindView(R.id.c_fun_seek_bar) HundredScaleSeekbarLayout cFunSeekbar;
+    @BindView(R.id.c_ambitious_seek_bar) HundredScaleSeekbarLayout cAmbSeekbar;
+
+    @BindView(R.id.btnPersDon) Button btnDone;
 
     private OnPsychologyPageFragmentInteractionListener mListener;
 
@@ -60,12 +96,19 @@ public class PsychologyPageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_psychology_page, container, false);
+        inflatedView = inflater.inflate(R.layout.fragment_psychology_page, container, false);
+        unbinder = ButterKnife.bind(this, inflatedView);
+
+        return inflatedView;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 
-//    @Override
+    //    @Override
 //    public void onAttach(Context context) {
 //        super.onAttach(context);
 //        if (context instanceof OnPsychologyPageFragmentInteractionListener) {

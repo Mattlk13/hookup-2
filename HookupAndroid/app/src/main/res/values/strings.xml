@@ -127,6 +127,35 @@
     <string name="activities_question">How interested are you in the following activities? (on a scale of 1 - 10)</string>
     <string name="hint_pers_career">Career</string>
     <string name="hint_pers_go_out">How often do you go out?</string>
+    <string name="lbl_sports">Sports</string>
+    <string name="lbl_tvsports">TV Sports</string>
+    <string name="lbl_excersice">Excersice</string>
+    <string name="lbl_dining">Dining</string>
+    <string name="lbl_museums">Museums</string>
+    <string name="lbl_art">Art</string>
+    <string name="lbl_hiking">Hiking</string>
+    <string name="lbl_gaming">Gaming</string>
+    <string name="lbl_clubbing">Clubbing</string>
+    <string name="lbl_reading">Reading</string>
+    <string name="lbl_tv">TV</string>
+    <string name="lbl_theater">Theater</string>
+    <string name="lbl_movies">Movies</string>
+    <string name="lbl_concerts">Concerts</string>
+    <string name="lbl_music">Music</string>
+    <string name="lbl_shopping">Shopping</string>
+    <string name="lbl_yoga">Yoga</string>
+    <string name="psychology_distribute_points_text">Please distribute 100 points amoung six attributes for each question.</string>
+    <string name="psychology_question_a">1. What YOU look for in the opposite sex?</string>
+    <string name="psychology_question_b">2. What do you think the opposite sex looks in for a date?</string>
+    <string name="psychology_question_c">3. How do you think you measure up?</string>
+    <string name="lbl_remaining_points">Remaining points</string>
+    <string name="lbl_attractive">Attractive</string>
+    <string name="lbl_sincere">Sincere</string>
+    <string name="lbl_intelligent">Intelligent</string>
+    <string name="lbl_fun">Fun</string>
+    <string name="lbl_ambitious">Ambitious</string>
+    <string name="lbl_shared_interests">Shared Interests</string>
+
 
     <string-array name="race_array">
         <item>Black/African-American</item>

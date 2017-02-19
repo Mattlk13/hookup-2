@@ -6,7 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import hookupandroid.R;
+import hookupandroid.customComponents.TenScaleSeekbarLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,7 +28,28 @@ public class ActivitiesPageFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
 
+    private View inflatedView;
+    private Unbinder unbinder;
+
     private OnActivitiesPageInteractionListener mListener;
+
+    @BindView(R.id.sports_seek_bar) TenScaleSeekbarLayout sportsSeekbar;
+    @BindView(R.id.tvsports_seek_bar) TenScaleSeekbarLayout tvSportsSeekbar;
+    @BindView(R.id.excersice_seek_bar) TenScaleSeekbarLayout exersiceSeekbar;
+    @BindView(R.id.dining_seek_bar) TenScaleSeekbarLayout diningSeekbar;
+    @BindView(R.id.museums_seek_bar) TenScaleSeekbarLayout museumsSeekbar;
+    @BindView(R.id.art_seek_bar) TenScaleSeekbarLayout artSeekbar;
+    @BindView(R.id.hiking_seek_bar) TenScaleSeekbarLayout hikingSeekbar;
+    @BindView(R.id.gaming_seek_bar) TenScaleSeekbarLayout gamingSeekbar;
+    @BindView(R.id.clubbing_seek_bar) TenScaleSeekbarLayout clubbingSeekbar;
+    @BindView(R.id.reading_seek_bar) TenScaleSeekbarLayout readingSeekbar;
+    @BindView(R.id.tv_seek_bar) TenScaleSeekbarLayout tvSeekbar;
+    @BindView(R.id.theater_seek_bar) TenScaleSeekbarLayout theaterSeekbar;
+    @BindView(R.id.movies_seek_bar) TenScaleSeekbarLayout moviesSeekbar;
+    @BindView(R.id.concerts_seek_bar) TenScaleSeekbarLayout concertsSeekbar;
+    @BindView(R.id.music_seek_bar) TenScaleSeekbarLayout musicSeekbar;
+    @BindView(R.id.shopping_seek_bar) TenScaleSeekbarLayout shoppingSeekbar;
+    @BindView(R.id.yoga_seek_bar) TenScaleSeekbarLayout yogaSeekbar;
 
     public ActivitiesPageFragment() {
         // Required empty public constructor
@@ -58,7 +83,10 @@ public class ActivitiesPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_activities_page, container, false);
+        inflatedView = inflater.inflate(R.layout.fragment_activities_page, container, false);
+        unbinder = ButterKnife.bind(this, inflatedView);
+
+        return inflatedView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -84,6 +112,13 @@ public class ActivitiesPageFragment extends Fragment {
 //        super.onDetach();
 //        mListener = null;
 //    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 
     /**
      * This interface must be implemented by activities that contain this

@@ -85,9 +85,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/imprace_question"/>
-            <include layout="@layout/imprace_seekbar"></include>
+            <include android:id="@+id/imprace_seek_bar" layout="@layout/seekbar_scale10"></include>
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,17 +97,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/imprelig_question"/>
-            <include layout="@layout/imprelig_seekbar"></include>
+            <include android:id="@+id/imprelig_seek_bar" layout="@layout/seekbar_scale10"></include>
         </LinearLayout>
-
-
-
-        <!--<Button-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginTop="150dp"-->
-            <!--android:text="Done"/>-->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -119,10 +109,8 @@
                 android:layout_height="20dp"
                 android:layout_alignParentBottom="true"
                 android:src="@drawable/left_circle_filled"/>
-
         </RelativeLayout>
 
     </LinearLayout>
-
 
 </ScrollView>

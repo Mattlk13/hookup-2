@@ -6,13 +6,14 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import hookupandroid.R;
+import hookupandroid.customComponents.TenScaleSeekbarLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,11 +36,9 @@ public class BasicInfoPageFragment extends Fragment {
 
     private OnBasicInfoPageInteractionListener mListener;
 
-    @BindView(R.id.imprace_seek_bar) SeekBar impraceSeekbar;
-    @BindView(R.id.imprace_current_value) AppCompatTextView txtImpraceValue;
 
-    @BindView(R.id.imprelig_seek_bar) SeekBar impreligSeekbar;
-    @BindView(R.id.imprelig_currentValue) AppCompatTextView txtImpreligValue;
+    @BindView(R.id.imprace_seek_bar) TenScaleSeekbarLayout impraceSeekbar;
+    @BindView(R.id.imprelig_seek_bar) TenScaleSeekbarLayout impreligSeekbar;
 
 
     public BasicInfoPageFragment() {
@@ -77,35 +76,8 @@ public class BasicInfoPageFragment extends Fragment {
         inflatedView =  inflater.inflate(R.layout.fragment_basic_info_page, container, false);
         unbinder = ButterKnife.bind(this, inflatedView);
 
-        impraceSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                txtImpraceValue.setText(Integer.toString(progress));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-
-        impreligSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                txtImpreligValue.setText(Integer.toString(progress));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
+        SeekBar impraceSeekbarTest = (SeekBar) impraceSeekbar.findViewById(R.id.seekbar_10);
+        SeekBar impreligSeekbarTest = (SeekBar) impreligSeekbar.findViewById(R.id.seekbar_10);
 
         return inflatedView;
     }
