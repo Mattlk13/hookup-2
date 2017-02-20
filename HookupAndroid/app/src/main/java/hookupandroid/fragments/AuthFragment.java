@@ -8,13 +8,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -22,10 +20,14 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,6 +37,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -49,6 +52,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import hookupandroid.R;
+import hookupandroid.common.enums.FirebaseAuthMethod;
 import hookupandroid.tasks.UpdateUserAuthToken;
 
 /**
@@ -60,6 +64,9 @@ import hookupandroid.tasks.UpdateUserAuthToken;
  * create an instance of this fragment.
  */
 public class AuthFragment extends Fragment implements Validator.ValidationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+    int RC_SIGN_IN = 6;
+    int FACEBOOK_REQUEST_CODE = 64206;
 
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth auth;
@@ -84,6 +91,7 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
     @BindView(R.id.btn_login) Button btnLogin;
 
     @BindView(R.id.facebook_login_button) LoginButton facebookLoginButton;
+    @BindView(R.id.google_sign_in_button) SignInButton googleSignInButton;
 
     View inflatedView = null;
 
@@ -106,13 +114,19 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
 //            mParam1 = getArguments().getString(ARG_PARAM1);
         }
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(getContext())
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                     .build();
         }
+
 
         auth = FirebaseAuth.getInstance();
         mCallbackManager = CallbackManager.Factory.create();
@@ -147,11 +161,24 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
         validator.validate();
     }
 
+    @OnClick(R.id.google_sign_in_button)
+    public void onGoogleLoginButtonClicked() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // Pass the activity result back to the Facebook SDK
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+        else if (requestCode == FACEBOOK_REQUEST_CODE){
+            // Pass the activity result back to the Facebook SDK
+            mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void configureFirebaseAuthListener() {
@@ -160,14 +187,11 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    String email = user.getEmail();
-                    String displayName = user.getDisplayName();
                     mListener.onSuccessLogon();
 
                 } else {
                     // User is signed out
                 }
-//                updateUI(user);
             }
         };
     }
@@ -180,43 +204,53 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
             facebookLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
-//                    Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                    handleFacebookAccessToken(loginResult.getAccessToken());
+                    handleFirebaseAccessToken(loginResult.getAccessToken(), null, FirebaseAuthMethod.Facebook);
                 }
 
                 @Override
                 public void onCancel() {
-//                    Log.d(TAG, "facebook:onCancel");
                 }
 
                 @Override
                 public void onError(FacebookException error) {
-//                    Log.d(TAG, "facebook:onError", error);
                 }
             });
         }
     }
 
-    private void handleFacebookAccessToken(AccessToken token) {
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+    private void handleFirebaseAccessToken(AccessToken facebookAccessToken, GoogleSignInAccount googleAccount, FirebaseAuthMethod method) {
+        AuthCredential credential = null ;
+
+        if (method == FirebaseAuthMethod.Facebook) {
+            credential = FacebookAuthProvider.getCredential(facebookAccessToken.getToken());
+        }
+        else if (method == FirebaseAuthMethod.Google) {
+            credential = GoogleAuthProvider.getCredential(googleAccount.getIdToken(), null);
+        }
+
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-//                        String email = auth.getCurrentUser().getEmail();
-//                        String displayName = auth.getCurrentUser().getDisplayName();
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-//                            Log.w(TAG, "signInWithCredential", task.getException());
-//                            Toast.makeText(FacebookLoginActivity.this, "Authentication failed.",
-//                                    Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });
     }
 
+    private void handleSignInResult(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            handleFirebaseAccessToken(null, acct, FirebaseAuthMethod.Google);
+//            updateUI(true);
+            // TODO: notify parent activity, and store info about user, so you may logout him on. Firebase.getUser doesnt work
+        } else {
+            // Signed out, show unauthenticated UI.
+//            updateUI(false);
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
