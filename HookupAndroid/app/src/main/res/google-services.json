@@ -1,0 +1,50 @@
+{
+  "project_info": {
+    "project_number": "605611265513",
+    "firebase_url": "https://hookup-9ba31.firebaseio.com",
+    "project_id": "hookup-9ba31",
+    "storage_bucket": "hookup-9ba31.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605611265513:android:6ae3f4b18df8514f",
+        "android_client_info": {
+          "package_name": "rs.androidhookup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605611265513-0bim65fbm3g4ou8d1b085iv787s3on46.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rs.androidhookup",
+            "certificate_hash": "d6f853aca4e8851346a9c0ede76a099d3e22f6da"
+          }
+        },
+        {
+          "client_id": "605611265513-4ugn41ac4k1jb8s3k18rk28runb6g03v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAW4vBHGrZ1RQnQMYTqpdr6iZVSjBjud4k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,12 +1,14 @@
 package hookupandroid.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +18,23 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -48,14 +60,6 @@ import hookupandroid.tasks.UpdateUserAuthToken;
  * create an instance of this fragment.
  */
 public class AuthFragment extends Fragment implements Validator.ValidationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth auth;
@@ -63,6 +67,9 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
     private OnAuthFragmentInteractionListener mListener;
     private Unbinder unbinder;
     private Validator validator;
+
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private CallbackManager mCallbackManager;
 
     @BindView(R.id.auth_scroll_view) ScrollView scrollView;
     @BindView(R.id.btn_signup) Button btnRegister;
@@ -76,8 +83,7 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
 
     @BindView(R.id.btn_login) Button btnLogin;
 
-    @BindView(R.id.img_facebook_login) ImageView imgFacebookLogin;
-    @BindView(R.id.img_google_login) ImageView imgGoogleLogin;
+    @BindView(R.id.facebook_login_button) LoginButton facebookLoginButton;
 
     View inflatedView = null;
 
@@ -85,21 +91,10 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AuthFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static AuthFragment newInstance(String param1, String param2) {
         AuthFragment fragment = new AuthFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+//        Bundle args = new Bundle();
+//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -108,8 +103,7 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+//            mParam1 = getArguments().getString(ARG_PARAM1);
         }
 
         if (mGoogleApiClient == null) {
@@ -121,6 +115,9 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
         }
 
         auth = FirebaseAuth.getInstance();
+        mCallbackManager = CallbackManager.Factory.create();
+
+        configureFirebaseAuthListener();
 
         validator = new Validator(this);
         validator.setValidationListener(this);
@@ -132,8 +129,11 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
         inflatedView = inflater.inflate(R.layout.fragment_auth, container, false);
         unbinder = ButterKnife.bind(this,inflatedView);
 
+        configureFacebookLoginButton();
+
         return inflatedView;
     }
+
 
     @OnClick(R.id.btn_signup)
     public void onRegisterButtonClicked() {
@@ -146,6 +146,77 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
     public void onLoginButtonClicked() {
         validator.validate();
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Pass the activity result back to the Facebook SDK
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void configureFirebaseAuthListener() {
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    String email = user.getEmail();
+                    String displayName = user.getDisplayName();
+                    mListener.onSuccessLogon();
+
+                } else {
+                    // User is signed out
+                }
+//                updateUI(user);
+            }
+        };
+    }
+
+    private void configureFacebookLoginButton() {
+        if(facebookLoginButton != null) {
+            facebookLoginButton.setReadPermissions("email");
+            facebookLoginButton.setFragment(this);
+
+            facebookLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+//                    Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                    handleFacebookAccessToken(loginResult.getAccessToken());
+                }
+
+                @Override
+                public void onCancel() {
+//                    Log.d(TAG, "facebook:onCancel");
+                }
+
+                @Override
+                public void onError(FacebookException error) {
+//                    Log.d(TAG, "facebook:onError", error);
+                }
+            });
+        }
+    }
+
+    private void handleFacebookAccessToken(AccessToken token) {
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        String email = auth.getCurrentUser().getEmail();
+//                        String displayName = auth.getCurrentUser().getDisplayName();
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+//                            Log.w(TAG, "signInWithCredential", task.getException());
+//                            Toast.makeText(FacebookLoginActivity.this, "Authentication failed.",
+//                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -208,16 +279,24 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
     @Override
     public void onStart() {
         super.onStart();
-        if (mGoogleApiClient != null)
+        if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
+        }
+
+        auth.addAuthStateListener(mAuthListener);
     }
 
     @Override
     public void onStop() {
+        super.onStop();
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
-        super.onStop();
+
+        if (auth != null) {
+            auth.removeAuthStateListener(mAuthListener);
+        }
+
     }
 
     @Override

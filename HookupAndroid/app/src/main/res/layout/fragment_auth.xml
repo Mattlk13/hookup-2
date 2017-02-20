@@ -54,27 +54,35 @@
             android:layout_marginTop="40dp"
             android:text="@string/useSocialConnections"/>
 
-        <LinearLayout
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/facebook_login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/img_facebook_login"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="left"
-                android:layout_marginLeft="40dp"
-                android:src="@drawable/facebook_icon_300x300"/>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/img_google_login"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginLeft="80dp"
-                android:src="@drawable/common_google_signin_btn_icon_light"/>
+            <!--<android.support.v7.widget.AppCompatImageView-->
+                <!--android:id="@+id/img_facebook_login"-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="80dp"-->
+                <!--android:layout_gravity="left"-->
+                <!--android:layout_marginLeft="40dp"-->
+                <!--android:src="@drawable/facebook_icon_300x300"/>-->
 
-        </LinearLayout>
+            <!--<android.support.v7.widget.AppCompatImageView-->
+                <!--android:id="@+id/img_google_login"-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="80dp"-->
+                <!--android:layout_marginLeft="80dp"-->
+                <!--android:src="@drawable/common_google_signin_btn_icon_light"/>-->
+
+        <!--</LinearLayout>-->
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_signup"

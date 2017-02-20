@@ -20,6 +20,10 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.4.0'
@@ -34,6 +38,7 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:23.4.0'
     compile 'com.mobsandgeeks:android-saripaar:2.0.3'
     compile 'com.github.mukeshsolanki:country-picker-android:1.1.7'
+    compile 'com.facebook.android:facebook-android-sdk:4.19.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
