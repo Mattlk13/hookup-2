@@ -114,7 +114,11 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
 //            mParam1 = getArguments().getString(ARG_PARAM1);
         }
 
+        String defaultWebClientId = getString(R.string.oauth_web_client_id);
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestServerAuthCode(getString(R.string.oauth_web_client_id))
+//                .requestIdToken(getString(R.string.oauth_web_client_id))
                 .requestEmail()
                 .build();
 
