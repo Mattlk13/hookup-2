@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hookupandroid.R;
+import hookupandroid.common.FragmentTransitionUtils;
 import hookupandroid.common.enums.PersonRelation;
 import hookupandroid.fragments.AuthFragment;
 import hookupandroid.fragments.DiscoverMatchesFragment;
@@ -150,10 +151,7 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
         if(frag != null) {
             toolbar.setTitle(toolbarTitle);
-
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_nav_drawer_main, frag)
-                    .commit();
+            FragmentTransitionUtils.to(frag, this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -163,23 +161,14 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
     @Override
     public void onRegisterButtonClicked() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-//        android.app.FragmentManager fragmentManager = getFragmentManager();
-
         toolbar.setTitle("Sign up");
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_nav_drawer_main, new SignupFragment())
-                .commit();
+        FragmentTransitionUtils.to(new SignupFragment(), this);
     }
 
     @Override
     public void onSuccessLogon() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
         toolbar.setTitle("Home");
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_nav_drawer_main, new HomeFragment())
-                .commit();
+        FragmentTransitionUtils.to(new HomeFragment(), this);
     }
 
     @Override
@@ -207,11 +196,7 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
         frag.setArguments(bundle);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_nav_drawer_main, frag)
-                .commit();
-
+        FragmentTransitionUtils.to(frag, this);
     }
 
     @Override
@@ -221,13 +206,8 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
     @Override
     public void onPersonalizationButtonClicked() {
-        Fragment personalizationFragment = new PersonalizationFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
         toolbar.setTitle("Personalization");
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_nav_drawer_main, personalizationFragment)
-                .commit();
+        FragmentTransitionUtils.to(new PersonalizationFragment(), this);
     }
 
     @Override
@@ -257,12 +237,8 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
     @Override
     public void onSuccessRegistration() {
-        Fragment homeFragment = new HomeFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
         toolbar.setTitle("Home");
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_nav_drawer_main, homeFragment)
-                .commit();
+        FragmentTransitionUtils.to(new HomeFragment(), this);
     }
+    
 }
