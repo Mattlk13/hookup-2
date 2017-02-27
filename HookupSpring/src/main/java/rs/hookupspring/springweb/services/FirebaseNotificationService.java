@@ -45,11 +45,14 @@ public class FirebaseNotificationService {
             return;
         }
 
+        String test = Boolean.toString(userHookupService.findHookupPair(a,b).isRecommended());
+
         FcmJsonBody fcmData = new FcmJsonBody();
         fcmData.setTo(a.getFirebaseInstaceToken());
         Map<String, String> data = new HashMap<String, String>();
         data.put("personName", b.getFirstname() + " " + b.getLastname());
         data.put("hookupUserUID", b.getFirebaseUID());
+        data.put("recommended", Boolean.toString(userHookupService.findHookupPair(a,b).isRecommended()));
         fcmData.setData(data);
 
         try {
@@ -57,7 +60,7 @@ public class FirebaseNotificationService {
             String jsonExample = new Gson().toJson(fcmData);
             StringEntity params = new StringEntity(new Gson().toJson(fcmData));
             request.addHeader("content-type", "application/json");
-            request.addHeader("authorization", "key="+PROJECT_KEY);
+            request.addHeader("authorization", "key=" + PROJECT_KEY);
             request.setEntity(params);
             HttpResponse response = httpClient.execute(request);
 
@@ -184,6 +187,61 @@ public class FirebaseNotificationService {
             }
         });
 
+    }
+
+    public void sendFcmDataTest(User a, User b, boolean recommended) {
+        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        FcmJsonBody fcmData = new FcmJsonBody();
+        fcmData.setTo(a.getFirebaseInstaceToken());
+        Map<String, String> data = new HashMap<String, String>();
+        data.put("personName", b.getFirstname() + " " + b.getLastname());
+        data.put("hookupUserUID", b.getFirebaseUID());
+        data.put("recommended", Boolean.toString(recommended));
+//        data.put("recommended", Boolean.toString(userHookupService.findHookupPair(a, b).isRecommended()));
+        fcmData.setData(data);
+
+        try {
+            HttpPost request = new HttpPost("https://fcm.googleapis.com/fcm/send");
+            String jsonExample = new Gson().toJson(fcmData);
+            StringEntity params = new StringEntity(new Gson().toJson(fcmData));
+            request.addHeader("content-type", "application/json");
+            request.addHeader("authorization", "key=" + PROJECT_KEY);
+            request.setEntity(params);
+            HttpResponse response = httpClient.execute(request);
+
+        }catch (Exception ex) {
+            // handle exception here
+        } finally {
+            httpClient.getConnectionManager().shutdown(); //Deprecated
+        }
+    }
+
+    public void sendFriendsNotification(User a, User b) {
+        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        FcmJsonBody fcmData = new FcmJsonBody();
+        fcmData.setTo(a.getFirebaseInstaceToken());
+        Map<String, String> data = new HashMap<String, String>();
+        data.put("personName", b.getFirstname() + " " + b.getLastname());
+        data.put("hookupUserUID", b.getFirebaseUID());
+        data.put("success_paired", "true");
+        fcmData.setData(data);
+
+        try {
+            HttpPost request = new HttpPost("https://fcm.googleapis.com/fcm/send");
+            String jsonExample = new Gson().toJson(fcmData);
+            StringEntity params = new StringEntity(new Gson().toJson(fcmData));
+            request.addHeader("content-type", "application/json");
+            request.addHeader("authorization", "key=" + PROJECT_KEY);
+            request.setEntity(params);
+            HttpResponse response = httpClient.execute(request);
+
+        }catch (Exception ex) {
+            // handle exception here
+        } finally {
+            httpClient.getConnectionManager().shutdown(); //Deprecated
+        }
     }
 
 }

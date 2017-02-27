@@ -1,5 +1,7 @@
 package hookupandroid.activities;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -44,6 +46,8 @@ public class NavDrawerMainActivity extends AppCompatActivity
         PersonalizationFragment.OnPersonalizationFragmentInteractionListener, HomeFragment.OnHomeFragmentInteractionListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, SignupFragment.OnSignupFragmentInteractionListner {
 
+    private final String VIEW_PROFILE_ACTION = "VIEW_PROFILE_ACTION";
+
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth auth;
 
@@ -75,6 +79,30 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        super.onNewIntent(intent);
+        if(intent.getAction() == VIEW_PROFILE_ACTION ) {
+            if (intent.hasExtra("profileUID")) {
+                String profileUID = intent.getStringExtra("profileUID");
+                Bundle bundle = new Bundle();
+                Person person = new Person();
+                person.setFirstname("NotificationTest");
+                person.setLastname("Testic");
+                bundle.putSerializable("personData", person);
+
+                int notificationId = intent.getIntExtra("notificationId", 0);
+
+                mNotificationManager.cancel(notificationId);
+
+                Fragment nonFriendFragment = new ViewNonFriendProfileFragment();
+                nonFriendFragment.setArguments(bundle);
+                FragmentTransitionUtils.to(nonFriendFragment, this);
+            }
+        }
     }
 
     @Override

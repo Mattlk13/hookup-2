@@ -10,6 +10,7 @@ import rs.hookupspring.dao.HookupRepository;
 import rs.hookupspring.dao.UserRepository;
 import rs.hookupspring.entity.Hookup;
 import rs.hookupspring.entity.User;
+import rs.hookupspring.springweb.services.FirebaseNotificationService;
 import rs.hookupspring.springweb.services.UserHookupService;
 
 import java.util.Date;
@@ -30,6 +31,9 @@ public class HookupController {
     @Autowired
     private UserHookupService userHookupService;
 
+    @Autowired
+    private FirebaseNotificationService firebaseNotificationService;
+
     @RequestMapping(value = "/updateResponse", method = RequestMethod.POST)
     public void updateToken(@RequestParam(value="currentUserUID") String currentUserUID,
                             @RequestParam(value="hookupPersonUID") String hookupPersonUID) {
@@ -45,6 +49,7 @@ public class HookupController {
             if(positiveResponseCount==2) {
                 hookup.setPaired(true);
                 hookup.setHookupPairedDate(new Date());
+                firebaseNotificationService.sendFriendsNotification(user, hookupPerson);
             }
 
             hookupRepository.save(hookup);

@@ -75,7 +75,6 @@ public class UserHookupService {
         hookupRepository.save(hookup);
     }
 
-
     public Hookup findHookupPair(User userA, User userB) {
         Hookup retVal = null;
 

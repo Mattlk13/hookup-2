@@ -58,20 +58,30 @@ public class TestController {
     @Autowired
     private WekaMiningService wekaMiningService;
 
+    @Autowired
+    private FirebaseNotificationService firebaseNotificationService;
+
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
 
         model.addAttribute("message", "Hello world from test controller. There are " + userRepository.findAll().size() + " users in the database. !");
 
+        User me = userRepository.findOne(4622);
+        User randomPerson = userRepository.findOne(3687);
+//
+        firebaseNotificationService.sendFcmDataTest(me, randomPerson, true);
+        firebaseNotificationService.sendFcmDataTest(randomPerson, me, true);
+//        firebaseNotificationService.sendFcmDataTest(me, randomPerson, false);
+
+
+
 //        wekaMiningService.createSingleInstanceDataset();
 
-        try {
-//            notificationService.asyncHttpTest();
-            notificationService.httpApachePostExample();
-        } catch (Exception e) {
-            String exceptionMessage = e.getMessage();
-
-        }
+//        try {
+//            notificationService.httpApachePostExample();
+//        } catch (Exception e) {
+//            String exceptionMessage = e.getMessage();
+//        }
 
         return "hello";
     }

@@ -39,7 +39,8 @@
             android:theme="@style/MaterialTheme"></activity>
         <activity
             android:name=".activities.NavDrawerMainActivity"
-            android:theme="@style/MaterialTheme">
+            android:theme="@style/MaterialTheme"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -62,6 +63,8 @@
             <intent-filter>
                 <action android:name="HOOKUP_REQUEST_YES_ACTION" />
                 <action android:name="HOOKUP_REQUEST_NO_ACTION" />
+                <action android:name="HOOKUP_REQUEST_DECIDE_LATER_ACTION" />
+                <action android:name="HOOKUP_REQUEST_VIEW_PROFILE_ACTION" />
             </intent-filter>
         </receiver>
 

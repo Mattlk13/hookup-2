@@ -27,6 +27,7 @@ public class Hookup {
     private Date hookupPairedDate;
     private int hookupPositiveResponseCount;
     private int hookupRequestSentCount;
+    private boolean recommended;
 
     public int getId() {
         return id;
@@ -100,4 +101,11 @@ public class Hookup {
         this.hookupRequestSentCount = hookupRequestSentCount;
     }
 
+    public boolean isRecommended() {
+        return recommended;
+    }
+
+    public void setRecommended(boolean recommended) {
+        this.recommended = recommended;
+    }
 }

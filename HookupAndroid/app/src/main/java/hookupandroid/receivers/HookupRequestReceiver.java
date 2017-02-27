@@ -18,6 +18,8 @@ public class HookupRequestReceiver extends BroadcastReceiver {
 
     private final String YES_ACTION = "HOOKUP_REQUEST_YES_ACTION";
     private final String NO_ACTION = "HOOKUP_REQUEST_NO_ACTION";
+    private final String DECIDE_LATER_ACTION = "HOOKUP_REQUEST_NO_ACTION";
+//    private final String VIEW_PROFILE_ACTION = "HOOKUP_REQUEST_NO_ACTION";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -30,14 +32,16 @@ public class HookupRequestReceiver extends BroadcastReceiver {
         int notificationId = notificationBundle.getInt("notificationId");
         String hookupUserUID = notificationBundle.getString("hookupUserUID");
 
-
         if (YES_ACTION.equals(action)) {
-            Log.v("shuffTest", "Pressed YES");
+//            Log.v("shuffTest", "Pressed YES");
             new UpdateHookupResponseTask().execute(new String[]{FirebaseAuth.getInstance().getCurrentUser().getUid(), hookupUserUID});
             mNotificationManager.cancel(notificationId);
         } else if (NO_ACTION.equals(action)) {
             mNotificationManager.cancel(notificationId);
-            Log.v("shuffTest", "Pressed NO");
+//            Log.v("shuffTest", "Pressed NO");
+        } else if (DECIDE_LATER_ACTION.equals(action)) {
+            mNotificationManager.cancel(notificationId);
         }
+
     }
 }
