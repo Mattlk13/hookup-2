@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import hookupandroid.R;
 import hookupandroid.customComponents.TenScaleSeekbarLayout;
+import hookupandroid.model.UserBasicInfo;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +28,9 @@ public class BasicInfoPageFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_BASIC_INFO = "USER_BASIC_INFO";
+
+    private UserBasicInfo basicInfo;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -34,7 +38,7 @@ public class BasicInfoPageFragment extends Fragment {
     private Unbinder unbinder;
     private View inflatedView;
 
-    private OnBasicInfoPageInteractionListener mListener;
+//    private OnBasicInfoPageInteractionListener mListener;
 
 
     @BindView(R.id.imprace_seek_bar) TenScaleSeekbarLayout impraceSeekbar;
@@ -53,10 +57,11 @@ public class BasicInfoPageFragment extends Fragment {
      * @return A new instance of fragment BasicInfoPageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BasicInfoPageFragment newInstance(String param1, String param2) {
+    public static BasicInfoPageFragment newInstance(String param1, UserBasicInfo basicInfo) {
         BasicInfoPageFragment fragment = new BasicInfoPageFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
+        args.putSerializable(ARG_BASIC_INFO, basicInfo);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,7 +71,12 @@ public class BasicInfoPageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
+            basicInfo = (UserBasicInfo) getArguments().getSerializable(ARG_BASIC_INFO);
         }
+        else {
+            basicInfo = new UserBasicInfo();
+        }
+
     }
 
     @Override
@@ -81,16 +91,19 @@ public class BasicInfoPageFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        updateUserBasicInfo();     // TODO: GET RID OF THIS ANTI-PATTERN! Data should be passed to another activity/fragment through interface so the reusability is perserved
         super.onDestroyView();
         unbinder.unbind();
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
+    public void updateUserBasicInfo () {
+        basicInfo.setImprace(impraceSeekbar.getSeekbarProgressValue());
+        basicInfo.setImprelig(impreligSeekbar.getSeekbarProgressValue());
+    }
+
+    public UserBasicInfo getUserBasicInfo() {
+        return basicInfo;
+    }
 
 //    @Override
 //    public void onAttach(Context context) {

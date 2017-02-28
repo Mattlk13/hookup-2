@@ -1,7 +1,9 @@
 package hookupandroid.fragments.personalizationFragmentPages;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +11,13 @@ import android.widget.Button;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import hookupandroid.R;
 import hookupandroid.customComponents.PsychologyQuestionGroupView;
 import hookupandroid.customComponents.SelfMeasureQuestionGroupView;
+import hookupandroid.fragments.PersonalizationFragment;
+import hookupandroid.model.UserPsychology;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,59 +30,15 @@ import hookupandroid.customComponents.SelfMeasureQuestionGroupView;
 public class PsychologyPageFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
+    private static final String ARG_USER_PSYCHOLOGY = "user_psychology";
+    private UserPsychology userPsychology;
 
     private View inflatedView;
     private Unbinder unbinder;
 
     @BindView(R.id.psychology_view_a) PsychologyQuestionGroupView aQuestionGroupView;
     @BindView(R.id.psychology_view_b) PsychologyQuestionGroupView bQuestionGroupView;
-//    @BindView(R.id.psychology_view_c) SelfMeasureQuestionGroupView cSelfMeasureGroupView;
-
-//    @BindView(R.id.remaming_points_a_value) TextView aRemainingPointsTextView;
-//    @BindView(R.id.remaming_points_b_value) TextView bRemainingPointsTextView;
-//    @BindView(R.id.remaming_points_c_value) TextView cRemainingPointsTextView;
-//
-//
-//    @BindView(R.id.a_attractive_seek_bar)
-//    PsychologyQuestionGroupView aAttrSeekbar;
-//    @BindView(R.id.a_sincere_seek_bar)
-//    PsychologyQuestionGroupView aSincSeekbar;
-//    @BindView(R.id.a_intelligent_seek_bar)
-//    PsychologyQuestionGroupView aIntSeekBar;
-//    @BindView(R.id.a_fun_seek_bar)
-//    PsychologyQuestionGroupView aFunSeekbar;
-//    @BindView(R.id.a_ambitious_seek_bar)
-//    PsychologyQuestionGroupView aAmbSeekbar;
-//    @BindView(R.id.a_shared_interests_seek_bar)
-//    PsychologyQuestionGroupView aSharSeekbar;
-//
-//    @BindView(R.id.b_attractive_seek_bar)
-//    PsychologyQuestionGroupView bAttrSeekbar;
-//    @BindView(R.id.b_sincere_seek_bar)
-//    PsychologyQuestionGroupView bSincSeekbar;
-//    @BindView(R.id.b_intelligent_seek_bar)
-//    PsychologyQuestionGroupView bIntSeekBar;
-//    @BindView(R.id.b_fun_seek_bar)
-//    PsychologyQuestionGroupView bFunSeekbar;
-//    @BindView(R.id.b_ambitious_seek_bar)
-//    PsychologyQuestionGroupView bAmbSeekbar;
-//    @BindView(R.id.b_shared_interests_seek_bar)
-//    PsychologyQuestionGroupView bSharSeekbar;
-//
-//    @BindView(R.id.c_attractive_seek_bar)
-//    PsychologyQuestionGroupView cAttrSeekbar;
-//    @BindView(R.id.c_sincere_seek_bar)
-//    PsychologyQuestionGroupView cSincSeekbar;
-//    @BindView(R.id.c_intelligent_seek_bar)
-//    PsychologyQuestionGroupView cIntSeekBar;
-//    @BindView(R.id.c_fun_seek_bar)
-//    PsychologyQuestionGroupView cFunSeekbar;
-//    @BindView(R.id.c_ambitious_seek_bar)
-//    PsychologyQuestionGroupView cAmbSeekbar;
+    @BindView(R.id.psychology_view_c) SelfMeasureQuestionGroupView cSelfMeasureGroupView;
 
     @BindView(R.id.btnPersDon) Button btnDone;
 
@@ -87,19 +48,10 @@ public class PsychologyPageFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PsychologyPageFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PsychologyPageFragment newInstance(String param1, String param2) {
+    public static PsychologyPageFragment newInstance(UserPsychology userPsychology) {
         PsychologyPageFragment fragment = new PsychologyPageFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putSerializable(ARG_USER_PSYCHOLOGY, userPsychology);
         fragment.setArguments(args);
         return fragment;
     }
@@ -108,7 +60,10 @@ public class PsychologyPageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            userPsychology = (UserPsychology) getArguments().getSerializable(ARG_USER_PSYCHOLOGY);
+        }
+        else {
+            userPsychology = new UserPsychology();
         }
     }
 
@@ -123,26 +78,47 @@ public class PsychologyPageFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        updateUserPsychology();
         super.onDestroyView();
         unbinder.unbind();
     }
 
-    //    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnPsychologyPageFragmentInteractionListener) {
-//            mListener = (OnPsychologyPageFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnPsychologyPageFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
+    private void updateUserPsychology() {
+//        userPsychology.setAmbA(seek);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        Fragment parentFragment = getParentFragment();
+        if (context instanceof OnPsychologyPageFragmentInteractionListener) {
+            mListener = (OnPsychologyPageFragmentInteractionListener) context;
+        }
+        else if (parentFragment != null && parentFragment instanceof PersonalizationFragment) {
+            mListener = (OnPsychologyPageFragmentInteractionListener) parentFragment;
+        }
+        else
+        {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnPsychologyPageFragmentInteractionListener");
+        }
+    }
+
+    @OnClick(R.id.btnPersDon)
+    public void onPersonalizationButtonClicked() {
+        mListener.onPersonalizationDoneButtonClicked();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public UserPsychology getUserPsychology() {
+        return userPsychology;
+    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -156,6 +132,6 @@ public class PsychologyPageFragment extends Fragment {
      */
     public interface OnPsychologyPageFragmentInteractionListener {
         // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
+        void onPersonalizationDoneButtonClicked();
     }
 }

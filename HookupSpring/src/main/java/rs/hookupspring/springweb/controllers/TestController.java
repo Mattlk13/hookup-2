@@ -2,6 +2,7 @@ package rs.hookupspring.springweb.controllers;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -12,10 +13,8 @@ import rs.hookupspring.dao.UserActivitiesRepository;
 import rs.hookupspring.dao.UserBasicInfoRepository;
 import rs.hookupspring.dao.UserPsychologyRepository;
 import rs.hookupspring.dao.UserRepository;
-import rs.hookupspring.entity.UserActivities;
-import rs.hookupspring.entity.UserBasicInfo;
-import rs.hookupspring.entity.User;
-import rs.hookupspring.entity.UserPsychology;
+import rs.hookupspring.entity.*;
+import rs.hookupspring.springweb.dto.UserPersonalizationDto;
 import rs.hookupspring.springweb.services.FirebaseNotificationService;
 import rs.hookupspring.springweb.services.LocationsDistanceService;
 import rs.hookupspring.springweb.services.UserHookupService;
@@ -248,4 +247,13 @@ public class TestController {
     }
 
 
+    @RequestMapping(value = "/requestEntity", method = RequestMethod.POST, consumes = "application/json")
+    public String requestEntityTest(RequestEntity<UserPersonalizationDto> requestEntity, ModelMap model) {
+
+        UserPersonalizationDto userTest = requestEntity.getBody();
+
+        model.addAttribute("message", "Welcome user uid =  " + userTest.getUid() + ", sports: " + userTest.getActivities().getSports());
+
+        return "hello";
+    }
 }

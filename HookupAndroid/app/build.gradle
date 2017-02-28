@@ -40,6 +40,7 @@ dependencies {
     compile 'com.mobsandgeeks:android-saripaar:2.0.3'
     compile 'com.github.mukeshsolanki:country-picker-android:1.1.7'
     compile 'com.facebook.android:facebook-android-sdk:4.19.0'
+    compile group: 'com.google.code.gson', name: 'gson', version: '1.7.2'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

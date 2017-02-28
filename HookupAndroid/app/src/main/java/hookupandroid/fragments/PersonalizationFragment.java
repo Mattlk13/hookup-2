@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.List;
 import java.util.Vector;
 
@@ -24,6 +27,11 @@ import hookupandroid.common.handlers.CircularViewPagerHandler;
 import hookupandroid.fragments.personalizationFragmentPages.ActivitiesPageFragment;
 import hookupandroid.fragments.personalizationFragmentPages.BasicInfoPageFragment;
 import hookupandroid.fragments.personalizationFragmentPages.PsychologyPageFragment;
+import hookupandroid.model.UserActivities;
+import hookupandroid.model.UserBasicInfo;
+import hookupandroid.model.UserPersonalization;
+import hookupandroid.model.UserPsychology;
+import hookupandroid.tasks.UpdateUserPersonalizationTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,7 +41,7 @@ import hookupandroid.fragments.personalizationFragmentPages.PsychologyPageFragme
  * Use the {@link PersonalizationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PersonalizationFragment extends Fragment {
+public class PersonalizationFragment extends Fragment implements PsychologyPageFragment.OnPsychologyPageFragmentInteractionListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -41,11 +49,17 @@ public class PersonalizationFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
 
+    private UserPersonalization userPersonalization;
+
     private PersonalizationPageAdapter personalizationPageAdapter;
     private View inflatedView;
     private Unbinder unbinder;
 
-    private OnPersonalizationFragmentInteractionListener mListener;
+    private BasicInfoPageFragment basicInfoPageFragment;
+    private ActivitiesPageFragment activitiesPageFragment;
+    private PsychologyPageFragment psychologyPageFragment;
+
+//    private OnPersonalizationFragmentInteractionListener mListener;
 
     @BindView(R.id.view_pager_personalization) ViewPager  viewPager;
 //    @BindView(R.id.personalization_scroll_view) ScrollView scrollView;
@@ -79,16 +93,30 @@ public class PersonalizationFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
 
+        userPersonalization = new UserPersonalization();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            userPersonalization.setUid(user.getUid());
+        }
+
+        // TODO: add into bundle these subfragments
+        basicInfoPageFragment = (BasicInfoPageFragment) Fragment.instantiate(getContext(), BasicInfoPageFragment.class.getName());
+        activitiesPageFragment = (ActivitiesPageFragment) Fragment.instantiate(getContext(), ActivitiesPageFragment.class.getName());
+        psychologyPageFragment = (PsychologyPageFragment) Fragment.instantiate(getContext(), PsychologyPageFragment.class.getName());
     }
 
     private void initializePages() {
         List<Fragment> fragments = new Vector<Fragment>();
-        fragments.add(Fragment.instantiate(getContext(), BasicInfoPageFragment.class.getName()));
-        fragments.add(Fragment.instantiate(getContext(), ActivitiesPageFragment.class.getName()));
-        fragments.add(Fragment.instantiate(getContext(), PsychologyPageFragment.class.getName()));
+
+        fragments.add(basicInfoPageFragment);
+        fragments.add(activitiesPageFragment);
+        fragments.add(psychologyPageFragment);
+//        fragments.add(Fragment.instantiate(getContext(), BasicInfoPageFragment.class.getName()));
+//        fragments.add(Fragment.instantiate(getContext(), ActivitiesPageFragment.class.getName()));
+//        fragments.add(Fragment.instantiate(getContext(), PsychologyPageFragment.class.getName()));
         this.personalizationPageAdapter  = new PersonalizationPageAdapter(getChildFragmentManager(), fragments);
 
-        viewPager.setOnPageChangeListener(new CircularViewPagerHandler(viewPager));
+//        viewPager.setOnPageChangeListener(new CircularViewPagerHandler(viewPager)); //makes circular viewPager
         viewPager.setAdapter(this.personalizationPageAdapter);
     }
 
@@ -118,6 +146,24 @@ public class PersonalizationFragment extends Fragment {
         initializePages();
 
         return inflatedView;
+    }
+
+    @Override
+    public void onPersonalizationDoneButtonClicked() {
+        UserBasicInfo basicInfo = basicInfoPageFragment.getUserBasicInfo();
+        UserActivities activities = activitiesPageFragment.getUserActivities();
+        UserPsychology psychology = psychologyPageFragment.getUserPsychology();
+
+        userPersonalization.setBasicInfo(basicInfo);
+        userPersonalization.setActivities(activities);
+        userPersonalization.setPsychology(psychology);
+
+        UpdateUserPersonalizationTask personalizationTask = new UpdateUserPersonalizationTask();
+        personalizationTask.execute(userPersonalization);
+
+        // TODO check if all data is valid and filled
+
+
     }
 
 //    @Override

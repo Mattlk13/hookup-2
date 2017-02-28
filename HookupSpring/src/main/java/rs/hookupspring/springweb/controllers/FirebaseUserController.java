@@ -2,6 +2,7 @@ package rs.hookupspring.springweb.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import rs.hookupspring.dao.UserRepository;
 import rs.hookupspring.entity.User;
+import rs.hookupspring.springweb.dto.UserPersonalizationDto;
 import rs.hookupspring.springweb.services.FirebaseNotificationService;
 import rs.hookupspring.springweb.services.LocationsDistanceService;
 import rs.hookupspring.springweb.services.UserHookupService;
@@ -112,5 +114,12 @@ public class FirebaseUserController {
             firebaseNotificationService.sendHookupNotification(user, nearbyHookup);
             firebaseNotificationService.sendHookupNotification(nearbyHookup, user);
         }
+    }
+
+    @RequestMapping(value = "/updatePersonalization", method = RequestMethod.POST, consumes = "application/json")
+    public void requestEntityTest(RequestEntity<UserPersonalizationDto> requestEntity, ModelMap model) {
+
+        UserPersonalizationDto userPersonalizationDto = requestEntity.getBody();
+        userHookupService.updateUserPersonalizationData(userPersonalizationDto);
     }
 }

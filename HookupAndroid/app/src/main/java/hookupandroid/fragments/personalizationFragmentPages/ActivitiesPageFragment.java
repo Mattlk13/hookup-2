@@ -11,6 +11,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import hookupandroid.R;
 import hookupandroid.customComponents.TenScaleSeekbarLayout;
+import hookupandroid.model.UserActivities;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,12 +22,10 @@ import hookupandroid.customComponents.TenScaleSeekbarLayout;
  * create an instance of this fragment.
  */
 public class ActivitiesPageFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
+    private static final String ARG_USER_ACTIVITIES = "user_activities";
+    private UserActivities userActivities;
+
 
     private View inflatedView;
     private Unbinder unbinder;
@@ -59,14 +58,14 @@ public class ActivitiesPageFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
+     * @param activities Parameter 1.
      * @return A new instance of fragment ActivitiesPageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ActivitiesPageFragment newInstance(String param1, String param2) {
+    public static ActivitiesPageFragment newInstance(UserActivities activities) {
         ActivitiesPageFragment fragment = new ActivitiesPageFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putSerializable(ARG_USER_ACTIVITIES, activities);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,7 +74,10 @@ public class ActivitiesPageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            userActivities = (UserActivities) getArguments().getSerializable(ARG_USER_ACTIVITIES);
+        }
+        else {
+            userActivities = new UserActivities();
         }
     }
 
@@ -89,12 +91,6 @@ public class ActivitiesPageFragment extends Fragment {
         return inflatedView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
 
 //    @Override
 //    public void onAttach(Context context) {
@@ -116,8 +112,33 @@ public class ActivitiesPageFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        updateUserActivities();
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    public UserActivities getUserActivities() {
+        return userActivities;
+    }
+
+    private void updateUserActivities() {
+        userActivities.setArt(artSeekbar.getSeekbarProgressValue());
+        userActivities.setClubbing(clubbingSeekbar.getSeekbarProgressValue());
+        userActivities.setConcerts(concertsSeekbar.getSeekbarProgressValue());
+        userActivities.setDining(diningSeekbar.getSeekbarProgressValue());
+        userActivities.setExcersice(exersiceSeekbar.getSeekbarProgressValue());
+        userActivities.setGaming(gamingSeekbar.getSeekbarProgressValue());
+        userActivities.setHiking(hikingSeekbar.getSeekbarProgressValue());
+        userActivities.setMovies(moviesSeekbar.getSeekbarProgressValue());
+        userActivities.setMuseums(museumsSeekbar.getSeekbarProgressValue());
+        userActivities.setMusic(musicSeekbar.getSeekbarProgressValue());
+        userActivities.setReading(readingSeekbar.getSeekbarProgressValue());
+        userActivities.setShopping(shoppingSeekbar.getSeekbarProgressValue());
+        userActivities.setSports(sportsSeekbar.getSeekbarProgressValue());
+        userActivities.setTheater(theaterSeekbar.getSeekbarProgressValue());
+        userActivities.setTv(tvSeekbar.getSeekbarProgressValue());
+        userActivities.setTvsports(tvSportsSeekbar.getSeekbarProgressValue());
+        userActivities.setYoga(yogaSeekbar.getSeekbarProgressValue());
     }
 
     /**

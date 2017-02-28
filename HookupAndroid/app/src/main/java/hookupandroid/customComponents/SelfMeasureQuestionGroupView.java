@@ -59,7 +59,7 @@ public class SelfMeasureQuestionGroupView extends LinearLayout implements Hundre
         if(newValue>oldValue) {
 //            int remainingPoints = Integer.getInteger(remainingPointsTextView.getText().toString());
             if (oldValue + newValue > remainingPoints) {
-                Toast.makeText(getContext(), "Momcino ovo ne valja", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Maximum points reached! Adjust points amoung these attributes as you desire.", Toast.LENGTH_SHORT).show();
                 // seekBar.setProgress(oldValue); or seekBar.setProgress(oldValue + remaining)
                 seekbar.setProgress(oldValue+remainingPoints);
                 remainingPointsTextView.setText(Integer.toString(0));

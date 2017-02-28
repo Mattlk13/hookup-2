@@ -6,10 +6,10 @@
     android:orientation="vertical"
     tools:context="hookupandroid.fragments.PersonalizationFragment">
 
+    <!--android:overScrollMode="never"-->
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager_personalization"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

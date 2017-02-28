@@ -61,5 +61,8 @@ public class TenScaleSeekbarLayout extends LinearLayout {
         unbinder.unbind();
     }
 
+    public int getSeekbarProgressValue() {
+        return seekBar.getProgress();
+    }
 
 }

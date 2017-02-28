@@ -2,10 +2,14 @@ package rs.hookupspring.springweb.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import rs.hookupspring.dao.HookupRepository;
-import rs.hookupspring.dao.UserRepository;
-import rs.hookupspring.entity.Hookup;
-import rs.hookupspring.entity.User;
+import org.springframework.transaction.annotation.Transactional;
+import rs.hookupspring.common.enums.Enums;
+import rs.hookupspring.dao.*;
+import rs.hookupspring.entity.*;
+import rs.hookupspring.springweb.dto.UserActivitiesDto;
+import rs.hookupspring.springweb.dto.UserBasicInfoDto;
+import rs.hookupspring.springweb.dto.UserPersonalizationDto;
+import rs.hookupspring.springweb.dto.UserPsychologyDto;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +23,15 @@ public class UserHookupService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserBasicInfoRepository basicInfoRepository;
+
+    @Autowired
+    private UserActivitiesRepository activitiesRepository;
+
+    @Autowired
+    private UserPsychologyRepository psychologyRepository;
 
     @Autowired
     private HookupRepository hookupRepository;
@@ -96,5 +109,114 @@ public class UserHookupService {
 
         return retVal;
     }
+
+    @Transactional
+    public void updateUserPersonalizationData(UserPersonalizationDto userPersonalizationDto) {
+
+        User user = userRepository.findByFirebaseUID(userPersonalizationDto.getUid());
+
+        if (user != null) {
+            updateUserBasicInfo(user, userPersonalizationDto.getBasicInfo());
+            updateUserActivities(user, userPersonalizationDto.getActivities());
+            updateUserPsychology(user, userPersonalizationDto.getPsychology());
+        }
+
+    }
+
+    private void updateUserBasicInfo(User user, UserBasicInfoDto basicInfoDto) {
+        UserBasicInfo basicInfo = null;
+
+        if(user.getBasicInfo() == null) {
+            basicInfo = new UserBasicInfo();
+            basicInfoRepository.save(basicInfo);
+            basicInfo.setUser(user);
+            userRepository.save(user);
+        }
+        else {
+            basicInfo = user.getBasicInfo();
+        }
+
+        basicInfo.setImprelig(basicInfoDto.getImprelig());
+        basicInfo.setImprace(basicInfoDto.getImprace());
+        basicInfo.setRace(Enums.Race.values()[basicInfoDto.getRace()]);
+        basicInfo.setCareer(Enums.Career.values()[basicInfoDto.getCareer()]);
+        basicInfo.setField(Enums.Field.values()[basicInfoDto.getField()]);
+        basicInfoRepository.save(basicInfo);
+        user.setBasicInfo(basicInfo);
+        userRepository.save(user);
+    }
+
+    private void updateUserActivities(User user, UserActivitiesDto activitiesDto) {
+        UserActivities activities = null;
+
+        if(user.getActivities() == null) {
+            activities = new UserActivities();
+            activitiesRepository.save(activities);
+            activities.setUser(user);
+            userRepository.save(user);
+        }
+        else {
+            activities = user.getActivities();
+        }
+
+        activities.setDining(activitiesDto.getDining());
+        activities.setHiking(activitiesDto.getHiking());
+        activities.setClubbing(activitiesDto.getClubbing());
+        activities.setGaming(activitiesDto.getGaming());
+        activities.setYoga(activitiesDto.getYoga());
+        activities.setArt(activitiesDto.getArt());
+        activities.setConcerts(activities.getArt());
+        activities.setExcersice(activitiesDto.getExcersice());
+        activities.setMovies(activitiesDto.getMovies());
+        activities.setMuseums(activitiesDto.getMuseums());
+        activities.setMusic(activitiesDto.getMusic());
+        activities.setReading(activitiesDto.getReading());
+        activities.setShopping(activitiesDto.getShopping());
+        activities.setSports(activitiesDto.getSports());
+        activities.setTheater(activitiesDto.getTheater());
+        activities.setTv(activitiesDto.getTv());
+        activities.setTvsports(activitiesDto.getTvsports());
+        activitiesRepository.save(activities);
+        user.setActivities(activities);
+        userRepository.save(user);
+    }
+
+    private void updateUserPsychology(User user, UserPsychologyDto psychologyDto) {
+        UserPsychology psychology = null;
+
+        if(user.getPsychology() == null) {
+            psychology = new UserPsychology();
+            psychologyRepository.save(psychology);
+            psychology.setUser(user);
+            userRepository.save(user);
+        }
+        else {
+            psychology = user.getPsychology();
+        }
+
+        psychology.setSharA(psychologyDto.getSharA());
+        psychology.setAmbA(psychologyDto.getAmbA());
+        psychology.setFunA(psychologyDto.getFunA());
+        psychology.setAttrA(psychologyDto.getAttrA());
+        psychology.setIntelA(psychologyDto.getIntelA());
+        psychology.setSincA(psychologyDto.getSincA());
+
+        psychology.setSharB(psychologyDto.getSharB());
+        psychology.setAmbB(psychologyDto.getAmbB());
+        psychology.setFunB(psychologyDto.getFunB());
+        psychology.setAttrB(psychologyDto.getAttrB());
+        psychology.setIntelB(psychologyDto.getIntelB());
+        psychology.setSincB(psychologyDto.getSincB());
+
+        psychology.setAmbC(psychologyDto.getAmbC());
+        psychology.setFunC(psychologyDto.getFunC());
+        psychology.setAttrC(psychologyDto.getAttrC());
+        psychology.setIntelC(psychologyDto.getIntelC());
+        psychology.setSincC(psychologyDto.getSincC());
+        psychologyRepository.save(psychology);
+        user.setPsychology(psychology);
+        userRepository.save(user);
+    }
+
 
 }

@@ -67,7 +67,6 @@ public class HundredScaleSeekbarLayout extends LinearLayout {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
-//        PsychologyQuestionGroupView psychologyGroupParent = (PsychologyQuestionGroupView)((ViewGroup)getParent()).getParent(); //radi jebote
         ViewGroup parentQuestionGroupView = (ViewGroup)getParent().getParent();
 
         if (parentQuestionGroupView instanceof  PsychologyQuestionGroupView){
