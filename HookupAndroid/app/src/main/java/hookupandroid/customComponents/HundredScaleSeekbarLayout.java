@@ -95,4 +95,8 @@ public class HundredScaleSeekbarLayout extends LinearLayout {
         public void onSeekbarProgressChanged(int oldValue, int newValue, SeekBar seekbar);
     }
 
+    public int getSeekbarProgressValue() {
+        return seekBar.getProgress();
+    }
+
 }

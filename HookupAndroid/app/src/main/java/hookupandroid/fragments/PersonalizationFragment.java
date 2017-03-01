@@ -55,6 +55,8 @@ public class PersonalizationFragment extends Fragment implements PsychologyPageF
     private View inflatedView;
     private Unbinder unbinder;
 
+    private int currentSelectedPage;
+
     private BasicInfoPageFragment basicInfoPageFragment;
     private ActivitiesPageFragment activitiesPageFragment;
     private PsychologyPageFragment psychologyPageFragment;
@@ -92,6 +94,8 @@ public class PersonalizationFragment extends Fragment implements PsychologyPageF
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
+
+        currentSelectedPage = 0;
 
         userPersonalization = new UserPersonalization();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -140,6 +144,21 @@ public class PersonalizationFragment extends Fragment implements PsychologyPageF
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 viewPager.getParent().requestDisallowInterceptTouchEvent(true);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(currentSelectedPage == 0) {
+                    basicInfoPageFragment.updateUserBasicInfo();
+                }
+                else if(currentSelectedPage == 1) {
+                    activitiesPageFragment.updateUserActivities();
+                }
+                else if(currentSelectedPage == 2) {
+                    psychologyPageFragment.updateUserPsychology();
+                }
+
+                currentSelectedPage = position;
             }
         });
 

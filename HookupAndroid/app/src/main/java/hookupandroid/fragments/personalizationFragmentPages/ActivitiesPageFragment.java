@@ -121,7 +121,7 @@ public class ActivitiesPageFragment extends Fragment {
         return userActivities;
     }
 
-    private void updateUserActivities() {
+    public void updateUserActivities() {
         userActivities.setArt(artSeekbar.getSeekbarProgressValue());
         userActivities.setClubbing(clubbingSeekbar.getSeekbarProgressValue());
         userActivities.setConcerts(concertsSeekbar.getSeekbarProgressValue());

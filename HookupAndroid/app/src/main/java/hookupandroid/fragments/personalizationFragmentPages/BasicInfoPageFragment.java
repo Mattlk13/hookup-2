@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +44,9 @@ public class BasicInfoPageFragment extends Fragment {
 
     @BindView(R.id.imprace_seek_bar) TenScaleSeekbarLayout impraceSeekbar;
     @BindView(R.id.imprelig_seek_bar) TenScaleSeekbarLayout impreligSeekbar;
+    @BindView(R.id.input_pers_race) Spinner raceSpinner;
+    @BindView(R.id.input_pers_field) Spinner fieldSpinner;
+    @BindView(R.id.input_pers_career) Spinner careerSpinner;
 
 
     public BasicInfoPageFragment() {
@@ -97,6 +101,9 @@ public class BasicInfoPageFragment extends Fragment {
     }
 
     public void updateUserBasicInfo () {
+        basicInfo.setRace(raceSpinner.getSelectedItemPosition());
+        basicInfo.setField(fieldSpinner.getSelectedItemPosition());
+        basicInfo.setCareer(careerSpinner.getSelectedItemPosition());
         basicInfo.setImprace(impraceSeekbar.getSeekbarProgressValue());
         basicInfo.setImprelig(impreligSeekbar.getSeekbarProgressValue());
     }

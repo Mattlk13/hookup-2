@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SeekBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import hookupandroid.R;
+import hookupandroid.customComponents.HundredScaleSeekbarLayout;
 import hookupandroid.customComponents.PsychologyQuestionGroupView;
 import hookupandroid.customComponents.SelfMeasureQuestionGroupView;
 import hookupandroid.fragments.PersonalizationFragment;
@@ -83,8 +85,27 @@ public class PsychologyPageFragment extends Fragment {
         unbinder.unbind();
     }
 
-    private void updateUserPsychology() {
-//        userPsychology.setAmbA(seek);
+    public void updateUserPsychology() {
+        // group A
+        userPsychology.setAttrA(((HundredScaleSeekbarLayout)aQuestionGroupView.findViewById(R.id.attractive_seek_bar)).getSeekbarProgressValue());
+        userPsychology.setAmbA(((HundredScaleSeekbarLayout)aQuestionGroupView.findViewById(R.id.ambitious_seek_bar)).getSeekbarProgressValue());
+        userPsychology.setIntelA(((HundredScaleSeekbarLayout)aQuestionGroupView.findViewById(R.id.intelligent_seek_bar)).getSeekbarProgressValue());
+        userPsychology.setFunA(((HundredScaleSeekbarLayout)aQuestionGroupView.findViewById(R.id.fun_seek_bar)).getSeekbarProgressValue());
+        userPsychology.setSincA(((HundredScaleSeekbarLayout)aQuestionGroupView.findViewById(R.id.sincere_seek_bar)).getSeekbarProgressValue());
+        userPsychology.setSharA(((HundredScaleSeekbarLayout)aQuestionGroupView.findViewById(R.id.shared_interests_seek_bar)).getSeekbarProgressValue());
+        // group B
+        userPsychology.setAttrB(((HundredScaleSeekbarLayout)bQuestionGroupView.findViewById(R.id.attractive_seek_bar)).getSeekbarProgressValue());
+        userPsychology.setAmbB(((HundredScaleSeekbarLayout)bQuestionGroupView.findViewById(R.id.ambitious_seek_bar)).getSeekbarProgressValue());
+        userPsychology.setIntelB(((HundredScaleSeekbarLayout)bQuestionGroupView.findViewById(R.id.intelligent_seek_bar)).getSeekbarProgressValue());
+        userPsychology.setFunB(((HundredScaleSeekbarLayout)bQuestionGroupView.findViewById(R.id.fun_seek_bar)).getSeekbarProgressValue());
+        userPsychology.setSincB(((HundredScaleSeekbarLayout)bQuestionGroupView.findViewById(R.id.sincere_seek_bar)).getSeekbarProgressValue());
+        userPsychology.setSharB(((HundredScaleSeekbarLayout)bQuestionGroupView.findViewById(R.id.shared_interests_seek_bar)).getSeekbarProgressValue());
+        //group C
+        userPsychology.setAttrC(((HundredScaleSeekbarLayout)cSelfMeasureGroupView.findViewById(R.id.attractive_seek_bar)).getSeekbarProgressValue());
+        userPsychology.setAmbC(((HundredScaleSeekbarLayout)cSelfMeasureGroupView.findViewById(R.id.ambitious_seek_bar)).getSeekbarProgressValue());
+        userPsychology.setIntelC(((HundredScaleSeekbarLayout)cSelfMeasureGroupView.findViewById(R.id.intelligent_seek_bar)).getSeekbarProgressValue());
+        userPsychology.setFunC(((HundredScaleSeekbarLayout)cSelfMeasureGroupView.findViewById(R.id.fun_seek_bar)).getSeekbarProgressValue());
+        userPsychology.setSincC(((HundredScaleSeekbarLayout)cSelfMeasureGroupView.findViewById(R.id.sincere_seek_bar)).getSeekbarProgressValue());
     }
 
     @Override
@@ -107,6 +128,7 @@ public class PsychologyPageFragment extends Fragment {
 
     @OnClick(R.id.btnPersDon)
     public void onPersonalizationButtonClicked() {
+        updateUserPsychology();
         mListener.onPersonalizationDoneButtonClicked();
     }
 
