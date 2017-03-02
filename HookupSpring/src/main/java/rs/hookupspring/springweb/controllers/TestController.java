@@ -1,5 +1,6 @@
 package rs.hookupspring.springweb.controllers;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;
@@ -22,6 +23,8 @@ import rs.hookupspring.springweb.services.WekaMiningService;
 import weka.classifiers.Classifier;
 import weka.core.Instance;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -106,6 +109,41 @@ public class TestController {
 
         model.addAttribute("message", message);
         return "hello";
+    }
+
+    @Transactional
+    @RequestMapping(value = "/updateUserLocations", method = RequestMethod.GET)
+    public void updateUserLocations(ModelMap model) {
+
+        try {
+
+            File f = new File("C:\\Users\\Bandjur\\Desktop\\randomLocations.txt");
+
+            List<String> lines = FileUtils.readLines(f, "UTF-8");
+            List<User> users = userRepository.findAll();
+
+            int counter = 0;
+            for (String line : lines) {
+                String [] parsedLine = line.split(",");
+                double latitude = Double.parseDouble(parsedLine[1]);
+                double longitude = Double.parseDouble(parsedLine[3]);
+
+                if(counter <= users.size() - 1 && users.get(counter) != null) {
+                    User user = users.get(counter);
+
+                    user.setLongitude(longitude);
+                    user.setLatitude(latitude);
+                    userRepository.save(user);
+                }
+
+                counter++;
+                System.out.println(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @RequestMapping(value = "/testHookupUpdateList", method = RequestMethod.GET)

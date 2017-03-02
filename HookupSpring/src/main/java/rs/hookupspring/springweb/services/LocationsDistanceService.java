@@ -1,6 +1,10 @@
 package rs.hookupspring.springweb.services;
 
+import javafx.geometry.Point2D;
 import org.springframework.stereotype.Service;
+
+import java.awt.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by Bandjur on 8/24/2016.
@@ -37,6 +41,40 @@ public class LocationsDistanceService {
     private double rad2deg(double rad) {
         return (rad * 180.0 / Math.PI);
     }
+
+    public Point2D getRandomLocationWithinCity(Point centralLocation, double radius) {
+        Point2D newPoint = null;
+        /*
+        From http://gis.stackexchange.com/questions/25877/generating-random-locations-nearby/68275#68275
+        'u' and 'v' are random numbers between [0, 1), 'x0' and 'y0' are central(referent) point/location.
+        Note if your radius parameter is linear value (e.g. meters) then it should be converted from radians to degree
+        for 1000m radius = 1000/111300
+        compute following parameters
+        w = r * sqrt(u)
+        t = 2 * Pi * v
+        x = w * cos(t)
+        y = w * sin(t)
+        */
+        double radiusInDegrees = radius / 111000f;
+
+        double u = ThreadLocalRandom.current().nextDouble(); //random.nextDouble();
+        double v = ThreadLocalRandom.current().nextDouble();//random.nextDouble();
+        double w = radiusInDegrees * Math.sqrt(u);
+        double t = 2 * Math.PI * v;
+        double x = w * Math.cos(t);
+        double y = w * Math.sin(t);
+
+        // Adjust the x-coordinate for the shrinking of the east-west distances
+        double new_x = x / Math.cos(Math.toRadians(centralLocation.getX()));
+
+        double foundLongitude = new_x + centralLocation.getX();
+        double foundLatitude = y + centralLocation.getY();
+        newPoint = new Point2D(foundLatitude, foundLongitude);
+        System.out.println("Longitude: " + foundLongitude + "  Latitude: " + foundLatitude );
+
+        return newPoint;
+    }
+
 
 }
 

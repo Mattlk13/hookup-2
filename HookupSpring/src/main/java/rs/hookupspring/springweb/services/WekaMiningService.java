@@ -136,6 +136,33 @@ public class WekaMiningService {
         }
     }
 
+    public boolean shouldUsersPair(User male, User female) {
+        boolean retVal = false;
+        double result = 0.0;
+        Classifier randomForest = null;
+
+        try {
+            randomForest = (Classifier) weka.core.SerializationHelper.read("E:\\!FAKS\\!MSC\\Speed hookup\\20170216-final\\weka\\random-forest-model.model");
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+        }
+
+        Instance instance = createPairEntryInstance(male, female);
+        if (instance != null) {
+            try {
+                instance.dataset().setClassIndex(instance.dataset().numAttributes() - 1);
+                result = randomForest.classifyInstance(instance);
+                if (result == 1.0) {
+                    retVal = true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return retVal;
+    }
+
     public Instance createPairEntryInstance(User male, User female) {
         Instance retVal = null;
 

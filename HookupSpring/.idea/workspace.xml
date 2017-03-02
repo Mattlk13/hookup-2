@@ -38,27 +38,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TestController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/TestController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1031" max-vertical-offset="1615">
-              <caret line="256" column="8" selection-start-line="249" selection-start-column="4" selection-end-line="257" selection-end-column="5" />
-              <folding>
-                <element signature="method#customMethod#0;class#TestController#0" expanded="false" />
-                <element signature="e#3053#3105#0" expanded="false" />
-                <element signature="method#updateHookupListForUser#0;class#TestController#0" expanded="false" />
-                <element signature="e#4900#4965#0" expanded="false" />
-                <element signature="method#jpaGetTest#0;class#TestController#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserHookupService.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UserHookupService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/UserHookupService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.27323943" vertical-offset="940" max-vertical-offset="1343">
-              <caret line="142" column="74" selection-start-line="142" selection-start-column="8" selection-end-line="142" selection-end-column="74" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="800" max-vertical-offset="1343">
+              <caret line="135" column="0" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
               <folding>
                 <element signature="method#getHookupList#0;class#UserHookupService#0" expanded="false" />
                 <element signature="method#AddHookupPair#0;class#UserHookupService#0" expanded="false" />
@@ -70,12 +54,44 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FirebaseUserController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TestController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/TestController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1350" max-vertical-offset="2397">
+              <caret line="245" column="8" selection-start-line="245" selection-start-column="8" selection-end-line="253" selection-end-column="9" />
+              <folding>
+                <element signature="method#customMethod#0;class#TestController#0" expanded="false" />
+                <element signature="e#3142#3194#0" expanded="false" />
+                <element signature="method#updateUserLocations#0;class#TestController#0" expanded="false" />
+                <element signature="method#updateHookupListForUser#0;class#TestController#0" expanded="false" />
+                <element signature="e#6097#6162#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FirebaseUserController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/FirebaseUserController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1579" max-vertical-offset="1921">
-              <caret line="122" column="43" selection-start-line="122" selection-start-column="43" selection-end-line="122" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.50292397" vertical-offset="1732" max-vertical-offset="2431">
+              <caret line="135" column="0" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WekaMiningService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/WekaMiningService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1350" max-vertical-offset="2125">
+              <caret line="161" column="0" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
+              <folding>
+                <element signature="method#createSingleInstanceDataset#0;class#WekaMiningService#0" expanded="false" />
+                <element signature="method#createPairEntryInstance#0;class#WekaMiningService#0" expanded="false" />
+                <element signature="method#insertExperimentDataUsersInDb#0;class#WekaMiningService#0" expanded="false" />
+                <element signature="method#createUserFromWekaInstance#0;class#WekaMiningService#0" expanded="false" />
+                <element signature="method#setUserDataToWekaInstance#0;class#WekaMiningService#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -89,7 +105,6 @@
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/UserController.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/dto/FcmJsonBody.java" />
-        <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/LocationsDistanceService.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/dao/HookupRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/UserService.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/common/utils/DateUtils.java" />
@@ -100,7 +115,6 @@
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/dao/UserPsychologyRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/dao/UserPersonalizationRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/UserPersonalization.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/log4j.properties" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/User.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/UserPsychology.java" />
@@ -110,7 +124,6 @@
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/UserActivities.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/UserBasicInfo.java" />
-        <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/WekaMiningService.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/Hookup.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/FirebaseNotificationService.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/HookupController.java" />
@@ -119,10 +132,13 @@
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/dto/UserActivitiesDto.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/dto/UserPsychologyDto.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/dto/UserPersonalizationDto.java" />
-        <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/TestController.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/META-INF/persistence.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/FirebaseUserController.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/UserHookupService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/LocationsDistanceService.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/TestController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/WekaMiningService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/FirebaseUserController.java" />
       </list>
     </option>
   </component>
@@ -318,6 +334,10 @@
               <option name="myItemId" value="springweb" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -346,10 +366,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="springweb" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dto" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -387,10 +403,40 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HookupSpring" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HookupSpring" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hookupspring" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="entity" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -819,11 +865,12 @@
       <workItem from="1488304002455" duration="568000" />
       <workItem from="1488306873870" duration="8721000" />
       <workItem from="1488382206526" duration="3435000" />
+      <workItem from="1488480078529" duration="5318000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="187086000" />
+    <option name="totallyTimeSpent" value="192404000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -847,7 +894,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -860,7 +907,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.374183" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.374183" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -873,12 +920,12 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27155825" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27987897" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3267974" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3267974" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -908,25 +955,25 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/FirebaseUserController.java</url>
-          <line>112</line>
+          <line>123</line>
           <properties />
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/FirebaseUserController.java</url>
-          <line>54</line>
+          <line>65</line>
           <properties />
           <option name="timeStamp" value="59" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/FirebaseUserController.java</url>
-          <line>94</line>
+          <line>105</line>
           <properties />
           <option name="timeStamp" value="79" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/TestController.java</url>
-          <line>189</line>
+          <line>227</line>
           <properties />
           <option name="timeStamp" value="90" />
         </line-breakpoint>
@@ -948,17 +995,11 @@
           <properties />
           <option name="timeStamp" value="142" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/UserHookupService.java</url>
-          <line>128</line>
-          <properties />
-          <option name="timeStamp" value="149" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="150" />
+      <option name="time" value="155" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1078,13 +1119,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/LocationsDistanceService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/4.2.4.RELEASE/spring-aop-4.2.4.RELEASE.jar!/org/springframework/aop/framework/JdkDynamicAopProxy.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.36" vertical-offset="945" max-vertical-offset="2788">
@@ -1155,13 +1189,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="714" max-vertical-offset="3519">
-          <caret line="139" column="36" selection-start-line="139" selection-start-column="36" selection-end-line="139" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/dao/UserRepository.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
@@ -1201,7 +1228,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="215" max-vertical-offset="1377">
           <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1244,7 +1270,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="1173">
           <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="23" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1252,7 +1277,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.571831" vertical-offset="375" max-vertical-offset="2023">
           <caret line="34" column="21" selection-start-line="18" selection-start-column="4" selection-end-line="34" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1260,14 +1284,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3830986" vertical-offset="867" max-vertical-offset="2499">
           <caret line="59" column="31" selection-start-line="20" selection-start-column="4" selection-end-line="59" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/WekaMiningService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3039" max-vertical-offset="4488">
-          <caret line="206" column="76" selection-start-line="206" selection-start-column="30" selection-end-line="206" selection-end-column="76" />
         </state>
       </provider>
     </entry>
@@ -1282,14 +1298,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.27272728" vertical-offset="46" max-vertical-offset="527">
           <caret line="8" column="52" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5267606" vertical-offset="119" max-vertical-offset="2397">
-          <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1321,32 +1329,66 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/TestController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/LocationsDistanceService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1031" max-vertical-offset="1615">
-          <caret line="256" column="8" selection-start-line="249" selection-start-column="4" selection-end-line="257" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="292" max-vertical-offset="663">
+          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
           <folding>
-            <element signature="method#customMethod#0;class#TestController#0" expanded="false" />
-            <element signature="e#3053#3105#0" expanded="false" />
-            <element signature="method#updateHookupListForUser#0;class#TestController#0" expanded="false" />
-            <element signature="e#4900#4965#0" expanded="false" />
-            <element signature="method#jpaGetTest#0;class#TestController#0" expanded="false" />
+            <element signature="imports" expanded="true" />
+            <element signature="method#distance#0;class#LocationsDistanceService#0" expanded="false" />
+            <element signature="method#getRandomLocationWithinCity#0;class#LocationsDistanceService#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/FirebaseUserController.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1579" max-vertical-offset="1921">
-          <caret line="122" column="43" selection-start-line="122" selection-start-column="43" selection-end-line="122" selection-end-column="43" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2999" max-vertical-offset="3621">
+          <caret line="184" column="0" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="2397">
+          <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/TestController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1350" max-vertical-offset="2397">
+          <caret line="245" column="8" selection-start-line="245" selection-start-column="8" selection-end-line="253" selection-end-column="9" />
+          <folding>
+            <element signature="method#customMethod#0;class#TestController#0" expanded="false" />
+            <element signature="e#3142#3194#0" expanded="false" />
+            <element signature="method#updateUserLocations#0;class#TestController#0" expanded="false" />
+            <element signature="method#updateHookupListForUser#0;class#TestController#0" expanded="false" />
+            <element signature="e#6097#6162#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/WekaMiningService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1350" max-vertical-offset="2125">
+          <caret line="161" column="0" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
+          <folding>
+            <element signature="method#createSingleInstanceDataset#0;class#WekaMiningService#0" expanded="false" />
+            <element signature="method#createPairEntryInstance#0;class#WekaMiningService#0" expanded="false" />
+            <element signature="method#insertExperimentDataUsersInDb#0;class#WekaMiningService#0" expanded="false" />
+            <element signature="method#createUserFromWekaInstance#0;class#WekaMiningService#0" expanded="false" />
+            <element signature="method#setUserDataToWekaInstance#0;class#WekaMiningService#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/UserHookupService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27323943" vertical-offset="940" max-vertical-offset="1343">
-          <caret line="142" column="74" selection-start-line="142" selection-start-column="8" selection-end-line="142" selection-end-column="74" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="800" max-vertical-offset="1343">
+          <caret line="135" column="0" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
           <folding>
             <element signature="method#getHookupList#0;class#UserHookupService#0" expanded="false" />
             <element signature="method#AddHookupPair#0;class#UserHookupService#0" expanded="false" />
@@ -1354,6 +1396,14 @@
             <element signature="method#updateUserActivities#0;class#UserHookupService#0" expanded="false" />
             <element signature="method#updateUserPsychology#0;class#UserHookupService#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/FirebaseUserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.50292397" vertical-offset="1732" max-vertical-offset="2431">
+          <caret line="135" column="0" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

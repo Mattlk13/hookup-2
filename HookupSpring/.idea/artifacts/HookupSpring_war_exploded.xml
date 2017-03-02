@@ -72,6 +72,7 @@
           <element id="library" level="project" name="Maven: net.sourceforge.f2j:arpack_combined_all:0.1" />
           <element id="library" level="project" name="Maven: com.googlecode.netlib-java:netlib-java:1.1" />
           <element id="library" level="project" name="Maven: com.github.fommil.netlib:core:1.1" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:2.5" />
         </element>
       </element>
       <element id="directory" name="META-INF">

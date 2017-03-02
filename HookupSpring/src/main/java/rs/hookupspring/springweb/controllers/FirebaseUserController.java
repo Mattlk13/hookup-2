@@ -10,14 +10,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import rs.hookupspring.common.enums.Enums;
+import rs.hookupspring.dao.HookupRepository;
 import rs.hookupspring.dao.UserRepository;
+import rs.hookupspring.entity.Hookup;
 import rs.hookupspring.entity.User;
 import rs.hookupspring.springweb.dto.UserPersonalizationDto;
 import rs.hookupspring.springweb.services.FirebaseNotificationService;
 import rs.hookupspring.springweb.services.LocationsDistanceService;
 import rs.hookupspring.springweb.services.UserHookupService;
+import rs.hookupspring.springweb.services.WekaMiningService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,6 +36,9 @@ public class FirebaseUserController {
     private UserRepository userRepository;
 
     @Autowired
+    private HookupRepository hookupRepository;
+
+    @Autowired
     private LocationsDistanceService locationsDistanceService;
 
     @Autowired
@@ -38,6 +46,9 @@ public class FirebaseUserController {
 
     @Autowired
     private UserHookupService userHookupService;
+
+    @Autowired
+    private WekaMiningService wekaMiningService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
@@ -116,10 +127,34 @@ public class FirebaseUserController {
         }
     }
 
+
     @RequestMapping(value = "/updatePersonalization", method = RequestMethod.POST, consumes = "application/json")
     public void requestEntityTest(RequestEntity<UserPersonalizationDto> requestEntity, ModelMap model) {
 
         UserPersonalizationDto userPersonalizationDto = requestEntity.getBody();
         userHookupService.updateUserPersonalizationData(userPersonalizationDto);
+
+        User user = userRepository.findByFirebaseUID(userPersonalizationDto.getUid());
+
+        if(user != null) {
+            List<User> partners;
+            if(user.getGender() == Enums.Gender.Male) {
+                partners = userRepository.findAllByGender(Enums.Gender.Female);
+            }
+            else {
+                partners = userRepository.findAllByGender(Enums.Gender.Male);
+            }
+
+            for(User partner : partners) {
+                if(wekaMiningService.shouldUsersPair(user, partner)) {
+                    Hookup hookup = new Hookup();
+                    hookup.setRecommended(true);
+                    hookup.setUserAId(user.getId());
+                    hookup.setUserBId(partner.getId());
+                    hookup.setHookupPairCreated(new Date());
+                    hookupRepository.save(hookup);
+                }
+            }
+        }
     }
 }
