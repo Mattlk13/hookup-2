@@ -1,5 +1,6 @@
 package rs.hookupspring.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import rs.hookupspring.common.enums.Enums;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ public class User {
     private String city;
     private String country;
     private int age;
+
     private Enums.Gender gender;
     private Date birthDate;
     private String aboutMe;
@@ -42,6 +44,10 @@ public class User {
     @OneToOne
     @JoinColumn(name = "psychology_id")
     private UserPsychology psychology;
+
+    public User() {
+
+    }
 
 //    @ManyToMany
 //    @JoinTable(name="hookups")
@@ -192,7 +198,7 @@ public class User {
 
         User that = (User) obj;
 
-        if (firebaseUID.equals(that.firebaseUID)) {
+        if (id == that.id) {
             return true;
         }
 
@@ -201,6 +207,27 @@ public class User {
 
     @Override
     public int hashCode() {
-        return firebaseUID.hashCode();
+        return id;
     }
+
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (!(obj instanceof User))
+//            return false;
+//        if (obj == this)
+//            return true;
+//
+//        User that = (User) obj;
+//
+//        if (firebaseUID.equals(that.firebaseUID)) {
+//            return true;
+//        }
+//
+//        return false;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return firebaseUID.hashCode();
+//    }
 }

@@ -1,7 +1,9 @@
 package rs.hookupspring.springweb.controllers;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -156,5 +158,65 @@ public class FirebaseUserController {
                 }
             }
         }
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<User>> getAllUsers(ModelMap model) {
+        List<User> users = userRepository.findAll();
+        List<User> returnUsers = new ArrayList<User>();
+//        retVal = new ResponseEntity<List<User>>(users, HttpStatus.OK);
+
+        for (User u : users) {
+            returnUsers.add(getUser(u));
+        }
+//        User user = userRepository.findOne(4624);
+
+//        String userJSON = new Gson().toJson(user);
+
+//        User u = new User();
+//        u.setFirstname("Bandar");
+//        u.setEmail("jedigovna@gmail.com");
+
+        return new ResponseEntity<List<User>>(returnUsers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{uid}/friends", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<User>> getAllFriends(@PathVariable String uid, ModelMap model) {
+//        User currentUser = userRepository.findByFirebaseUID("pV3MOTu7yigZa0KRrzsLJM2ztpw1");
+        User currentUser = userRepository.findByFirebaseUID(uid);
+        List<User> returnUsers = new ArrayList<User>();
+
+        for (User u : userHookupService.getHookupList(currentUser, true)) {
+            returnUsers.add(getUser(u));
+        }
+
+        return new ResponseEntity<List<User>>(returnUsers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{uid}/pendingFriends", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<User>> getAllPendingFriends(@PathVariable String uid, ModelMap model) {
+        User currentUser = userRepository.findByFirebaseUID(uid);
+        List<User> returnUsers = new ArrayList<User>();
+
+        for (User u : userHookupService.getHookupList(currentUser, false)) {
+            returnUsers.add(getUser(u));
+        }
+
+        return new ResponseEntity<List<User>>(returnUsers, HttpStatus.OK);
+    }
+
+
+
+    private User getUser(User u) {
+        User user = new User();
+        user.setFirebaseUID(u.getFirebaseUID());
+//        user.setEmail(u.getEmail());
+        user.setFirstname(u.getFirstname());
+        user.setLastname(u.getLastname());
+        if(u.getAboutMe() != null) {
+            user.setAboutMe(u.getAboutMe());
+        }
+
+        return user;
     }
 }
