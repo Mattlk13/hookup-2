@@ -10,7 +10,7 @@ import hookupandroid.common.enums.PersonRelation;
 public class Person implements Serializable {
     private int tempPosition;
     private PersonRelation personRelation;
-    private String id;
+    private String uid;
     private String firstname;
     private String lastname;
     private String age;
@@ -28,12 +28,12 @@ public class Person implements Serializable {
         this.lastname = lastname;
     }
 
-    public String getId() {
-        return id;
+    public String getUid() {
+        return uid;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUid(String id) {
+        this.uid = id;
     }
 
     public String getFirstname() {

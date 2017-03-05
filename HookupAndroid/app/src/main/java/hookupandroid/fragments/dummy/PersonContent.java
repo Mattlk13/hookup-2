@@ -36,7 +36,7 @@ public class PersonContent {
 
     private static void addItem(Person item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.getId(), item);
+        ITEM_MAP.put(item.getUid(), item);
     }
 
     private static Person createDummyItem(int position) {
@@ -52,44 +52,4 @@ public class PersonContent {
         return builder.toString();
     }
 
-    /**
-     * A dummy item representing a piece of content.
-     */
-//    public static class PersonExample {
-//        public final String id;
-//        public final String content;
-//        public final String details;
-////        public final String firstname;
-////        public final String lastname;
-////        public final String age;
-////        public final String address;
-////        public final String city;
-////        public final String country;
-////        public final int image_id;
-//
-//
-////        public Person(String id, String content, String details, String firstname, String lastname, String age, String address, String city, String country, int image_id) {
-////            this.id = id;
-////            this.content = content;
-////            this.details = details;
-////            this.firstname = firstname;
-////            this.lastname = lastname;
-////            this.age = age;
-////            this.address = address;
-////            this.city = city;
-////            this.country = country;
-////            this.image_id = image_id;
-////        }
-//
-//        public PersonExample(String id, String content, String details) {
-//            this.id = id;
-//            this.content = content;
-//            this.details = details;
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return content;
-//        }
-//    }
 }
