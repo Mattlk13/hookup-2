@@ -10,10 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hookupandroid.R;
 import hookupandroid.adapters.PendingHookupRecyclerAdapter;
 import hookupandroid.fragments.dummy.PersonContent;
 import hookupandroid.model.Person;
+import hookupandroid.model.User;
 
 /**
  * A fragment representing a list of Items.
@@ -25,9 +29,11 @@ public class PendingHookupsFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final String ARG_PENDING_HOOKUPS = "pending-hookups";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnPendingHookupInteractionListener mListener;
+    private ArrayList<User> pendingHookups;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -38,10 +44,11 @@ public class PendingHookupsFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static PendingHookupsFragment newInstance(int columnCount) {
+    public static PendingHookupsFragment newInstance(int columnCount, ArrayList<User> pendingHookups) {
         PendingHookupsFragment fragment = new PendingHookupsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putSerializable(ARG_PENDING_HOOKUPS, pendingHookups);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,6 +59,7 @@ public class PendingHookupsFragment extends Fragment {
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            pendingHookups = (ArrayList<User>) getArguments().getSerializable(ARG_PENDING_HOOKUPS);
         }
     }
 
@@ -69,8 +77,10 @@ public class PendingHookupsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-//            recyclerView.setAdapter(new PendingHookupRecyclerAdapter(PersonContent.ITEMS, mListener));
-            recyclerView.setAdapter(new PendingHookupRecyclerAdapter(PersonContent.ITEMS, mListener));
+
+            if(pendingHookups != null) {
+                recyclerView.setAdapter(new PendingHookupRecyclerAdapter(pendingHookups, mListener));
+            }
         }
         return view;
     }
@@ -106,6 +116,6 @@ public class PendingHookupsFragment extends Fragment {
     public interface OnPendingHookupInteractionListener {
         // TODO: Update argument type and name
 //        void onListFragmentInteraction(Person item);
-        void onPendingHookupItemClicked(Person item);
+        void onPendingHookupItemClicked(User item);
     }
 }

@@ -13,19 +13,20 @@ import hookupandroid.R;
 import hookupandroid.common.enums.PersonRelation;
 import hookupandroid.fragments.FriendsFragment;
 import hookupandroid.model.Person;
+import hookupandroid.model.User;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link Person} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link User} and makes a call to the
  * TODO: Replace the implementation with code for your data type.
  */
 public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecyclerViewAdapter.ViewHolder> implements FriendsFragment.OnFriendsListFragmentInteractionListener {
 
-    private final List<Person> mValues;
+    private final List<User> mValues;
     private final FriendsFragment.OnFriendsListFragmentInteractionListener mListener;
 
-    public FriendsRecyclerViewAdapter(List<Person> items, FriendsFragment.OnFriendsListFragmentInteractionListener listener) {
+    public FriendsRecyclerViewAdapter(List<User> items, FriendsFragment.OnFriendsListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -41,18 +42,19 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mItem.setTempPosition(position);
+        holder.mItem.setPersonRelation(PersonRelation.FRIEND);
 
-        int mod = position%3;
-
-        if(mod == 0) {
-            holder.mItem.setPersonRelation(PersonRelation.NON_FRIEND);
-        }
-        else if (mod == 1) {
-            holder.mItem.setPersonRelation(PersonRelation.FRIEND);
-        }
-        else {
-            holder.mItem.setPersonRelation(PersonRelation.PENDING);
-        }
+//        int mod = position%3;
+//
+//        if(mod == 0) {
+//            holder.mItem.setPersonRelation(PersonRelation.NON_FRIEND);
+//        }
+//        else if (mod == 1) {
+//            holder.mItem.setPersonRelation(PersonRelation.FRIEND);
+//        }
+//        else {
+//            holder.mItem.setPersonRelation(PersonRelation.PENDING);
+//        }
 
         holder.setPersonData();
 
@@ -74,12 +76,12 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
     }
 
     @Override
-    public void onPersonViewClicked(Person item) {
+    public void onPersonViewClicked(User item) {
 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public Person mItem;
+        public User mItem;
 
         @BindView(R.id.txt_friend_fullname) TextView txtFullname;
         @BindView(R.id.txt_friend_hometown) TextView txtHometown;

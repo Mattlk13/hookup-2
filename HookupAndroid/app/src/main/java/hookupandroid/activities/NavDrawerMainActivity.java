@@ -3,6 +3,7 @@ package hookupandroid.activities;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -22,10 +24,19 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hookupandroid.R;
+import hookupandroid.common.Constants;
 import hookupandroid.common.FragmentTransitionUtils;
 import hookupandroid.common.enums.PersonRelation;
 import hookupandroid.fragments.AuthFragment;
@@ -39,6 +50,14 @@ import hookupandroid.fragments.ViewFriendProfileFragment;
 import hookupandroid.fragments.ViewNonFriendProfileFragment;
 import hookupandroid.fragments.ViewPendingProfileFragment;
 import hookupandroid.model.Person;
+import hookupandroid.model.User;
+import hookupandroid.tasks.GetFriendsTask;
+import hookupandroid.tasks.GetPendingHookupsTask;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class NavDrawerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AuthFragment.OnAuthFragmentInteractionListener,
@@ -50,6 +69,9 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth auth;
+
+    public static ArrayList<User> friends;
+    public static ArrayList<User> pendingHookups;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -156,9 +178,15 @@ public class NavDrawerMainActivity extends AppCompatActivity
             toolbarTitle = "Discover matches";
         } else if (id == R.id.nav_friends) {
             frag=new FriendsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("friends", friends);
+            frag.setArguments(bundle);
             toolbarTitle = "Friends";
         } else if (id == R.id.nav_pendingHookups) {
             frag=new PendingHookupsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("pending-hookups", pendingHookups);
+            frag.setArguments(bundle);
             toolbarTitle = "Pending hookups";
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(NavDrawerMainActivity.this, SettingsActivity.class);
@@ -196,11 +224,15 @@ public class NavDrawerMainActivity extends AppCompatActivity
     @Override
     public void onSuccessLogon() {
         toolbar.setTitle("Home");
+
+        new GetFriendsTask().execute();
+        new GetPendingHookupsTask().execute();
+
         FragmentTransitionUtils.to(new HomeFragment(), this);
     }
 
     @Override
-    public void onPersonViewClicked(Person item) {
+    public void onPersonViewClicked(User item) {
         PersonRelation relation = item.getPersonRelation();
 
         Fragment frag = null;
@@ -223,12 +255,11 @@ public class NavDrawerMainActivity extends AppCompatActivity
         }
 
         frag.setArguments(bundle);
-
         FragmentTransitionUtils.to(frag, this);
     }
 
     @Override
-    public void onPendingHookupItemClicked(Person item) {
+    public void onPendingHookupItemClicked(User item) {
         onPersonViewClicked(item);
     }
 
@@ -268,5 +299,5 @@ public class NavDrawerMainActivity extends AppCompatActivity
         toolbar.setTitle("Home");
         FragmentTransitionUtils.to(new HomeFragment(), this);
     }
-    
+
 }

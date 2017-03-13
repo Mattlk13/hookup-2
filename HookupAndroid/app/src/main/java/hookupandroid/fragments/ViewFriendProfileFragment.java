@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import hookupandroid.R;
 import hookupandroid.model.Person;
+import hookupandroid.model.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,7 +28,7 @@ public class ViewFriendProfileFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private Person person;
+    private User friend;
 
     private Unbinder unbinder;
 
@@ -70,7 +71,7 @@ public class ViewFriendProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        person = (Person) getArguments().getSerializable("personData");
+        friend = (User) getArguments().getSerializable("personData");
     }
 
     @Override
@@ -80,13 +81,13 @@ public class ViewFriendProfileFragment extends Fragment {
         View inflatedView = inflater.inflate(R.layout.fragment_view_friend_profile, container, false);
         unbinder = ButterKnife.bind(this, inflatedView);
 
-        setViewDetails(person);
+        setViewDetails(friend);
 
         return inflatedView;
     }
 
-    private void setViewDetails(Person person) {
-        txtPersonFullname.setText(person.getFirstname() + " " + person.getLastname());
+    private void setViewDetails(User friend) {
+        txtPersonFullname.setText(friend.getFirstname() + " " + friend.getLastname());
     }
 
     // TODO: Rename method, update argument and hook method into UI event

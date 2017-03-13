@@ -2,6 +2,7 @@ package hookupandroid.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,10 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import hookupandroid.R;
 import hookupandroid.adapters.FriendsRecyclerViewAdapter;
 import hookupandroid.fragments.dummy.PersonContent;
 import hookupandroid.model.Person;
+import hookupandroid.model.User;
 
 /**
  * A fragment representing a list of Items.
@@ -27,8 +33,10 @@ public class FriendsFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final String ARG_FRIENDS = "friends";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+    private ArrayList<User> friends;
     private OnFriendsListFragmentInteractionListener callback;
 
     /**
@@ -40,10 +48,12 @@ public class FriendsFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static FriendsFragment newInstance(int columnCount) {
+    public static FriendsFragment newInstance(int columnCount, ArrayList<User> friends) {
         FriendsFragment fragment = new FriendsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
+//        args.putParcelableArrayList(ARG_FRIENDS, new ArrayList<>(friends));
+        args.putSerializable(ARG_FRIENDS, friends);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,6 +64,7 @@ public class FriendsFragment extends Fragment {
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            friends = (ArrayList<User>) getArguments().getSerializable(ARG_FRIENDS);
         }
     }
 
@@ -71,8 +82,10 @@ public class FriendsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-//            recyclerView.setAdapter(new FriendsRecyclerViewAdapter(PersonContent.ITEMS, callback));
-            recyclerView.setAdapter(new FriendsRecyclerViewAdapter(PersonContent.ITEMS, callback));
+
+            if(friends != null) {
+                recyclerView.setAdapter(new FriendsRecyclerViewAdapter(friends, callback));
+            }
         }
         return view;
     }
@@ -94,13 +107,6 @@ public class FriendsFragment extends Fragment {
         callback = null;
     }
 
-//    @Override
-//    public void onListItemClick(ListView l, View v, int position, long id) {
-//        //callback.
-//        Person person = (Person)l.getAdapter().getItem(position);
-//        callback.onPersonViewClicked(person);
-//    }
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -113,6 +119,6 @@ public class FriendsFragment extends Fragment {
      */
     public interface OnFriendsListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onPersonViewClicked(Person item);
+        void onPersonViewClicked(User item);
     }
 }

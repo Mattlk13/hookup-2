@@ -164,18 +164,10 @@ public class FirebaseUserController {
     public ResponseEntity<List<User>> getAllUsers(ModelMap model) {
         List<User> users = userRepository.findAll();
         List<User> returnUsers = new ArrayList<User>();
-//        retVal = new ResponseEntity<List<User>>(users, HttpStatus.OK);
 
         for (User u : users) {
             returnUsers.add(getUser(u));
         }
-//        User user = userRepository.findOne(4624);
-
-//        String userJSON = new Gson().toJson(user);
-
-//        User u = new User();
-//        u.setFirstname("Bandar");
-//        u.setEmail("jedigovna@gmail.com");
 
         return new ResponseEntity<List<User>>(returnUsers, HttpStatus.OK);
     }
@@ -210,7 +202,6 @@ public class FirebaseUserController {
     private User getUser(User u) {
         User user = new User();
         user.setFirebaseUID(u.getFirebaseUID());
-//        user.setEmail(u.getEmail());
         user.setFirstname(u.getFirstname());
         user.setLastname(u.getLastname());
         if(u.getAboutMe() != null) {

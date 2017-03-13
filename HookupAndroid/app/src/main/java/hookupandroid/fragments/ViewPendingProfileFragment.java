@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import hookupandroid.R;
 import hookupandroid.model.Person;
+import hookupandroid.model.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,16 +23,8 @@ import hookupandroid.model.Person;
  * create an instance of this fragment.
  */
 public class ViewPendingProfileFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private Person person;
+    private User pendingProfile;
 
     private OnViewPendingProfileInteractionListener mListener;
     private View inflatedView;
@@ -55,8 +48,6 @@ public class ViewPendingProfileFragment extends Fragment {
     public static ViewPendingProfileFragment newInstance(String param1, String param2) {
         ViewPendingProfileFragment fragment = new ViewPendingProfileFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,11 +56,9 @@ public class ViewPendingProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            pendingProfile = (User) getArguments().getSerializable("personData");
         }
 
-        person = (Person) getArguments().getSerializable("personData");
     }
 
     @Override
@@ -78,12 +67,12 @@ public class ViewPendingProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         inflatedView = inflater.inflate(R.layout.fragment_view_pending_profile, container, false);
         unbinder = ButterKnife.bind(this, inflatedView);
-        setViewDetails(person);
+        setViewDetails(pendingProfile);
 
         return inflatedView;
     }
 
-    private void setViewDetails(Person person) {
+    private void setViewDetails(User person) {
         txtPersonFullname.setText(person.getFirstname() + " " + person.getLastname());
     }
 

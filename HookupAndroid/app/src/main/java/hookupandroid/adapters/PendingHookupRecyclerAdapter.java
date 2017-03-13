@@ -16,16 +16,16 @@ import butterknife.OnClick;
 import hookupandroid.R;
 import hookupandroid.common.enums.PersonRelation;
 import hookupandroid.fragments.PendingHookupsFragment;
-import hookupandroid.model.Person;
+import hookupandroid.model.User;
 
 import java.util.List;
 
 public class PendingHookupRecyclerAdapter extends RecyclerView.Adapter<PendingHookupRecyclerAdapter.PendingHookupViewHolder> {
 
-    private final List<Person> persons;
+    private final List<User> persons;
     private final PendingHookupsFragment.OnPendingHookupInteractionListener mListener;
 
-    public PendingHookupRecyclerAdapter(List<Person> items, PendingHookupsFragment.OnPendingHookupInteractionListener listener) {
+    public PendingHookupRecyclerAdapter(List<User> items, PendingHookupsFragment.OnPendingHookupInteractionListener listener) {
         persons = items;
         mListener = listener;
     }
@@ -44,18 +44,18 @@ public class PendingHookupRecyclerAdapter extends RecyclerView.Adapter<PendingHo
         holder.mItem = persons.get(position);
         holder.mItem.setTempPosition(position);
         holder.setData();
+        holder.mItem.setPersonRelation(PersonRelation.PENDING);
+//        int mod = position%3;
 
-        int mod = position%3;
-
-        if(mod == 0) {
-            holder.mItem.setPersonRelation(PersonRelation.NON_FRIEND);
-        }
-        else if (mod == 1) {
-            holder.mItem.setPersonRelation(PersonRelation.FRIEND);
-        }
-        else {
-            holder.mItem.setPersonRelation(PersonRelation.PENDING);
-        }
+//        if(mod == 0) {
+//            holder.mItem.setPersonRelation(PersonRelation.NON_FRIEND);
+//        }
+//        else if (mod == 1) {
+//            holder.mItem.setPersonRelation(PersonRelation.FRIEND);
+//        }
+//        else {
+//            holder.mItem.setPersonRelation(PersonRelation.PENDING);
+//        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +84,7 @@ public class PendingHookupRecyclerAdapter extends RecyclerView.Adapter<PendingHo
 
         View viewHolder;
 
-        Person mItem;
+        User mItem;
 
         public PendingHookupViewHolder(View view) {
             super(view);
@@ -104,15 +104,6 @@ public class PendingHookupRecyclerAdapter extends RecyclerView.Adapter<PendingHo
             Toast.makeText(viewHolder.getContext(), "fuck yeah ... decline", Toast.LENGTH_SHORT).show();
             removeItem();
         }
-
-//        public void setData(hookupandroid.model.Person person, int position) {
-//            txtFullname.setText(person.getFirstname() + " " + person.getLastname());
-//            txtHometown.setText(person.getCity() + ", " + person.getCountry());
-//            imgProfile.setImageResource(person.getImage_id());
-//
-//            this.position = position;
-//            this.currentPerson = person;
-//        }
 
         private void removeItem() {
             persons.remove(mItem.getTempPosition());

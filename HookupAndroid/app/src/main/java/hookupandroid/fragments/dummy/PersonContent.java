@@ -27,10 +27,16 @@ public class PersonContent {
 
     private static final int COUNT = 10;
 
-    static {
-        // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyItem(i));
+//    static {
+//        // Add some sample items.
+//        for (int i = 1; i <= COUNT; i++) {
+//            addItem(createDummyItem(i));
+//        }
+//    }
+
+    public static void addPersons(ArrayList<Person> persons) {
+        for(Person person: persons) {
+            addItem(person);
         }
     }
 
