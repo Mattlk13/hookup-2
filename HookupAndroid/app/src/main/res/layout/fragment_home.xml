@@ -23,6 +23,14 @@
             android:layout_gravity="center"
             android:text="Complete profile!"/>
 
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_set_user_mock_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:text="Set new mock location"/>
+
     </LinearLayout>
 
     <!-- TODO: Update blank fragment layout -->

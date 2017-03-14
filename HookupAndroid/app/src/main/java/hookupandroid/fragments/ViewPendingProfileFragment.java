@@ -7,12 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import hookupandroid.R;
 import hookupandroid.model.Person;
 import hookupandroid.model.User;
+import hookupandroid.tasks.UpdateHookupResponseTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +34,10 @@ public class ViewPendingProfileFragment extends Fragment {
     private View inflatedView;
     private Unbinder unbinder;
 
-    @BindView(R.id.txt_pending_view_fullname) TextView txtPersonFullname;
+    @BindView(R.id.txt_pending_friend_view_fullname_and_age) TextView txtPersonFullname;
+    @BindView(R.id.txt_pending_friend_city) TextView txtPersonCity;
+    @BindView(R.id.txt_pending_friend_career) TextView txtPesonCareer;
+    @BindView(R.id.txt_pending_friend_view_about_me) TextView txtPersonAboutMe;
 
     public ViewPendingProfileFragment() {
         // Required empty public constructor
@@ -40,12 +47,10 @@ public class ViewPendingProfileFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment ViewPendingProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ViewPendingProfileFragment newInstance(String param1, String param2) {
+    public static ViewPendingProfileFragment newInstance() {
         ViewPendingProfileFragment fragment = new ViewPendingProfileFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -58,7 +63,6 @@ public class ViewPendingProfileFragment extends Fragment {
         if (getArguments() != null) {
             pendingProfile = (User) getArguments().getSerializable("personData");
         }
-
     }
 
     @Override
@@ -72,16 +76,17 @@ public class ViewPendingProfileFragment extends Fragment {
         return inflatedView;
     }
 
-    private void setViewDetails(User person) {
-        txtPersonFullname.setText(person.getFirstname() + " " + person.getLastname());
+    private void setViewDetails(User friend) {
+        txtPersonFullname.setText(friend.getFirstname() + " " + friend.getLastname() + ", " + friend.getAge());
+        txtPersonCity.setText(friend.getCity());
+        txtPesonCareer.setText(friend.getBasicInfo().getCareer());
+        txtPersonAboutMe.setText(friend.getAboutMe());
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
+    @OnClick(R.id.img_pending_profile_accept)
+    public void onHeartIconClicked() {
+        new UpdateHookupResponseTask().execute(new String[]{FirebaseAuth.getInstance().getCurrentUser().getUid(), pendingProfile.getFirebaseUID()});
+    }
 
 //    @Override
 //    public void onAttach(Context context) {

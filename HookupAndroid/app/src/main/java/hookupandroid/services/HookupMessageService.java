@@ -3,7 +3,10 @@ package hookupandroid.services;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -13,6 +16,7 @@ import java.util.UUID;
 
 import hookupandroid.R;
 import hookupandroid.activities.NavDrawerMainActivity;
+import hookupandroid.common.CommonUtils;
 
 /**
  * Created by Bandjur on 8/20/2016.
@@ -38,6 +42,9 @@ public class HookupMessageService extends FirebaseMessagingService {
         else {
             notifyHookupUser(personName, hookupUserUID, isRecommendedHookup);
         }
+
+//        MediaPlayer mp = MediaPlayer.create(this, Uri.parse(NavDrawerMainActivity.notificationAudioPath));
+//        mp.start();
     }
 
     private void notifySuccessFriends(String personName, String hookupUserUID) {
@@ -49,12 +56,21 @@ public class HookupMessageService extends FirebaseMessagingService {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        String notifications_new_message_ringtone = PreferenceManager.getDefaultSharedPreferences(this).getString("notifications_new_message_ringtone", "ffs");
+        boolean isVibrateOn = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("notifications_new_message_vibrate", false);
+        Uri soundUri = Uri.parse(notifications_new_message_ringtone);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setAutoCancel(false)
                 .setContentTitle("Congratulations!")
                 .setSmallIcon(R.drawable.green_success_icon)
                 .setContentText(personName + " and you have just become friends.")
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setSound(soundUri);
+
+        if(isVibrateOn) {
+            builder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+        }
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.notify(notificationID,builder.build());
@@ -69,10 +85,19 @@ public class HookupMessageService extends FirebaseMessagingService {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        String notifications_new_message_ringtone = PreferenceManager.getDefaultSharedPreferences(this).getString("notifications_new_message_ringtone", "ffs");
+        boolean isVibrateOn = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("notifications_new_message_vibrate", false);
+        Uri soundUri = Uri.parse(notifications_new_message_ringtone);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setAutoCancel(false)
                 .setContentTitle("Mmmm! New hook up request")
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setSound(soundUri);
+
+        if(isVibrateOn) {
+            builder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+        }
 
         if(isRecommendedHookup) {
             builder.setSmallIcon(R.drawable.red_two_hearts);

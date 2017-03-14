@@ -32,6 +32,8 @@ public class User implements Serializable{
 
     private String imgUrl;
 
+    private UserBasicInfoForJson basicInfo;
+
     public int getId() {
         return id;
     }
@@ -158,5 +160,13 @@ public class User implements Serializable{
 
     public void setPersonRelation(PersonRelation personRelation) {
         this.personRelation = personRelation;
+    }
+
+    public UserBasicInfoForJson getBasicInfo() {
+        return basicInfo;
+    }
+
+    public void setBasicInfo(UserBasicInfoForJson basicInfo) {
+        this.basicInfo = basicInfo;
     }
 }

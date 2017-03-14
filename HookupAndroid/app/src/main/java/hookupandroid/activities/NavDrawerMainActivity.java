@@ -3,8 +3,10 @@ package hookupandroid.activities;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -36,6 +38,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hookupandroid.R;
+import hookupandroid.common.CommonUtils;
 import hookupandroid.common.Constants;
 import hookupandroid.common.FragmentTransitionUtils;
 import hookupandroid.common.enums.PersonRelation;
@@ -80,7 +83,6 @@ public class NavDrawerMainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_drawer_main);
         ButterKnife.bind(this);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if (mGoogleApiClient == null) {
@@ -93,6 +95,11 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
         auth = FirebaseAuth.getInstance();
 
+        if(auth.getCurrentUser() != null) {
+            new GetFriendsTask().execute();
+            new GetPendingHookupsTask().execute();
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -101,7 +108,17 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+//        setNotificationAudioPath();
     }
+
+//    private void setNotificationAudioPath() {
+//        String notifications_new_message_ringtone = PreferenceManager.getDefaultSharedPreferences(this).getString("notifications_new_message_ringtone", "ffs");
+////        Uri soundUri = Uri.withAppendedPath(MediaStore.Audio.Media.INTERNAL_CONTENT_URI, notifications_new_message_ringtone);
+//        Uri soundUri = Uri.parse(notifications_new_message_ringtone);
+//        String realAudioPath = CommonUtils.getRealAudioPathFromURI(this, soundUri);
+//        notificationAudioPath = realAudioPath;
+//    }
 
     @Override
     protected void onNewIntent(Intent intent) {

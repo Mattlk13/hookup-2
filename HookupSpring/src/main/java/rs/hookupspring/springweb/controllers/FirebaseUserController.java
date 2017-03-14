@@ -17,6 +17,7 @@ import rs.hookupspring.dao.HookupRepository;
 import rs.hookupspring.dao.UserRepository;
 import rs.hookupspring.entity.Hookup;
 import rs.hookupspring.entity.User;
+import rs.hookupspring.entity.UserBasicInfo;
 import rs.hookupspring.springweb.dto.UserPersonalizationDto;
 import rs.hookupspring.springweb.services.FirebaseNotificationService;
 import rs.hookupspring.springweb.services.LocationsDistanceService;
@@ -204,9 +205,17 @@ public class FirebaseUserController {
         user.setFirebaseUID(u.getFirebaseUID());
         user.setFirstname(u.getFirstname());
         user.setLastname(u.getLastname());
+        user.setAge(u.getAge());
+        user.setCity(u.getCity());
+        user.setCountry(u.getCountry());
+
         if(u.getAboutMe() != null) {
             user.setAboutMe(u.getAboutMe());
         }
+
+        UserBasicInfo basicInfo = new UserBasicInfo();
+        basicInfo.setCareer(u.getBasicInfo().getCareer());
+        user.setBasicInfo(basicInfo);
 
         return user;
     }

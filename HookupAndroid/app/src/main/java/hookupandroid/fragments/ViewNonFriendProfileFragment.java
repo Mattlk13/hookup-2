@@ -30,7 +30,10 @@ public class ViewNonFriendProfileFragment extends Fragment {
     private View inflatedView;
     private Unbinder unbinder;
 
-    @BindView(R.id.txt_non_friend_view_fullname) TextView txtFullname;
+    @BindView(R.id.txt_non_friend_view_fullname_and_age) TextView txtPersonFullname;
+    @BindView(R.id.txt_non_friend_city) TextView txtPersonCity;
+    @BindView(R.id.txt_non_friend_career) TextView txtPesonCareer;
+    @BindView(R.id.txt_non_friend_view_about_me) TextView txtPersonAboutMe;
 
     public ViewNonFriendProfileFragment() {
         // Required empty public constructor
@@ -70,16 +73,12 @@ public class ViewNonFriendProfileFragment extends Fragment {
         return inflatedView;
     }
 
-    private void setViewDetails(User person) {
-        txtFullname.setText(person.getFirstname() + " " + person.getLastname());
+    private void setViewDetails(User friend) {
+        txtPersonFullname.setText(friend.getFirstname() + " " + friend.getLastname() + ", " + friend.getAge());
+        txtPersonCity.setText(friend.getCity());
+        txtPesonCareer.setText(friend.getBasicInfo().getCareer());
+        txtPersonAboutMe.setText(friend.getAboutMe());
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
 
 //    @Override
 //    public void onAttach(Context context) {

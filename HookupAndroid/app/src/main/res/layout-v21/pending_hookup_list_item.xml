@@ -90,6 +90,7 @@
             <LinearLayout
                 android:id="@+id/layout_pending_accept"
                 android:layout_width="wrap_content"
+                android:layout_marginTop="20dp"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:layout_width="30dp"
@@ -107,7 +108,8 @@
             <LinearLayout
                 android:id="@+id/layout_pending_decline"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="20dp"
@@ -121,23 +123,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-            <LinearLayout
-                android:id="@+id/layout_pending_profile_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="20dp"
-                    android:layout_margin="8dp"
-                    android:src="@drawable/heart"
-                    android:tint="@color/grey_500"/>
-                <TextView
-                    android:text="View"
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:id="@+id/layout_pending_profile_view"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<ImageView-->
+                    <!--android:layout_width="30dp"-->
+                    <!--android:layout_height="20dp"-->
+                    <!--android:layout_margin="8dp"-->
+                    <!--android:src="@drawable/heart"-->
+                    <!--android:tint="@color/grey_500"/>-->
+                <!--<TextView-->
+                    <!--android:text="View"-->
+                    <!--android:layout_marginRight="10dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content" />-->
+            <!--</LinearLayout>-->
         </LinearLayout>
     </LinearLayout>
 

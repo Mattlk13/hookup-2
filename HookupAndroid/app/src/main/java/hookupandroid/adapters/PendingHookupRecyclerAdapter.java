@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -17,6 +19,7 @@ import hookupandroid.R;
 import hookupandroid.common.enums.PersonRelation;
 import hookupandroid.fragments.PendingHookupsFragment;
 import hookupandroid.model.User;
+import hookupandroid.tasks.UpdateHookupResponseTask;
 
 import java.util.List;
 
@@ -96,6 +99,7 @@ public class PendingHookupRecyclerAdapter extends RecyclerView.Adapter<PendingHo
         @OnClick(R.id.layout_pending_accept)
         public void OnPendingAcceptClicked() {
             Toast.makeText(viewHolder.getContext(), "fuck yeah ... accept", Toast.LENGTH_SHORT).show();
+            new UpdateHookupResponseTask().execute(new String[]{FirebaseAuth.getInstance().getCurrentUser().getUid(), mItem.getFirebaseUID()});
             removeItem();
         }
 
@@ -112,7 +116,7 @@ public class PendingHookupRecyclerAdapter extends RecyclerView.Adapter<PendingHo
         }
 
         public void setData() {
-            txtFullname.setText(mItem.getFirstname() + " pending " + mItem.getLastname());
+            txtFullname.setText(mItem.getFirstname() + " " + mItem.getLastname());
             txtHometown.setText(mItem.getCity() + ", " + mItem.getCountry());
         }
 

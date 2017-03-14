@@ -68,7 +68,7 @@ public class TestController {
 
         model.addAttribute("message", "Hello world from test controller. There are " + userRepository.findAll().size() + " users in the database. !");
 
-        User me = userRepository.findOne(4622);
+        User me = userRepository.findOne(4624);
         User randomPerson = userRepository.findOne(3687);
 //
         firebaseNotificationService.sendFcmDataTest(me, randomPerson, true);

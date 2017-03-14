@@ -8,20 +8,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:src="@drawable/user1" />
 
         <TextView
-            android:id="@+id/txt_friend_view_fullname"
+            android:id="@+id/txt_friend_view_fullname_and_age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Firstname Lastname" />
+            android:text="Firstname Lastname, Age" />
+
+        <TextView
+            android:id="@+id/txt_friend_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="City" />
+
+        <TextView
+            android:id="@+id/txt_friend_career"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Career" />
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="match_parent"
