@@ -49,9 +49,11 @@ public class GetFriendsTask extends AsyncTask<String, String, String> {
         try {
             Response response = client.newCall(request).execute();
             String json = response.body().string();
-            Type listType = new TypeToken<ArrayList<User>>(){}.getType();
-            users = new Gson().fromJson(json, listType);
-            NavDrawerMainActivity.friends = users;
+            if(!json.isEmpty()) {
+                Type listType = new TypeToken<ArrayList<User>>() {}.getType();
+                users = new Gson().fromJson(json, listType);
+                NavDrawerMainActivity.friends = users;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

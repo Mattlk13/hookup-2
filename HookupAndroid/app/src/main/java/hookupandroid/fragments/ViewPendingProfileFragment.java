@@ -1,5 +1,6 @@
 package hookupandroid.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,8 +15,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import hookupandroid.R;
-import hookupandroid.model.Person;
+import hookupandroid.activities.NavDrawerMainActivity;
 import hookupandroid.model.User;
+import hookupandroid.tasks.UnfriendUserTask;
 import hookupandroid.tasks.UpdateHookupResponseTask;
 
 /**
@@ -86,24 +88,42 @@ public class ViewPendingProfileFragment extends Fragment {
     @OnClick(R.id.img_pending_profile_accept)
     public void onHeartIconClicked() {
         new UpdateHookupResponseTask().execute(new String[]{FirebaseAuth.getInstance().getCurrentUser().getUid(), pendingProfile.getFirebaseUID()});
+
+        if(mListener != null) {
+            mListener.onPendingHookupResponseAction(pendingProfile);
+        }
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnViewNonFriendProfileInteractionListener) {
-//            mListener = (OnViewNonFriendProfileInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnViewNonFriendProfileInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
+    @OnClick(R.id.img_pending_profile_decline)
+    public void onBrokenHeartClicked() {
+        new UnfriendUserTask().execute(pendingProfile.getFirebaseUID());
+
+        if(mListener != null) {
+            mListener.onPendingHookupResponseAction(pendingProfile);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if(context instanceof  OnViewPendingProfileInteractionListener) {
+            mListener = (OnViewPendingProfileInteractionListener) context;
+        }
+        else if(getActivity() instanceof OnViewPendingProfileInteractionListener) {
+            mListener = (OnViewPendingProfileInteractionListener) getActivity();
+        }
+        else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnViewNonFriendProfileInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -118,5 +138,7 @@ public class ViewPendingProfileFragment extends Fragment {
     public interface OnViewPendingProfileInteractionListener {
         // TODO: Update argument type and name
 //        void onFragmentInteraction(Uri uri);
+        void onPendingHookupResponseAction(User pendingProfile);
+//        void onPendingHookupResponseAction();
     }
 }

@@ -141,7 +141,7 @@ public class OldGeoLocActivity extends AppCompatActivity {
         @Override
         public void onLocationChanged(Location location) {
             // do whatever you want, scroll the map, etc.
-            new UpdateUserLocationTask(OldGeoLocActivity.this).execute(location);
+            new UpdateUserLocationTask().execute(location);
         }
 
         @Override

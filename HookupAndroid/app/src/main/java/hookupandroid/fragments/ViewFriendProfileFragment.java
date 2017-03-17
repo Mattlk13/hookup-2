@@ -1,17 +1,24 @@
 package hookupandroid.fragments;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import hookupandroid.R;
 import hookupandroid.model.User;
+import hookupandroid.tasks.UnfriendUserTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,15 +31,22 @@ import hookupandroid.model.User;
 public class ViewFriendProfileFragment extends Fragment {
 
     private User friend;
-
     private Unbinder unbinder;
 
-    @BindView(R.id.txt_friend_view_fullname_and_age) TextView txtPersonFullname;
-    @BindView(R.id.txt_friend_city) TextView txtPersonCity;
-    @BindView(R.id.txt_friend_career) TextView txtPesonCareer;
-    @BindView(R.id.txt_friend_view_about_me) TextView txtPersonAboutMe;
-
     private OnViewFriendProfileInteractionListner mListener;
+
+
+    @BindView(R.id.txt_friend_view_fullname_and_age)
+    TextView txtPersonFullname;
+    @BindView(R.id.txt_friend_city)
+    TextView txtPersonCity;
+    @BindView(R.id.txt_friend_career)
+    TextView txtPesonCareer;
+    @BindView(R.id.txt_friend_view_about_me)
+    TextView txtPersonAboutMe;
+    @BindView(R.id.img_friend_delete)
+    ImageView imgDeleteFriend;
+
 
     public ViewFriendProfileFragment() {
         // Required empty public constructor
@@ -86,23 +100,45 @@ public class ViewFriendProfileFragment extends Fragment {
         unbinder.unbind();
     }
 
+    @OnClick(R.id.img_friend_delete)
+    public void unfriendOnTrashIconClicked() {
+        new AlertDialog.Builder(imgDeleteFriend.getContext())
+                .setTitle("Unfriend")
+                .setMessage("Are you sure you want to unfriend this person?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        new UnfriendUserTask().execute(friend.getFirebaseUID());
+                        mListener.onFriendResponseAction(friend);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnViewFriendProfileInteractionListner) {
-//            mListener = (OnViewFriendProfileInteractionListner) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnViewFriendProfileInteractionListner");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof OnViewFriendProfileInteractionListner) {
+            mListener = (OnViewFriendProfileInteractionListner) context;
+        } else if (getActivity() instanceof OnViewFriendProfileInteractionListner) {
+            mListener = (OnViewFriendProfileInteractionListner) getActivity();
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnViewNonFriendProfileInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -115,7 +151,6 @@ public class ViewFriendProfileFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnViewFriendProfileInteractionListner {
-        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
+        void onFriendResponseAction(User friend);
     }
 }

@@ -60,6 +60,30 @@ public class UserHookupService {
         return hookupList;
     }
 
+    public List<User> getRecommendedHookupUserList(User user) {
+        List<User> hookupList = new ArrayList<User>();
+
+        for (Hookup hookup : hookupRepository.findAllByUserAId(user.getId())) {
+            if (!hookup.isPaired() && hookup.isRecommended()) {
+                User compareUser = userRepository.findOne(hookup.getUserBId());
+                if (!hookupList.contains(compareUser)) {
+                    hookupList.add(compareUser);
+                }
+            }
+        }
+
+        for (Hookup hookup : hookupRepository.findAllByUserBId(user.getId())) {
+            if (!hookup.isPaired() && hookup.isRecommended()) {
+                User compareUser = userRepository.findOne(hookup.getUserAId());
+                if (!hookupList.contains(compareUser)) {
+                    hookupList.add(compareUser);
+                }
+            }
+        }
+
+        return hookupList;
+    }
+
     public void AddHookupPair(User userA, User userB) {
 
         if(findHookupPair(userA, userB) != null) {

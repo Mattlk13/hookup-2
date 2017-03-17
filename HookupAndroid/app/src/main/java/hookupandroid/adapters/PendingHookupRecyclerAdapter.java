@@ -16,9 +16,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hookupandroid.R;
+import hookupandroid.activities.NavDrawerMainActivity;
 import hookupandroid.common.enums.PersonRelation;
 import hookupandroid.fragments.PendingHookupsFragment;
 import hookupandroid.model.User;
+import hookupandroid.tasks.UnfriendUserTask;
 import hookupandroid.tasks.UpdateHookupResponseTask;
 
 import java.util.List;
@@ -98,14 +100,18 @@ public class PendingHookupRecyclerAdapter extends RecyclerView.Adapter<PendingHo
 
         @OnClick(R.id.layout_pending_accept)
         public void OnPendingAcceptClicked() {
-            Toast.makeText(viewHolder.getContext(), "fuck yeah ... accept", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(viewHolder.getContext(), "fuck yeah ... accept", Toast.LENGTH_SHORT).show();
             new UpdateHookupResponseTask().execute(new String[]{FirebaseAuth.getInstance().getCurrentUser().getUid(), mItem.getFirebaseUID()});
             removeItem();
         }
 
         @OnClick(R.id.layout_pending_decline)
         public void OnPendingDeclineClicked() {
-            Toast.makeText(viewHolder.getContext(), "fuck yeah ... decline", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(viewHolder.getContext(), "fuck yeah ... decline", Toast.LENGTH_SHORT).show();
+            new UnfriendUserTask().execute(mItem.getFirebaseUID());
+//            if(mListener != null && mListener instanceof NavDrawerMainActivity) {
+//                ((NavDrawerMainActivity) mListener).onPendingHookupResponseAction();
+//            }
             removeItem();
         }
 

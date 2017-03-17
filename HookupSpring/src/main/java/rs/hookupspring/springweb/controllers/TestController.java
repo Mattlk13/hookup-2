@@ -26,6 +26,7 @@ import weka.core.Instance;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Bandjur on 8/20/2016.
@@ -63,6 +64,7 @@ public class TestController {
     @Autowired
     private FirebaseNotificationService firebaseNotificationService;
 
+    @Transactional
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
 
@@ -73,6 +75,14 @@ public class TestController {
 //
         firebaseNotificationService.sendFcmDataTest(me, randomPerson, true);
         firebaseNotificationService.sendFcmDataTest(randomPerson, me, true);
+
+        for(User u : userRepository.findAll()) {
+            if (u.getFirebaseUID() == null || u.getFirebaseUID().equals("")) {
+                u.setFirebaseUID(UUID.randomUUID().toString());
+                userRepository.save(u);
+            }
+        }
+
 //        firebaseNotificationService.sendFcmDataTest(me, randomPerson, false);
 
 
@@ -294,4 +304,5 @@ public class TestController {
 
         return "hello";
     }
+
 }

@@ -281,7 +281,7 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
 
     @Override
     public void onValidationSucceeded() {
-        Toast.makeText(getContext(), "Yay! we got it right!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "Yay! we got it right!", Toast.LENGTH_SHORT).show();
         auth.signInWithEmailAndPassword(txtEmail.getText().toString(), txtPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

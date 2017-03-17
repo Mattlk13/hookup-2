@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,12 +90,18 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
     @BindView(R.id.img_signup_country)
     ImageView imgCountry;
 
+
+    @BindView(R.id.input_signup_city) EditText cityEditText;
+
     @NotEmpty
     @BindView(R.id.input_signup_firstname)
     EditText firstnameEditText;
     @NotEmpty
     @BindView(R.id.input_signup_lastname)
     EditText lastnameEditText;
+
+    @BindView(R.id.radioF) RadioButton femaleRadioButton;
+
 
 
     @NotEmpty
@@ -181,13 +188,29 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
                     Toast.makeText(getContext(), "You have successfully registered ", Toast.LENGTH_SHORT).show();
                     String token = FirebaseInstanceId.getInstance().getToken();
 
+                    if(mLastLocation == null) {
+                        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                                mGoogleApiClient);
+                    }
+
                     RegisterUserTask registerAsyncTask = new RegisterUserTask(getContext());
                     UserData data = new UserData();
                     data.setEmail(emailEditText.getText().toString());
                     data.setUid(auth.getCurrentUser().getUid());
-                    data.setLatitude(String.valueOf(mLastLocation.getLatitude()));
-                    data.setLongitude(String.valueOf(mLastLocation.getLongitude()));
+                    if(mLastLocation != null) {
+                        data.setLatitude(String.valueOf(mLastLocation.getLatitude()));
+                        data.setLongitude(String.valueOf(mLastLocation.getLongitude()));
+                    }
                     data.setToken(token);
+                    data.setAge(ageEditText.getText().toString());
+                    if(femaleRadioButton.isChecked()) {
+                        data.setGender("Female");
+                    }
+                    else {
+                        data.setGender("Male");
+                    }
+                    data.setCity(cityEditText.getText().toString());
+
                     registerAsyncTask.execute(data);
 
                     mListener.onSuccessRegistration();

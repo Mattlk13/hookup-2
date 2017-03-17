@@ -43,6 +43,9 @@ public class RegisterUserTask extends AsyncTask<UserData, String, String> {
                 .add("token",data.getToken())
                 .add("latitude",data.getLatitude())
                 .add("longitude",data.getLongitude())
+                .add("age",data.getAge())
+                .add("gender",data.getGender())
+                .add("city",data.getCity())
                 .build();
 
         Request request = new Request.Builder()

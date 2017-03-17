@@ -1,5 +1,7 @@
 package hookupandroid.adapters;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +11,12 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import hookupandroid.R;
 import hookupandroid.common.enums.PersonRelation;
 import hookupandroid.fragments.FriendsFragment;
-import hookupandroid.model.Person;
 import hookupandroid.model.User;
+import hookupandroid.tasks.UnfriendUserTask;
 
 import java.util.List;
 
@@ -23,11 +26,11 @@ import java.util.List;
  */
 public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecyclerViewAdapter.ViewHolder> implements FriendsFragment.OnFriendsListFragmentInteractionListener {
 
-    private final List<User> mValues;
+    private final List<User> friends;
     private final FriendsFragment.OnFriendsListFragmentInteractionListener mListener;
 
     public FriendsRecyclerViewAdapter(List<User> items, FriendsFragment.OnFriendsListFragmentInteractionListener listener) {
-        mValues = items;
+        friends = items;
         mListener = listener;
     }
 
@@ -40,7 +43,7 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
+        holder.mItem = friends.get(position);
         holder.mItem.setTempPosition(position);
         holder.mItem.setPersonRelation(PersonRelation.FRIEND);
 
@@ -72,7 +75,7 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return friends.size();
     }
 
     @Override
@@ -85,7 +88,7 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
 
         @BindView(R.id.txt_friend_fullname) TextView txtFullname;
         @BindView(R.id.txt_friend_hometown) TextView txtHometown;
-        @BindView(R.id.img_friend_delete) ImageView imgDelete;
+        @BindView(R.id.img_friend_list_item_delete) ImageView imgDelete;
 
         public ViewHolder(View view) {
             super(view);
@@ -95,6 +98,32 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
         public void setPersonData() {
             txtFullname.setText(mItem.getFirstname() + " " + mItem.getLastname());
             txtHometown.setText(mItem.getCity() + ", " + mItem.getCountry());
+        }
+
+        @OnClick(R.id.img_friend_list_item_delete)
+        public void unfriend() {
+            new AlertDialog.Builder(imgDelete.getContext())
+                    .setTitle("Unfriend")
+                    .setMessage("Are you sure you want to unfriend this person?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            new UnfriendUserTask().execute(mItem.getFirebaseUID());
+                            removeItem();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+
+        private void removeItem() {
+            friends.remove(mItem.getTempPosition());
+            notifyItemRemoved(mItem.getTempPosition());
+            notifyItemRangeChanged(mItem.getTempPosition(), friends.size());
         }
 
     }

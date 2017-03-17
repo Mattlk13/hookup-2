@@ -37,6 +37,10 @@
         based on your message history
     </string>
 
+    <string name="pref_title_share_phone_number">Share phone number with friends</string>
+    <string name="pref_description_share_phone_number">Share phone number with friends so they may send you sms through the app
+    </string>
+
     <string name="pref_title_display_name">Display name</string>
     <string name="pref_default_display_name">John Smith</string>
 

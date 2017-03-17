@@ -10,7 +10,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 
-import hookupandroid.R;
 import hookupandroid.common.Constants;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -21,19 +20,14 @@ import okhttp3.Response;
 /**
  * Created by Bandjur on 8/25/2016.
  */
-public class UpdateUserLocationTask extends AsyncTask<Location, String, String> {
+public class UnfriendUserTask extends AsyncTask<String, String, String> {
 
-//    private final String serverUrl = "http://192.168.0.14:8080";
-//    private String serverUrl;
 
-    public UpdateUserLocationTask() {
-//        serverUrl = context.getString(R.string.server_url);
+    public UnfriendUserTask() {
     }
 
     @Override
-    protected String doInBackground(Location... params) {
-
-//        Location location = params[0];
+    protected String doInBackground(String... params) {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -43,14 +37,10 @@ public class UpdateUserLocationTask extends AsyncTask<Location, String, String> 
 
         OkHttpClient client = new OkHttpClient();
         RequestBody body = new FormBody.Builder()
-                .add("latitude", String.valueOf(params[0].getLatitude()))
-                .add("longitude", String.valueOf(params[0].getLongitude()))
                 .build();
 
         Request request = new Request.Builder()
-                .url(Constants.SERVER_URL + "/firebaseUser/" + currentUser.getUid() + "/updateLocation")
-//                .url(serverUrl + "/firebaseUser/" + currentUser.getUid() + "/updateLocation")
-//                .url(serverUrl + "/firebaseUser/updateLocation")
+                .url(Constants.SERVER_URL + "/firebaseUser/" + currentUser.getUid() + "/unfriend/" + params[0])
                 .post(body)
                 .build();
 

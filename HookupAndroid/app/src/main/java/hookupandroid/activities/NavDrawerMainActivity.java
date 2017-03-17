@@ -66,7 +66,8 @@ public class NavDrawerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AuthFragment.OnAuthFragmentInteractionListener,
         FriendsFragment.OnFriendsListFragmentInteractionListener, PendingHookupsFragment.OnPendingHookupInteractionListener,
         PersonalizationFragment.OnPersonalizationFragmentInteractionListener, HomeFragment.OnHomeFragmentInteractionListener,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, SignupFragment.OnSignupFragmentInteractionListner {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, SignupFragment.OnSignupFragmentInteractionListner,
+        ViewPendingProfileFragment.OnViewPendingProfileInteractionListener, ViewFriendProfileFragment.OnViewFriendProfileInteractionListner {
 
     private final String VIEW_PROFILE_ACTION = "VIEW_PROFILE_ACTION";
 
@@ -75,6 +76,7 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
     public static ArrayList<User> friends;
     public static ArrayList<User> pendingHookups;
+    public static Context mContext;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -93,12 +95,14 @@ public class NavDrawerMainActivity extends AppCompatActivity
                     .build();
         }
 
+        mContext = this;
+
         auth = FirebaseAuth.getInstance();
 
-        if(auth.getCurrentUser() != null) {
-            new GetFriendsTask().execute();
-            new GetPendingHookupsTask().execute();
-        }
+//        if(auth.getCurrentUser() != null) {
+//            new GetFriendsTask().execute();
+//            new GetPendingHookupsTask().execute();
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -187,8 +191,13 @@ public class NavDrawerMainActivity extends AppCompatActivity
         String toolbarTitle = "Home";
 
         if (id == R.id.nav_home) {
+//            if(auth.getCurrentUser() != null) {
+//                frag = new HomeFragment();
+//            }
+//            else {
+//                frag = new AuthFragment();
+//            }
             frag = new HomeFragment();
-            toolbarTitle = "Home";
         }
         else if (id == R.id.nav_discover) {
             frag = new DiscoverMatchesFragment();
@@ -314,7 +323,34 @@ public class NavDrawerMainActivity extends AppCompatActivity
     @Override
     public void onSuccessRegistration() {
         toolbar.setTitle("Home");
+
+//        new GetFriendsTask().execute();
+//        new GetPendingHookupsTask().execute();
+
         FragmentTransitionUtils.to(new HomeFragment(), this);
     }
 
+    @Override
+    public void onPendingHookupResponseAction(User pendingProfile) {
+        pendingHookups.remove(pendingProfile);
+        Fragment frag=new PendingHookupsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("pending-hookups", pendingHookups);
+        frag.setArguments(bundle);
+        toolbar.setTitle("Pending hookups");
+        FragmentTransitionUtils.to(frag, this, false);
+        // TODO: add snackbar to notify user about action completion
+    }
+
+    @Override
+    public void onFriendResponseAction(User friend) {
+        friends.remove(friend);
+        Fragment frag=new FriendsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("friends", friends);
+        frag.setArguments(bundle);
+        toolbar.setTitle("Friends");
+        FragmentTransitionUtils.to(frag, this, false);
+        // TODO: add snackbar to notify user about action completion
+    }
 }

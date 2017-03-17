@@ -181,6 +181,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("example_text"));
             bindPreferenceSummaryToValue(findPreference("example_list"));
+//            bindPreferenceSummaryToValue(findPreference("share_phone_number_switch"));
         }
 
         @Override

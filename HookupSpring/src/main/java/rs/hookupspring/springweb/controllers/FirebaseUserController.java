@@ -63,9 +63,12 @@ public class FirebaseUserController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<String> registerUser(@RequestParam(value="email") String email,
                              @RequestParam(value="uid") String uid,
-                             @RequestParam(value="latitude") String latitude,
-                             @RequestParam(value="longitude") String longitude,
-                             @RequestParam(value="token", required = false) String token) {
+                             @RequestParam(value="latitude", required = false) String latitude,
+                             @RequestParam(value="longitude", required = false) String longitude,
+                             @RequestParam(value="token", required = false) String token,
+                             @RequestParam(value="age") String age,
+                             @RequestParam(value="gender") String gender,
+                             @RequestParam(value="city", required = false) String city) {
         User user = userRepository.findByFirebaseUID(uid);
 
         if(user == null) {
@@ -74,6 +77,9 @@ public class FirebaseUserController {
             user.setFirebaseUID(uid);
             user.setLatitude(Double.parseDouble(latitude));
             user.setLongitude(Double.parseDouble(longitude));
+            user.setAge(Integer.parseInt(age));
+            user.setCity(city);
+            user.setGender(Enums.Gender.valueOf(gender));
             if(token != null && !token.isEmpty()) {
                 user.setFirebaseInstaceToken(token);
             }
@@ -198,6 +204,32 @@ public class FirebaseUserController {
         return new ResponseEntity<List<User>>(returnUsers, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/{uid}/unfriend/{enemyUid}", method = RequestMethod.POST)
+    public void unfriend(@PathVariable String uid, @PathVariable String enemyUid) {
+
+        User currentUser = userRepository.findByFirebaseUID(uid);
+        User enemy = userRepository.findByFirebaseUID(enemyUid);
+
+        Hookup hookupPair = userHookupService.findHookupPair(currentUser, enemy);
+        hookupRepository.delete(hookupPair);
+
+        // TODO update enemy user android database
+    }
+
+    @RequestMapping(value = "/{uid}/recommended", method = RequestMethod.GET)
+    public String getAllRecommendedPersons(@PathVariable String uid, ModelMap model) {
+        StringBuilder message = new StringBuilder();
+
+        User currentUser = userRepository.findByFirebaseUID(uid);
+
+        for (User u : userHookupService.getRecommendedHookupUserList(currentUser)) {
+            message.append(u.getLatitude() + ", " + u.getLongitude() + " </br>");
+        }
+
+        model.addAttribute("message", message);
+
+        return "hello";
+    }
 
 
     private User getUser(User u) {

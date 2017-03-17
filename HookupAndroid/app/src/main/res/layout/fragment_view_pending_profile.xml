@@ -70,6 +70,7 @@
                 android:src="@drawable/heart" />
 
             <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/img_pending_profile_decline"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginLeft="50dp"

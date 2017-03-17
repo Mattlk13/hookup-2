@@ -72,6 +72,7 @@
                 android:src="@drawable/location_32x32"/>
 
             <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/img_friend_delete"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginLeft="40dp"

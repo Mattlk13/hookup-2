@@ -9,6 +9,9 @@ public class UserData {
     private String latitude;
     private String longitude;
     private String token;
+    private String age;
+    private String gender;
+    private String city;
 
     public String getUid() {
         return uid;
@@ -50,4 +53,27 @@ public class UserData {
         this.token = token;
     }
 
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 }

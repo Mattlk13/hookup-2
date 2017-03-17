@@ -70,7 +70,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/img_friend_delete"
+                android:id="@+id/img_friend_list_item_delete"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"

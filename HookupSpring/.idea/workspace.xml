@@ -41,8 +41,8 @@
       <file leaf-file-name="UserHookupService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/UserHookupService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="452" max-vertical-offset="1190">
-              <caret line="56" column="13" selection-start-line="56" selection-start-column="13" selection-end-line="56" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="937" max-vertical-offset="1598">
+              <caret line="75" column="17" selection-start-line="75" selection-start-column="17" selection-end-line="75" selection-end-column="17" />
               <folding>
                 <element signature="method#AddHookupPair#0;class#UserHookupService#0" expanded="false" />
                 <element signature="method#findHookupPair#0;class#UserHookupService#0" expanded="false" />
@@ -55,25 +55,41 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FirebaseUserController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="FirebaseUserController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/FirebaseUserController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2803" max-vertical-offset="3468">
-              <caret line="208" column="0" selection-start-line="208" selection-start-column="0" selection-end-line="208" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.33333334" vertical-offset="2147" max-vertical-offset="4216">
+              <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#updateLocation#0;class#FirebaseUserController#0" expanded="false" />
+                <element signature="method#getAllRecommendedPersons#0;class#FirebaseUserController#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HookupController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FirebaseNotificationService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/FirebaseNotificationService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="205" max-vertical-offset="2023">
+              <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+              <folding>
+                <element signature="method#isHookupPairValidToBeNotified#0;class#FirebaseNotificationService#0" expanded="false" />
+                <element signature="method#httpApachePostExample#0;class#FirebaseNotificationService#0" expanded="false" />
+                <element signature="method#asyncHttpTest#0;class#FirebaseNotificationService#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HookupController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/HookupController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3309091" vertical-offset="453" max-vertical-offset="901">
-              <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="422" max-vertical-offset="935">
+              <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -81,15 +97,9 @@
       <file leaf-file-name="TestController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/TestController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="500" max-vertical-offset="2397">
-              <caret line="74" column="76" selection-start-line="74" selection-start-column="76" selection-end-line="74" selection-end-column="76" />
-              <folding>
-                <element signature="method#customMethod#0;class#TestController#0" expanded="false" />
-                <element signature="e#3142#3194#0" expanded="false" />
-                <element signature="method#updateUserLocations#0;class#TestController#0" expanded="false" />
-                <element signature="method#updateHookupListForUser#0;class#TestController#0" expanded="false" />
-                <element signature="e#6097#6162#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="717" max-vertical-offset="4896">
+              <caret line="66" column="18" selection-start-line="66" selection-start-column="18" selection-end-line="66" selection-end-column="18" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -97,12 +107,79 @@
       <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1676" max-vertical-offset="2652">
+            <state vertical-scroll-proportion="0.0" vertical-offset="425" max-vertical-offset="2618">
               <caret line="29" column="20" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
               <folding>
-                <element signature="e#3255#3256#0" expanded="true" />
-                <element signature="e#3285#3286#0" expanded="true" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#1103#1104#0" expanded="false" />
+                <element signature="e#1128#1129#0" expanded="false" />
+                <element signature="e#1161#1162#0" expanded="false" />
+                <element signature="e#1189#1190#0" expanded="false" />
+                <element signature="e#1221#1222#0" expanded="false" />
+                <element signature="e#1249#1250#0" expanded="false" />
+                <element signature="e#1291#1292#0" expanded="false" />
+                <element signature="e#1325#1326#0" expanded="false" />
+                <element signature="e#1363#1364#0" expanded="false" />
+                <element signature="e#1397#1398#0" expanded="false" />
+                <element signature="e#1451#1452#0" expanded="false" />
+                <element signature="e#1497#1498#0" expanded="false" />
+                <element signature="e#1544#1545#0" expanded="false" />
+                <element signature="e#1587#1588#0" expanded="false" />
+                <element signature="e#1758#1759#0" expanded="false" />
+                <element signature="e#1789#1790#0" expanded="false" />
+                <element signature="e#1837#1838#0" expanded="false" />
+                <element signature="e#1877#1878#0" expanded="false" />
+                <element signature="e#1913#1914#0" expanded="false" />
+                <element signature="e#1945#1946#0" expanded="false" />
+                <element signature="e#1995#1996#0" expanded="false" />
+                <element signature="e#2037#2038#0" expanded="false" />
+                <element signature="e#2073#2074#0" expanded="false" />
+                <element signature="e#2105#2106#0" expanded="false" />
+                <element signature="e#2155#2156#0" expanded="false" />
+                <element signature="e#2197#2198#0" expanded="false" />
+                <element signature="e#2232#2233#0" expanded="false" />
+                <element signature="e#2263#2264#0" expanded="false" />
+                <element signature="e#2311#2312#0" expanded="false" />
+                <element signature="e#2351#2352#0" expanded="false" />
+                <element signature="e#2394#2395#0" expanded="false" />
+                <element signature="e#2426#2427#0" expanded="false" />
+                <element signature="e#2483#2484#0" expanded="false" />
+                <element signature="e#2525#2526#0" expanded="false" />
+                <element signature="e#2570#2571#0" expanded="false" />
+                <element signature="e#2603#2604#0" expanded="false" />
+                <element signature="e#2663#2664#0" expanded="false" />
+                <element signature="e#2707#2708#0" expanded="false" />
+                <element signature="e#2752#2753#0" expanded="false" />
+                <element signature="e#2785#2786#0" expanded="false" />
+                <element signature="e#2845#2846#0" expanded="false" />
+                <element signature="e#2889#2890#0" expanded="false" />
+                <element signature="e#2920#2921#0" expanded="false" />
+                <element signature="e#2947#2948#0" expanded="false" />
+                <element signature="e#2987#2988#0" expanded="false" />
+                <element signature="e#3019#3020#0" expanded="false" />
+                <element signature="e#3053#3054#0" expanded="false" />
+                <element signature="e#3083#3084#0" expanded="false" />
+                <element signature="e#3129#3130#0" expanded="false" />
+                <element signature="e#3167#3168#0" expanded="false" />
+                <element signature="e#3194#3195#0" expanded="false" />
+                <element signature="e#3220#3221#0" expanded="false" />
+                <element signature="e#3255#3256#0" expanded="false" />
+                <element signature="e#3285#3286#0" expanded="false" />
+                <element signature="e#3324#3325#0" expanded="false" />
+                <element signature="e#3353#3354#0" expanded="false" />
+                <element signature="e#3403#3404#0" expanded="false" />
+                <element signature="e#3439#3440#0" expanded="false" />
+                <element signature="e#3473#3474#0" expanded="false" />
+                <element signature="e#3505#3506#0" expanded="false" />
+                <element signature="e#3553#3554#0" expanded="false" />
+                <element signature="e#3595#3596#0" expanded="false" />
+                <element signature="e#3629#3630#0" expanded="false" />
+                <element signature="e#3659#3660#0" expanded="false" />
+                <element signature="e#3705#3706#0" expanded="false" />
+                <element signature="e#3743#3744#0" expanded="false" />
                 <element signature="method#equals#0;class#User#0" expanded="false" />
+                <element signature="e#4080#4081#0" expanded="false" />
+                <element signature="e#4105#4106#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -111,9 +188,39 @@
       <file leaf-file-name="UserBasicInfo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/UserBasicInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1173">
+            <state vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="1173">
               <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#511#512#0" expanded="false" />
+                <element signature="e#536#537#0" expanded="false" />
+                <element signature="e#569#570#0" expanded="false" />
+                <element signature="e#597#598#0" expanded="false" />
+                <element signature="e#632#633#0" expanded="false" />
+                <element signature="e#659#660#0" expanded="false" />
+                <element signature="e#703#704#0" expanded="false" />
+                <element signature="e#735#736#0" expanded="false" />
+                <element signature="e#772#773#0" expanded="false" />
+                <element signature="e#800#801#0" expanded="false" />
+                <element signature="e#847#848#0" expanded="false" />
+                <element signature="e#881#882#0" expanded="false" />
+                <element signature="e#920#921#0" expanded="false" />
+                <element signature="e#949#950#0" expanded="false" />
+                <element signature="e#999#1000#0" expanded="false" />
+                <element signature="e#1035#1036#0" expanded="false" />
+                <element signature="e#1226#1227#0" expanded="false" />
+                <element signature="e#1256#1257#0" expanded="false" />
+                <element signature="e#1299#1300#0" expanded="false" />
+                <element signature="e#1337#1338#0" expanded="false" />
+                <element signature="e#1369#1370#0" expanded="false" />
+                <element signature="e#1400#1401#0" expanded="false" />
+                <element signature="e#1445#1446#0" expanded="false" />
+                <element signature="e#1485#1486#0" expanded="false" />
+                <element signature="e#1514#1515#0" expanded="false" />
+                <element signature="e#1541#1542#0" expanded="false" />
+                <element signature="e#1579#1580#0" expanded="false" />
+                <element signature="e#1611#1612#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -147,19 +254,19 @@
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/UserBasicInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/Hookup.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/FirebaseNotificationService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/HookupController.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/UserTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/dto/UserBasicInfoDto.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/dto/UserActivitiesDto.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/dto/UserPsychologyDto.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/dto/UserPersonalizationDto.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/META-INF/persistence.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/UserHookupService.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/LocationsDistanceService.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/WekaMiningService.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/User.java" />
+        <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/HookupController.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/TestController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/UserHookupService.java" />
         <option value="$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/FirebaseUserController.java" />
       </list>
     </option>
@@ -194,7 +301,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
+    <option name="width" value="1378" />
     <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -225,6 +332,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -425,39 +533,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HookupSpring" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HookupSpring" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hookupspring" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="entity" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -891,12 +968,14 @@
       <workItem from="1488740884992" duration="7275000" />
       <workItem from="1488906988685" duration="589000" />
       <workItem from="1489430765187" duration="2693000" />
-      <workItem from="1489441870738" duration="8395000" />
+      <workItem from="1489441870738" duration="8398000" />
+      <workItem from="1489591525369" duration="3151000" />
+      <workItem from="1489691845713" duration="10418000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="211356000" />
+    <option name="totallyTimeSpent" value="224928000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -919,7 +998,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1378" height="744" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -933,7 +1012,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.50490195" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.45751634" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -943,7 +1022,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38398692" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32526475" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32473445" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27987897" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
@@ -981,33 +1060,32 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/FirebaseUserController.java</url>
-          <line>126</line>
+          <line>132</line>
           <properties />
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/FirebaseUserController.java</url>
-          <line>68</line>
-          <properties />
-          <option name="timeStamp" value="59" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/TestController.java</url>
-          <line>227</line>
           <properties />
           <option name="timeStamp" value="90" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/FirebaseNotificationService.java</url>
-          <line>47</line>
+          <url>file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/FirebaseUserController.java</url>
+          <line>78</line>
           <properties />
-          <option name="timeStamp" value="138" />
+          <option name="timeStamp" value="192" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/FirebaseUserController.java</url>
+          <line>71</line>
+          <properties />
+          <option name="timeStamp" value="193" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="185" />
+      <option name="time" value="196" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1022,7 +1100,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#updateLocation#0;class#FirebaseUserController#0" expanded="false" />
+            <element signature="method#getAllRecommendedPersons#0;class#FirebaseUserController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1235,18 +1313,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/FirebaseNotificationService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.3202055" vertical-offset="963" max-vertical-offset="2023">
-          <caret line="236" column="38" selection-start-line="236" selection-start-column="38" selection-end-line="236" selection-end-column="38" />
-          <folding>
-            <element signature="method#isHookupPairValidToBeNotified#0;class#FirebaseNotificationService#0" expanded="false" />
-            <element signature="method#httpApachePostExample#0;class#FirebaseNotificationService#0" expanded="false" />
-            <element signature="method#asyncHttpTest#0;class#FirebaseNotificationService#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/UserActivities.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.571831" vertical-offset="375" max-vertical-offset="2023">
@@ -1345,10 +1411,157 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/UserBasicInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1173">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#511#512#0" expanded="false" />
+            <element signature="e#536#537#0" expanded="false" />
+            <element signature="e#569#570#0" expanded="false" />
+            <element signature="e#597#598#0" expanded="false" />
+            <element signature="e#632#633#0" expanded="false" />
+            <element signature="e#659#660#0" expanded="false" />
+            <element signature="e#703#704#0" expanded="false" />
+            <element signature="e#735#736#0" expanded="false" />
+            <element signature="e#772#773#0" expanded="false" />
+            <element signature="e#800#801#0" expanded="false" />
+            <element signature="e#847#848#0" expanded="false" />
+            <element signature="e#881#882#0" expanded="false" />
+            <element signature="e#920#921#0" expanded="false" />
+            <element signature="e#949#950#0" expanded="false" />
+            <element signature="e#999#1000#0" expanded="false" />
+            <element signature="e#1035#1036#0" expanded="false" />
+            <element signature="e#1226#1227#0" expanded="false" />
+            <element signature="e#1256#1257#0" expanded="false" />
+            <element signature="e#1299#1300#0" expanded="false" />
+            <element signature="e#1337#1338#0" expanded="false" />
+            <element signature="e#1369#1370#0" expanded="false" />
+            <element signature="e#1400#1401#0" expanded="false" />
+            <element signature="e#1445#1446#0" expanded="false" />
+            <element signature="e#1485#1486#0" expanded="false" />
+            <element signature="e#1514#1515#0" expanded="false" />
+            <element signature="e#1541#1542#0" expanded="false" />
+            <element signature="e#1579#1580#0" expanded="false" />
+            <element signature="e#1611#1612#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1676" max-vertical-offset="2652">
+          <caret line="29" column="20" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1103#1104#0" expanded="false" />
+            <element signature="e#1128#1129#0" expanded="false" />
+            <element signature="e#1161#1162#0" expanded="false" />
+            <element signature="e#1189#1190#0" expanded="false" />
+            <element signature="e#1221#1222#0" expanded="false" />
+            <element signature="e#1249#1250#0" expanded="false" />
+            <element signature="e#1291#1292#0" expanded="false" />
+            <element signature="e#1325#1326#0" expanded="false" />
+            <element signature="e#1363#1364#0" expanded="false" />
+            <element signature="e#1397#1398#0" expanded="false" />
+            <element signature="e#1451#1452#0" expanded="false" />
+            <element signature="e#1497#1498#0" expanded="false" />
+            <element signature="e#1544#1545#0" expanded="false" />
+            <element signature="e#1587#1588#0" expanded="false" />
+            <element signature="e#1758#1759#0" expanded="false" />
+            <element signature="e#1789#1790#0" expanded="false" />
+            <element signature="e#1837#1838#0" expanded="false" />
+            <element signature="e#1877#1878#0" expanded="false" />
+            <element signature="e#1913#1914#0" expanded="false" />
+            <element signature="e#1945#1946#0" expanded="false" />
+            <element signature="e#1995#1996#0" expanded="false" />
+            <element signature="e#2037#2038#0" expanded="false" />
+            <element signature="e#2073#2074#0" expanded="false" />
+            <element signature="e#2105#2106#0" expanded="false" />
+            <element signature="e#2155#2156#0" expanded="false" />
+            <element signature="e#2197#2198#0" expanded="false" />
+            <element signature="e#2232#2233#0" expanded="false" />
+            <element signature="e#2263#2264#0" expanded="false" />
+            <element signature="e#2311#2312#0" expanded="false" />
+            <element signature="e#2351#2352#0" expanded="false" />
+            <element signature="e#2394#2395#0" expanded="false" />
+            <element signature="e#2426#2427#0" expanded="false" />
+            <element signature="e#2483#2484#0" expanded="false" />
+            <element signature="e#2525#2526#0" expanded="false" />
+            <element signature="e#2570#2571#0" expanded="false" />
+            <element signature="e#2603#2604#0" expanded="false" />
+            <element signature="e#2663#2664#0" expanded="false" />
+            <element signature="e#2707#2708#0" expanded="false" />
+            <element signature="e#2752#2753#0" expanded="false" />
+            <element signature="e#2785#2786#0" expanded="false" />
+            <element signature="e#2845#2846#0" expanded="false" />
+            <element signature="e#2889#2890#0" expanded="false" />
+            <element signature="e#2920#2921#0" expanded="false" />
+            <element signature="e#2947#2948#0" expanded="false" />
+            <element signature="e#2987#2988#0" expanded="false" />
+            <element signature="e#3019#3020#0" expanded="false" />
+            <element signature="e#3053#3054#0" expanded="false" />
+            <element signature="e#3083#3084#0" expanded="false" />
+            <element signature="e#3129#3130#0" expanded="false" />
+            <element signature="e#3167#3168#0" expanded="false" />
+            <element signature="e#3194#3195#0" expanded="false" />
+            <element signature="e#3220#3221#0" expanded="false" />
+            <element signature="e#3255#3256#0" expanded="false" />
+            <element signature="e#3285#3286#0" expanded="false" />
+            <element signature="e#3324#3325#0" expanded="false" />
+            <element signature="e#3353#3354#0" expanded="false" />
+            <element signature="e#3403#3404#0" expanded="false" />
+            <element signature="e#3439#3440#0" expanded="false" />
+            <element signature="e#3473#3474#0" expanded="false" />
+            <element signature="e#3505#3506#0" expanded="false" />
+            <element signature="e#3553#3554#0" expanded="false" />
+            <element signature="e#3595#3596#0" expanded="false" />
+            <element signature="e#3629#3630#0" expanded="false" />
+            <element signature="e#3659#3660#0" expanded="false" />
+            <element signature="e#3705#3706#0" expanded="false" />
+            <element signature="e#3743#3744#0" expanded="false" />
+            <element signature="method#equals#0;class#User#0" expanded="false" />
+            <element signature="e#4080#4081#0" expanded="false" />
+            <element signature="e#4105#4106#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/HookupController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="351" max-vertical-offset="935">
+          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/TestController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="717" max-vertical-offset="4896">
+          <caret line="66" column="18" selection-start-line="66" selection-start-column="18" selection-end-line="66" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/FirebaseNotificationService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="205" max-vertical-offset="2023">
+          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <folding>
+            <element signature="method#isHookupPairValidToBeNotified#0;class#FirebaseNotificationService#0" expanded="false" />
+            <element signature="method#httpApachePostExample#0;class#FirebaseNotificationService#0" expanded="false" />
+            <element signature="method#asyncHttpTest#0;class#FirebaseNotificationService#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/services/UserHookupService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="452" max-vertical-offset="1190">
-          <caret line="56" column="13" selection-start-line="56" selection-start-column="13" selection-end-line="56" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="937" max-vertical-offset="1598">
+          <caret line="75" column="17" selection-start-line="75" selection-start-column="17" selection-end-line="75" selection-end-column="17" />
           <folding>
             <element signature="method#AddHookupPair#0;class#UserHookupService#0" expanded="false" />
             <element signature="method#findHookupPair#0;class#UserHookupService#0" expanded="false" />
@@ -1360,56 +1573,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/TestController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="500" max-vertical-offset="2397">
-          <caret line="74" column="76" selection-start-line="74" selection-start-column="76" selection-end-line="74" selection-end-column="76" />
-          <folding>
-            <element signature="method#customMethod#0;class#TestController#0" expanded="false" />
-            <element signature="e#3142#3194#0" expanded="false" />
-            <element signature="method#updateUserLocations#0;class#TestController#0" expanded="false" />
-            <element signature="method#updateHookupListForUser#0;class#TestController#0" expanded="false" />
-            <element signature="e#6097#6162#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/UserBasicInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1173">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/entity/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1676" max-vertical-offset="2652">
-          <caret line="29" column="20" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
-          <folding>
-            <element signature="e#3255#3256#0" expanded="true" />
-            <element signature="e#3285#3286#0" expanded="true" />
-            <element signature="method#equals#0;class#User#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/FirebaseUserController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2803" max-vertical-offset="3468">
-          <caret line="208" column="0" selection-start-line="208" selection-start-column="0" selection-end-line="208" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="2147" max-vertical-offset="4216">
+          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#updateLocation#0;class#FirebaseUserController#0" expanded="false" />
+            <element signature="method#getAllRecommendedPersons#0;class#FirebaseUserController#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rs/hookupspring/springweb/controllers/HookupController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3309091" vertical-offset="453" max-vertical-offset="901">
-          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>

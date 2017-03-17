@@ -44,9 +44,11 @@ public class GetPendingHookupsTask extends AsyncTask<String, String, String> {
         try {
             Response response = client.newCall(request).execute();
             String json = response.body().string();
-            Type listType = new TypeToken<ArrayList<User>>(){}.getType();
-            users = new Gson().fromJson(json, listType);
-            NavDrawerMainActivity.pendingHookups = users;
+            if (!json.isEmpty()) {
+                Type listType = new TypeToken<ArrayList<User>>() {}.getType();
+                users = new Gson().fromJson(json, listType);
+                NavDrawerMainActivity.pendingHookups = users;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
