@@ -61,7 +61,7 @@ public class PersonalizationFragment extends Fragment implements PsychologyPageF
     private ActivitiesPageFragment activitiesPageFragment;
     private PsychologyPageFragment psychologyPageFragment;
 
-//    private OnPersonalizationFragmentInteractionListener mListener;
+    private OnPersonalizationFragmentInteractionListener mListener;
 
     @BindView(R.id.view_pager_personalization) ViewPager  viewPager;
 //    @BindView(R.id.personalization_scroll_view) ScrollView scrollView;
@@ -181,26 +181,28 @@ public class PersonalizationFragment extends Fragment implements PsychologyPageF
         personalizationTask.execute(userPersonalization);
 
         // TODO check if all data is valid and filled
-
+        mListener.onPersonalizationDone();
 
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnPersonalizationFragmentInteractionListener) {
-//            mListener = (OnPersonalizationFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnPersonalizationFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnPersonalizationFragmentInteractionListener) {
+            mListener = (OnPersonalizationFragmentInteractionListener) context;
+        } else if (getActivity() instanceof OnPersonalizationFragmentInteractionListener) {
+            mListener =(OnPersonalizationFragmentInteractionListener) getActivity();
+        } else{
+            throw new RuntimeException(context.toString()
+                    + " must implement OnPersonalizationFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -214,6 +216,6 @@ public class PersonalizationFragment extends Fragment implements PsychologyPageF
      */
     public interface OnPersonalizationFragmentInteractionListener {
         // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
+        void onPersonalizationDone();
     }
 }

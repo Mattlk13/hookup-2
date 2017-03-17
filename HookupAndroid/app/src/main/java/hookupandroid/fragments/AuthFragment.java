@@ -289,8 +289,9 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
                     Toast.makeText(getContext(), "You have successfully logged in ", Toast.LENGTH_SHORT).show();
                     String token = FirebaseInstanceId.getInstance().getToken();
                     // TODO check if token equals token in SQLite db
+                    // TODO: remove (move) body of this if (isSuccessfull), because it should be all called on AuthListener in above method
                     new UpdateUserAuthToken(getContext()).execute(token);
-                    mListener.onSuccessLogon();
+//                    mListener.onSuccessLogon();
                 }
                 else {
                     Toast.makeText(getContext(), "Authentification failed. Try again...", Toast.LENGTH_SHORT).show();

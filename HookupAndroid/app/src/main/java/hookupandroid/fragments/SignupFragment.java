@@ -102,8 +102,6 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
 
     @BindView(R.id.radioF) RadioButton femaleRadioButton;
 
-
-
     @NotEmpty
     @Min(value = 18, message = "Should be greather than 18 years")
     @BindView(R.id.input_signup_age)
@@ -243,7 +241,7 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
 
     @OnClick(R.id.signup_layout_country)
     public void SelectCountryOnClick() {
-//        countryPicker.show(getFragmentManager(), "COUNTRY_PICKER");
+        countryPicker.show(getFragmentManager(), "COUNTRY_PICKER");
     }
 
     @Override
