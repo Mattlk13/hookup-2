@@ -34,6 +34,7 @@ public class PsychologyPageFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_USER_PSYCHOLOGY = "user_psychology";
     private UserPsychology userPsychology;
+    private boolean formValid;
 
     private View inflatedView;
     private Unbinder unbinder;
@@ -42,7 +43,7 @@ public class PsychologyPageFragment extends Fragment {
     @BindView(R.id.psychology_view_b) PsychologyQuestionGroupView bQuestionGroupView;
     @BindView(R.id.psychology_view_c) SelfMeasureQuestionGroupView cSelfMeasureGroupView;
 
-    @BindView(R.id.btnPersDon) Button btnDone;
+//    @BindView(R.id.btnPersDon) Button btnDone;
 
     private OnPsychologyPageFragmentInteractionListener mListener;
 
@@ -81,6 +82,7 @@ public class PsychologyPageFragment extends Fragment {
     @Override
     public void onDestroyView() {
         updateUserPsychology();
+        formValid = checkIsFormValid();
         super.onDestroyView();
         unbinder.unbind();
     }
@@ -106,36 +108,53 @@ public class PsychologyPageFragment extends Fragment {
         userPsychology.setIntelC(((HundredScaleSeekbarLayout)cSelfMeasureGroupView.findViewById(R.id.intelligent_seek_bar)).getSeekbarProgressValue());
         userPsychology.setFunC(((HundredScaleSeekbarLayout)cSelfMeasureGroupView.findViewById(R.id.fun_seek_bar)).getSeekbarProgressValue());
         userPsychology.setSincC(((HundredScaleSeekbarLayout)cSelfMeasureGroupView.findViewById(R.id.sincere_seek_bar)).getSeekbarProgressValue());
+
+        checkIsFormValid();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//
+//        Fragment parentFragment = getParentFragment();
+//        if (context instanceof OnPsychologyPageFragmentInteractionListener) {
+//            mListener = (OnPsychologyPageFragmentInteractionListener) context;
+//        }
+//        else if (parentFragment != null && parentFragment instanceof PersonalizationFragment) {
+//            mListener = (OnPsychologyPageFragmentInteractionListener) parentFragment;
+//        }
+//        else
+//        {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnPsychologyPageFragmentInteractionListener");
+//        }
+//    }
 
-        Fragment parentFragment = getParentFragment();
-        if (context instanceof OnPsychologyPageFragmentInteractionListener) {
-            mListener = (OnPsychologyPageFragmentInteractionListener) context;
-        }
-        else if (parentFragment != null && parentFragment instanceof PersonalizationFragment) {
-            mListener = (OnPsychologyPageFragmentInteractionListener) parentFragment;
-        }
-        else
-        {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnPsychologyPageFragmentInteractionListener");
-        }
-    }
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        mListener = null;
+//    }
 
-    @OnClick(R.id.btnPersDon)
-    public void onPersonalizationButtonClicked() {
-        updateUserPsychology();
-        mListener.onPersonalizationDoneButtonClicked();
-    }
+    //    @OnClick(R.id.btnPersDon)
+//    public void onPersonalizationButtonClicked() {
+//        updateUserPsychology();
+//        mListener.onPersonalizationDoneButtonClicked();
+//    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public boolean checkIsFormValid() {
+        // TODO: this won't work in some case (when remaining points = 0, but overall != 100 , seekbar issue)
+        // if (aQuestionGroupView.getRemainingPointsValue() == 0 ...)
+        if(userPsychology.getOverallPointsForGroupA() == 100.0 &&
+                userPsychology.getOverallPointsForGroupB() == 100.0 &&
+                userPsychology.getOverallPointsForGroupC() == 100.0) {
+            formValid = true;
+        }
+        else {
+            formValid = false;
+        }
+
+        return formValid;
     }
 
     public UserPsychology getUserPsychology() {
@@ -154,6 +173,14 @@ public class PsychologyPageFragment extends Fragment {
      */
     public interface OnPsychologyPageFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onPersonalizationDoneButtonClicked();
+//        void onPersonalizationDoneButtonClicked();
+    }
+
+    public boolean isFormValid() {
+        return formValid;
+    }
+
+    public void setFormValid(boolean formValid) {
+        this.formValid = formValid;
     }
 }

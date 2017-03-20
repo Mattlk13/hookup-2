@@ -28,6 +28,10 @@ public class Hookup {
     private int hookupPositiveResponseCount;
     private int hookupRequestSentCount;
     private boolean recommended;
+//    @Column(nullable = true)
+    private boolean userAResponse;
+//    @Column(nullable = true)
+    private boolean userBResponse;
 
     public int getId() {
         return id;
@@ -108,4 +112,21 @@ public class Hookup {
     public void setRecommended(boolean recommended) {
         this.recommended = recommended;
     }
+
+    public boolean isUserAResponse() {
+        return userAResponse;
+    }
+
+    public void setUserAResponse(boolean userAResponse) {
+        this.userAResponse = userAResponse;
+    }
+
+    public boolean isUserBResponse() {
+        return userBResponse;
+    }
+
+    public void setUserBResponse(boolean userBResponse) {
+        this.userBResponse = userBResponse;
+    }
+
 }

@@ -1,14 +1,17 @@
 package hookupandroid.fragments;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -27,12 +30,13 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
 import com.mobsandgeeks.saripaar.annotation.Email;
-import com.mobsandgeeks.saripaar.annotation.Min;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mukesh.countrypicker.fragments.CountryPicker;
 import com.mukesh.countrypicker.interfaces.CountryPickerListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -69,6 +73,7 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
     private View inflatedView;
     private Validator validator;
 
+    private DatePickerDialog birthDatePickerDialog;
     private CountryPicker countryPicker;
 
 
@@ -102,10 +107,18 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
 
     @BindView(R.id.radioF) RadioButton femaleRadioButton;
 
+//    @NotEmpty
+//    @Min(value = 18, message = "Should be greather than 18 years")
+//    @BindView(R.id.input_signup_age)
+//    EditText ageEditText;
+
     @NotEmpty
-    @Min(value = 18, message = "Should be greather than 18 years")
-    @BindView(R.id.input_signup_age)
-    EditText ageEditText;
+    @BindView(R.id.input_signup_birthday)
+    EditText birthdayEditText;
+
+    @NotEmpty
+    @BindView(R.id.input_signup_about_me)
+    EditText aboutMeEditText;
 
 
     public SignupFragment() {
@@ -158,6 +171,17 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
                 countryPicker.dismiss();
             }
         });
+
+        Calendar newCalendar = Calendar.getInstance();
+        birthDatePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                birthdayEditText.setText(new SimpleDateFormat("dd.MM.yyyy").format(newDate.getTime()));
+            }
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
     }
 
     @Override
@@ -166,6 +190,8 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
         // Inflate the layout for this fragment
         inflatedView = inflater.inflate(R.layout.fragment_signup, container, false);
         unbinder = ButterKnife.bind(this, inflatedView);
+
+        birthdayEditText.setInputType(InputType.TYPE_NULL);
 
         return inflatedView;
     }
@@ -178,7 +204,6 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
 
     @Override
     public void onValidationSucceeded() {
-        // TODO: firebase call + serverCall
         auth.createUserWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -199,8 +224,11 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
                         data.setLatitude(String.valueOf(mLastLocation.getLatitude()));
                         data.setLongitude(String.valueOf(mLastLocation.getLongitude()));
                     }
+                    data.setFirstname(firstnameEditText.getText().toString());
+                    data.setLastname(lastnameEditText.getText().toString());
                     data.setToken(token);
-                    data.setAge(ageEditText.getText().toString());
+//                    data.setAge(ageEditText.getText().toString());
+                    data.setBirthDay(birthdayEditText.getText().toString());
                     if(femaleRadioButton.isChecked()) {
                         data.setGender("Female");
                     }
@@ -208,6 +236,10 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
                         data.setGender("Male");
                     }
                     data.setCity(cityEditText.getText().toString());
+                    if(!txtCountry.getText().toString().isEmpty()) {
+                        data.setCountry(txtCountry.getText().toString());
+                    }
+                    data.setAboutMe(aboutMeEditText.getText().toString());
 
                     registerAsyncTask.execute(data);
 
@@ -235,13 +267,18 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
     }
 
     @OnClick(R.id.btn_register)
-    public void Register() {
+    public void register() {
         validator.validate();
     }
 
     @OnClick(R.id.signup_layout_country)
-    public void SelectCountryOnClick() {
+    public void selectCountryOnClick() {
         countryPicker.show(getFragmentManager(), "COUNTRY_PICKER");
+    }
+
+    @OnClick(R.id.input_signup_birthday)
+    public void openDateDialogOnClick() {
+        birthDatePickerDialog.show();
     }
 
     @Override

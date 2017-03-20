@@ -34,6 +34,9 @@ public class User implements Serializable{
 
     private UserBasicInfoForJson basicInfo;
 
+    private Date friendsDate;
+    private Date notificationReceivedDate;
+
     public int getId() {
         return id;
     }
@@ -168,5 +171,21 @@ public class User implements Serializable{
 
     public void setBasicInfo(UserBasicInfoForJson basicInfo) {
         this.basicInfo = basicInfo;
+    }
+
+    public Date getFriendsDate() {
+        return friendsDate;
+    }
+
+    public void setFriendsDate(Date friendsDate) {
+        this.friendsDate = friendsDate;
+    }
+
+    public Date getNotificationReceivedDate() {
+        return notificationReceivedDate;
+    }
+
+    public void setNotificationReceivedDate(Date notificationReceivedDate) {
+        this.notificationReceivedDate = notificationReceivedDate;
     }
 }

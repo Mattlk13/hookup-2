@@ -60,6 +60,32 @@ public class UserHookupService {
         return hookupList;
     }
 
+    public List<User> getPendingHookups(User user) {
+        List<User> hookupList = new ArrayList<User>();
+
+        for (Hookup hookup : hookupRepository.findAllByUserAId(user.getId())) {
+            if (!hookup.isPaired() && hookup.getHookupRequestDate() != null
+                    && !hookup.isUserAResponse()) {
+                User compareUser = userRepository.findOne(hookup.getUserBId());
+                if (!hookupList.contains(compareUser)) {
+                    hookupList.add(compareUser);
+                }
+            }
+        }
+
+        for (Hookup hookup : hookupRepository.findAllByUserBId(user.getId())) {
+            if (!hookup.isPaired() && hookup.getHookupRequestDate() != null
+                    && !hookup.isUserBResponse()) {
+                User compareUser = userRepository.findOne(hookup.getUserAId());
+                if (!hookupList.contains(compareUser)) {
+                    hookupList.add(compareUser);
+                }
+            }
+        }
+
+        return hookupList;
+    }
+
     public List<User> getRecommendedHookupUserList(User user) {
         List<User> hookupList = new ArrayList<User>();
 
@@ -241,6 +267,5 @@ public class UserHookupService {
         user.setPsychology(psychology);
         userRepository.save(user);
     }
-
 
 }

@@ -2,10 +2,12 @@ package hookupandroid.activities;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -31,6 +34,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -78,8 +82,11 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
     public static ArrayList<User> friends;
     public static ArrayList<User> pendingHookups;
-    public static Context mContext;
 
+    private Fragment switchFragment;
+    private String switchToolbarTitle;
+
+    @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
@@ -97,11 +104,11 @@ public class NavDrawerMainActivity extends AppCompatActivity
                     .build();
         }
 
-        mContext = this;
-
         auth = FirebaseAuth.getInstance();
 
         if(auth.getCurrentUser() != null) {
+            friends = new ArrayList<>();
+            pendingHookups = new ArrayList<>();
             new GetFriendsTask().execute();
             new GetPendingHookupsTask().execute();
         }
@@ -114,17 +121,7 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-//        setNotificationAudioPath();
     }
-
-//    private void setNotificationAudioPath() {
-//        String notifications_new_message_ringtone = PreferenceManager.getDefaultSharedPreferences(this).getString("notifications_new_message_ringtone", "ffs");
-////        Uri soundUri = Uri.withAppendedPath(MediaStore.Audio.Media.INTERNAL_CONTENT_URI, notifications_new_message_ringtone);
-//        Uri soundUri = Uri.parse(notifications_new_message_ringtone);
-//        String realAudioPath = CommonUtils.getRealAudioPathFromURI(this, soundUri);
-//        notificationAudioPath = realAudioPath;
-//    }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -175,9 +172,9 @@ public class NavDrawerMainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -185,62 +182,92 @@ public class NavDrawerMainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        Fragment frag = null;
+//        Fragment frag = null;
+//        String toolbarTitle = "Home";
+        switchFragment = null;
+        switchToolbarTitle = "Home";
         FragmentManager fragmentManager = getSupportFragmentManager();
-        String toolbarTitle = "Home";
 
         if (id == R.id.nav_home) {
             if(auth.getCurrentUser() != null) {
-                frag = new HomeFragment();
+                switchFragment = new HomeFragment();
             }
             else {
-                frag = new AuthFragment();
+                switchFragment = new AuthFragment();
             }
-            toolbarTitle = "Home";
-//            frag = new HomeFragment();
+            switchToolbarTitle = "Home";
         }
         else if (id == R.id.nav_discover) {
-            frag = new DiscoverMatchesFragment();
-            toolbarTitle = "Discover matches";
+            switchFragment = new DiscoverMatchesFragment();
+            switchToolbarTitle = "Discover matches";
         } else if (id == R.id.nav_friends) {
-            frag=new FriendsFragment();
+            switchFragment=new FriendsFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable("friends", friends);
-            frag.setArguments(bundle);
-            toolbarTitle = "Friends";
+            switchFragment.setArguments(bundle);
+            switchToolbarTitle = "Friends";
         } else if (id == R.id.nav_pendingHookups) {
-            frag=new PendingHookupsFragment();
+            switchFragment = new PendingHookupsFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable("pending-hookups", pendingHookups);
-            frag.setArguments(bundle);
-            toolbarTitle = "Pending hookups";
+            switchFragment.setArguments(bundle);
+            switchToolbarTitle = "Pending hookups";
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(NavDrawerMainActivity.this, SettingsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_signOut) {
             if(auth.getCurrentUser()!=null ) {
-                // TODO: alert dialogue ... Are you sure you want to log out(Yes/No)
-                auth.signOut();
-                Toast.makeText(NavDrawerMainActivity.this, "Successfully signed out ...", Toast.LENGTH_SHORT).show();
-                frag = new AuthFragment();
-                toolbarTitle = "Authentification";
+                new AlertDialog.Builder(this)
+                        .setTitle("Logout")
+                        .setMessage("Are you sure you want to logout?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                signoutUserAndReleaseData();
+                                Toast.makeText(NavDrawerMainActivity.this, "Successfully signed out ...", Toast.LENGTH_SHORT).show();
+                                switchFragment = new AuthFragment();
+                                switchToolbarTitle = "Authentification";
+                                toolbar.setTitle(switchToolbarTitle);
+                                FragmentTransitionUtils.to(switchFragment, NavDrawerMainActivity.this);
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
             }else {
                 Toast.makeText(NavDrawerMainActivity.this, "No user signed in...", Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.nav_exitApp) {
-//            frag = new AuthFragment();
+
+            if(auth.getCurrentUser() != null) {
+                signoutUserAndReleaseData();
+            }
+//            Process suProcess = null;
+//            try {
+//
+//                suProcess = Runtime.getRuntime().exec("su");
+//                DataOutputStream os = new DataOutputStream(suProcess.getOutputStream());
+//                os.writeBytes("adb shell" + "\n");
+//                os.flush();
+//                os.writeBytes("am force-stop rs.androidhookup" + "\n");
+//                os.flush();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
             ActivityCompat.finishAffinity(this);
         }
 
-        if(frag != null) {
-            toolbar.setTitle(toolbarTitle);
-            FragmentTransitionUtils.to(frag, this);
+        if(switchFragment != null) {
+            toolbar.setTitle(switchToolbarTitle);
+            FragmentTransitionUtils.to(switchFragment, this);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -307,12 +334,10 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
     }
 
     @Override
@@ -358,18 +383,23 @@ public class NavDrawerMainActivity extends AppCompatActivity
     public void onPersonalizationDone() {
         toolbar.setTitle("Home");
 
-        // TODO: set 10 seconds delay for async tasks
-        new GetFriendsTask().execute();
-        new GetPendingHookupsTask().execute();
-
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                new MyAsyncTask().execute();
-//            }
-//        }, 3000);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new GetFriendsTask().execute();
+                new GetPendingHookupsTask().execute();
+            }
+        }, 20000);
 
         FragmentTransitionUtils.to(new HomeFragment(), this);
     }
 
+
+    private void signoutUserAndReleaseData() {
+        if(auth.getCurrentUser() != null) {
+            auth.signOut();
+            friends.clear();
+            pendingHookups.clear();
+        }
+    }
 }

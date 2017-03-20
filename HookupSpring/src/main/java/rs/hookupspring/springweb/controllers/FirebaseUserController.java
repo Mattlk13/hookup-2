@@ -18,12 +18,15 @@ import rs.hookupspring.dao.UserRepository;
 import rs.hookupspring.entity.Hookup;
 import rs.hookupspring.entity.User;
 import rs.hookupspring.entity.UserBasicInfo;
+import rs.hookupspring.springweb.dto.ResponseUserDto;
 import rs.hookupspring.springweb.dto.UserPersonalizationDto;
 import rs.hookupspring.springweb.services.FirebaseNotificationService;
 import rs.hookupspring.springweb.services.LocationsDistanceService;
 import rs.hookupspring.springweb.services.UserHookupService;
 import rs.hookupspring.springweb.services.WekaMiningService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -63,23 +66,40 @@ public class FirebaseUserController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<String> registerUser(@RequestParam(value="email") String email,
                              @RequestParam(value="uid") String uid,
+                             @RequestParam(value="firstname") String firstname,
+                             @RequestParam(value="lastname") String lastname,
                              @RequestParam(value="latitude", required = false) String latitude,
                              @RequestParam(value="longitude", required = false) String longitude,
                              @RequestParam(value="token", required = false) String token,
-                             @RequestParam(value="age") String age,
+//                             @RequestParam(value="age") String age
+                             @RequestParam(value="birthday") String birthday,
                              @RequestParam(value="gender") String gender,
-                             @RequestParam(value="city", required = false) String city) {
+                             @RequestParam(value="city", required = false) String city,
+                             @RequestParam(value="aboutMe", required = false) String aboutMe,
+                             @RequestParam(value="country", required = false) String country) {
         User user = userRepository.findByFirebaseUID(uid);
 
         if(user == null) {
             user = new User();
             user.setEmail(email);
             user.setFirebaseUID(uid);
+            user.setFirstname(firstname);
+            user.setLastname(lastname);
             user.setLatitude(Double.parseDouble(latitude));
             user.setLongitude(Double.parseDouble(longitude));
-            user.setAge(Integer.parseInt(age));
+            try {
+                user.setBirthDate(new SimpleDateFormat("dd.MM.yyyy").parse(birthday));
+                user.setAge(new Date().getYear() - user.getBirthDate().getYear());
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            user.setAboutMe(aboutMe);
             user.setCity(city);
             user.setGender(Enums.Gender.valueOf(gender));
+            if(!country.isEmpty()) {
+                user.setCountry(country);
+            }
             if(token != null && !token.isEmpty()) {
                 user.setFirebaseInstaceToken(token);
             }
@@ -179,29 +199,41 @@ public class FirebaseUserController {
         return new ResponseEntity<List<User>>(returnUsers, HttpStatus.OK);
     }
 
+//    @RequestMapping(value = "/{uid}/friends", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<List<User>> getAllFriends(@PathVariable String uid, ModelMap model) {
+////        User currentUser = userRepository.findByFirebaseUID("pV3MOTu7yigZa0KRrzsLJM2ztpw1");
+//        User currentUser = userRepository.findByFirebaseUID(uid);
+//        List<User> returnUsers = new ArrayList<User>();
+//
+//        for (User u : userHookupService.getHookupList(currentUser, true)) {
+//            returnUsers.add(getUser(u));
+//        }
+//
+//        return new ResponseEntity<List<User>>(returnUsers, HttpStatus.OK);
+//    }
+
     @RequestMapping(value = "/{uid}/friends", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> getAllFriends(@PathVariable String uid, ModelMap model) {
-//        User currentUser = userRepository.findByFirebaseUID("pV3MOTu7yigZa0KRrzsLJM2ztpw1");
+    public ResponseEntity<List<ResponseUserDto>> getAllFriends(@PathVariable String uid, ModelMap model) {
         User currentUser = userRepository.findByFirebaseUID(uid);
-        List<User> returnUsers = new ArrayList<User>();
+        List<ResponseUserDto> returnUsers = new ArrayList<ResponseUserDto>();
 
         for (User u : userHookupService.getHookupList(currentUser, true)) {
-            returnUsers.add(getUser(u));
+            returnUsers.add(getUser(u, currentUser));
         }
 
-        return new ResponseEntity<List<User>>(returnUsers, HttpStatus.OK);
+        return new ResponseEntity<List<ResponseUserDto>>(returnUsers, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{uid}/pendingFriends", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> getAllPendingFriends(@PathVariable String uid, ModelMap model) {
+    public ResponseEntity<List<ResponseUserDto>> getAllPendingFriends(@PathVariable String uid, ModelMap model) {
         User currentUser = userRepository.findByFirebaseUID(uid);
-        List<User> returnUsers = new ArrayList<User>();
+        List<ResponseUserDto> returnUsers = new ArrayList<ResponseUserDto>();
 
-        for (User u : userHookupService.getHookupList(currentUser, false)) {
-            returnUsers.add(getUser(u));
+        for (User u : userHookupService.getPendingHookups(currentUser)) {
+            returnUsers.add(getUser(u, currentUser));
         }
 
-        return new ResponseEntity<List<User>>(returnUsers, HttpStatus.OK);
+        return new ResponseEntity<List<ResponseUserDto>>(returnUsers, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{uid}/unfriend/{enemyUid}", method = RequestMethod.POST)
@@ -231,6 +263,36 @@ public class FirebaseUserController {
         return "hello";
     }
 
+    private ResponseUserDto getUser(User u, User currentUser) {
+        ResponseUserDto user = new ResponseUserDto();
+
+        user.setFirebaseUID(u.getFirebaseUID());
+        user.setFirstname(u.getFirstname());
+        user.setLastname(u.getLastname());
+        user.setAge(u.getAge());
+        user.setCity(u.getCity());
+        user.setCountry(u.getCountry());
+
+        if(u.getAboutMe() != null) {
+            user.setAboutMe(u.getAboutMe());
+        }
+
+        UserBasicInfo basicInfo = new UserBasicInfo();
+        basicInfo.setCareer(u.getBasicInfo().getCareer());
+        user.setBasicInfo(basicInfo);
+
+        Hookup hookupPair = userHookupService.findHookupPair(u, currentUser);
+
+        if (hookupPair.getHookupPairedDate() != null) {
+            user.setFriendsDate(hookupPair.getHookupPairedDate());
+        }
+
+        if(hookupPair.getHookupRequestDate() != null) {
+            user.setNotificationReceivedDate(hookupPair.getHookupRequestDate());
+        }
+
+        return user;
+    }
 
     private User getUser(User u) {
         User user = new User();

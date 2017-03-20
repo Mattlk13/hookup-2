@@ -6,12 +6,18 @@ package hookupandroid.model;
 public class UserData {
     private String uid;
     private String email;
+    private String firstname;
+    private String lastname;
     private String latitude;
     private String longitude;
     private String token;
     private String age;
+    private String birthDay;
     private String gender;
     private String city;
+    private String country;
+    private String aboutMe;
+
 
     public String getUid() {
         return uid;
@@ -76,4 +82,45 @@ public class UserData {
     public void setCity(String city) {
         this.city = city;
     }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
+
+    public String getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(String birthDay) {
+        this.birthDay = birthDay;
+    }
+
 }

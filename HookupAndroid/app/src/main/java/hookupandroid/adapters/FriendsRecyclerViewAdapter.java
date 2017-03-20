@@ -18,6 +18,7 @@ import hookupandroid.fragments.FriendsFragment;
 import hookupandroid.model.User;
 import hookupandroid.tasks.UnfriendUserTask;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -89,6 +90,7 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
         @BindView(R.id.txt_friend_fullname) TextView txtFullname;
         @BindView(R.id.txt_friend_hometown) TextView txtHometown;
         @BindView(R.id.img_friend_list_item_delete) ImageView imgDelete;
+        @BindView(R.id.text_friends_date) TextView txtFriendsDate;
 
         public ViewHolder(View view) {
             super(view);
@@ -98,6 +100,8 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
         public void setPersonData() {
             txtFullname.setText(mItem.getFirstname() + " " + mItem.getLastname());
             txtHometown.setText(mItem.getCity() + ", " + mItem.getCountry());
+//            txtFriendsDate.setText(mItem.getFriendsDate().toString());
+            txtFriendsDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(mItem.getFriendsDate()));
         }
 
         @OnClick(R.id.img_friend_list_item_delete)

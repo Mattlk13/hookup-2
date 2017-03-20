@@ -6,8 +6,8 @@
     android:name="hookupandroid.fragments.PendingHookupsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginLeft="1dp"
+    android:layout_marginRight="1dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="hookupandroid.fragments.PendingHookupsFragment"
     tools:listitem="@layout/fragment_pending_hookups" />

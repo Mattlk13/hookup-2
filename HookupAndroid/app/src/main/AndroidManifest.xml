@@ -22,7 +22,6 @@
             android:value="AIzaSyC_bMHvvD4K4JkSn4x4U_t9ySqxJx0OuH8" />
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
 
-        <activity android:name=".activities.TestActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".activities.PersonRecyclerViewActivity" />
         <activity android:name=".activities.NavDrawerExampleActivity" />

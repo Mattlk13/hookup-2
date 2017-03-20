@@ -14,7 +14,7 @@
 
     <SeekBar
         android:id="@+id/seekbar_100"
-        android:layout_width="220dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:max="100" />
 
@@ -29,7 +29,7 @@
         android:id="@+id/seekbar100_current_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="18dp"
         android:text="0"
         android:gravity="center" />
 

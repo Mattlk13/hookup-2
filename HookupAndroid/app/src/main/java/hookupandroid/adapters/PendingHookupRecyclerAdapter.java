@@ -23,6 +23,7 @@ import hookupandroid.model.User;
 import hookupandroid.tasks.UnfriendUserTask;
 import hookupandroid.tasks.UpdateHookupResponseTask;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class PendingHookupRecyclerAdapter extends RecyclerView.Adapter<PendingHookupRecyclerAdapter.PendingHookupViewHolder> {
@@ -84,6 +85,10 @@ public class PendingHookupRecyclerAdapter extends RecyclerView.Adapter<PendingHo
         @BindView(R.id.txt_pending_fullname) TextView txtFullname;
         @BindView(R.id.txt_pending_hometown) TextView txtHometown;
         @BindView(R.id.img_pending_profile) ImageView imgProfile;
+        @BindView(R.id.txt_notification_date) TextView txtNotificationDate;
+        @BindView(R.id.txt_notification_time) TextView txtNotificationTime;
+
+
 //        @BindView(R.id.layout_pending_accept) ViewGroup layoutAcceptPending;
 //        @BindView(R.id.layout_pending_decline) ViewGroup layoutDecinePending;
 
@@ -124,6 +129,9 @@ public class PendingHookupRecyclerAdapter extends RecyclerView.Adapter<PendingHo
         public void setData() {
             txtFullname.setText(mItem.getFirstname() + " " + mItem.getLastname());
             txtHometown.setText(mItem.getCity() + ", " + mItem.getCountry());
+            String notificationdDate = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(mItem.getNotificationReceivedDate());
+            txtNotificationDate.setText(notificationdDate.split(" ")[0]);
+            txtNotificationTime.setText(notificationdDate.split(" ")[1]);
         }
 
         @Override

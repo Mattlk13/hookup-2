@@ -6,6 +6,7 @@
     <string name="settings">Settings</string>
     <string name="edit">Edit</string>
     <string name="exit">Exit</string>
+    <string name="done">Done</string>
 
     <string name="person_name">Fullname of person</string>
     <string name="person_country">Country</string>
@@ -225,5 +226,7 @@
     <string name="facebook_app_id">1841733226100364</string>
 
     <string name="oauth_web_client_id">651400288301-c95dhod2eb8g0ca9deedu3oum030cdde.apps.googleusercontent.com</string>
+    <string name="hint_date">Date of birth</string>
+    <string name="hint_about_me">About me</string>
 
 </resources>

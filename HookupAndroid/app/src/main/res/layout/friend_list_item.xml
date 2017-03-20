@@ -33,8 +33,9 @@
                 android:id="@+id/txt_friend_fullname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:layout_margin="7dp"
+                android:textSize="15sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="7dp"
                 android:text="@string/person_name"
                 android:textColor="@color/colorPrimary"/>
 
@@ -42,20 +43,22 @@
                 android:id="@+id/txt_friend_hometown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:layout_margin="7dp"
+                android:textSize="13sp"
+                android:layout_marginLeft="7dp"
                 android:text="@string/person_hometown"
                 android:textColor="@android:color/black"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
                 <TextView
                     android:text="Friends since "
                     android:layout_marginLeft="7dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/text_friends_date"
                     android:text="dd.MM.yyyy"
                     android:layout_marginRight="7dp"
                     android:layout_width="wrap_content"
@@ -73,7 +76,10 @@
                 android:id="@+id/img_friend_list_item_delete"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_margin="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/ic_delete"
                 android:tint="@color/grey_500"/>
 
@@ -81,7 +87,9 @@
                 android:id="@+id/img_friend_place_finder"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/ic_place_finder_24dp"
                 android:tint="@color/grey_500"/>

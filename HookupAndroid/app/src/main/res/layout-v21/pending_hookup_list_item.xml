@@ -33,8 +33,9 @@
                 android:id="@+id/txt_pending_fullname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:layout_margin="7dp"
+                android:textSize="15sp"
+                android:layout_marginTop="7dp"
+                android:layout_marginLeft="7dp"
                 android:text="@string/person_name"
                 android:textColor="@color/colorPrimary"/>
 
@@ -42,38 +43,43 @@
                 android:id="@+id/txt_pending_hometown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:layout_margin="7dp"
+                android:textSize="13sp"
+                android:layout_marginLeft="7dp"
                 android:text="@string/person_hometown"
                 android:textColor="@android:color/black"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="7dp"
                 android:orientation="vertical">
                 <TextView
                     android:text="Notification received"
-                    android:layout_marginLeft="7dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <TextView
                         android:text="on "
-                        android:layout_marginLeft="7dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
+                        android:id="@+id/txt_notification_date"
                         android:text="dd.MM.yyyy "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                     <TextView
                         android:text="at "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
+                        android:id="@+id/txt_notification_time"
                         android:text="HH:mm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -123,23 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-            <!--<LinearLayout-->
-                <!--android:id="@+id/layout_pending_profile_view"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content">-->
-                <!--<ImageView-->
-                    <!--android:layout_width="30dp"-->
-                    <!--android:layout_height="20dp"-->
-                    <!--android:layout_margin="8dp"-->
-                    <!--android:src="@drawable/heart"-->
-                    <!--android:tint="@color/grey_500"/>-->
-                <!--<TextView-->
-                    <!--android:text="View"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content" />-->
-            <!--</LinearLayout>-->
+
         </LinearLayout>
     </LinearLayout>
 

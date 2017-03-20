@@ -43,13 +43,17 @@ public class RegisterUserTask extends AsyncTask<UserData, String, String> {
                 .add("token",data.getToken())
                 .add("latitude",data.getLatitude())
                 .add("longitude",data.getLongitude())
-                .add("age",data.getAge())
+//                .add("age",data.getAge())
+                .add("birthday",data.getBirthDay())
                 .add("gender",data.getGender())
                 .add("city",data.getCity())
+                .add("country",data.getCountry())
+                .add("firstname", data.getFirstname())
+                .add("lastname", data.getLastname())
+                .add("aboutMe", data.getAboutMe())
                 .build();
 
         Request request = new Request.Builder()
-//                .url(mServerUrl + "/firebaseUser/add")
                 .url(Constants.SERVER_URL + "/firebaseUser/add")
                 .post(body)
                 .build();

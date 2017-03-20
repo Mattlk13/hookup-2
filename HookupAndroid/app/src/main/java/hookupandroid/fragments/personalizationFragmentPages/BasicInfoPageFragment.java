@@ -26,15 +26,11 @@ import hookupandroid.model.UserBasicInfo;
  * create an instance of this fragment.
  */
 public class BasicInfoPageFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
     private static final String ARG_BASIC_INFO = "USER_BASIC_INFO";
 
     private UserBasicInfo basicInfo;
+    private boolean formValid;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
 
     private Unbinder unbinder;
     private View inflatedView;
@@ -57,14 +53,12 @@ public class BasicInfoPageFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
      * @return A new instance of fragment BasicInfoPageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BasicInfoPageFragment newInstance(String param1, UserBasicInfo basicInfo) {
+    public static BasicInfoPageFragment newInstance(UserBasicInfo basicInfo) {
         BasicInfoPageFragment fragment = new BasicInfoPageFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
         args.putSerializable(ARG_BASIC_INFO, basicInfo);
         fragment.setArguments(args);
         return fragment;
@@ -74,7 +68,6 @@ public class BasicInfoPageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
             basicInfo = (UserBasicInfo) getArguments().getSerializable(ARG_BASIC_INFO);
         }
         else {
@@ -106,10 +99,25 @@ public class BasicInfoPageFragment extends Fragment {
         basicInfo.setCareer(careerSpinner.getSelectedItemPosition());
         basicInfo.setImprace(impraceSeekbar.getSeekbarProgressValue());
         basicInfo.setImprelig(impreligSeekbar.getSeekbarProgressValue());
+
+        checkIfFormIsValid();
     }
 
     public UserBasicInfo getUserBasicInfo() {
         return basicInfo;
+    }
+
+    public boolean checkIfFormIsValid() {
+//        if (impraceSeekbar.getSeekbarProgressValue() != 0 && impreligSeekbar.getSeekbarProgressValue() != 0) {
+        if (basicInfo.getImprace() != 0 && basicInfo.getImprelig() != 0) {
+//            return true;
+            formValid = true;
+        }
+        else {
+            formValid = false;
+        }
+
+        return formValid;
     }
 
 //    @Override
@@ -142,5 +150,13 @@ public class BasicInfoPageFragment extends Fragment {
     public interface OnBasicInfoPageInteractionListener {
         // TODO: Update argument type and name
 //        void onFragmentInteraction(Uri uri);
+    }
+
+    public boolean isFormValid() {
+        return formValid;
+    }
+
+    public void setFormValid(boolean formValid) {
+        this.formValid = formValid;
     }
 }

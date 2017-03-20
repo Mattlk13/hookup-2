@@ -175,4 +175,16 @@ public class UserPsychology implements Serializable {
     public void setSharC(double sharC) {
         this.sharC = sharC;
     }
+
+    public double getOverallPointsForGroupA() {
+        return ambA + sincA + intelA + sharA + funA + attrA;
+    }
+
+    public double getOverallPointsForGroupB() {
+        return ambB + sincB + intelB + sharB + funB + attrB;
+    }
+
+    public double getOverallPointsForGroupC() {
+        return ambC + sincC + intelC + sharC + funC + attrC;
+    }
 }

@@ -51,10 +51,7 @@ public class SelfMeasureQuestionGroupView extends LinearLayout implements Hundre
 
     @Override
     public void onSeekbarProgressChanged(int oldValue, int newValue, SeekBar seekbar) {
-
-        String remainingValue = remainingPointsTextView.getText().toString();
-        int remainingPoints = Integer.parseInt(remainingValue);
-
+        int remainingPoints = getRemainingPointsValue();
 
         if(newValue>oldValue) {
 //            int remainingPoints = Integer.getInteger(remainingPointsTextView.getText().toString());
@@ -73,6 +70,12 @@ public class SelfMeasureQuestionGroupView extends LinearLayout implements Hundre
             remainingPoints += (oldValue - newValue);
             remainingPointsTextView.setText(Integer.toString(remainingPoints));
         }
+    }
 
+    public int getRemainingPointsValue() {
+        String remainingValue = remainingPointsTextView.getText().toString();
+        int remainingPoints = Integer.parseInt(remainingValue);
+
+        return remainingPoints;
     }
 }
