@@ -24,8 +24,7 @@ public class UpdateUserAuthToken extends AsyncTask<String, String, String> {
 
     private String serverUrl;
 
-    public UpdateUserAuthToken(Context context) {
-//        serverUrl = context.getString(R.string.server_url);
+    public UpdateUserAuthToken() {
     }
 
     @Override

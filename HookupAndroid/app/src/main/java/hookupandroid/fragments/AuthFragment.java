@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
@@ -53,6 +54,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import hookupandroid.R;
 import hookupandroid.common.enums.FirebaseAuthMethod;
+import hookupandroid.tasks.GetAllUserDataTask;
 import hookupandroid.tasks.UpdateUserAuthToken;
 
 /**
@@ -135,8 +137,6 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
         auth = FirebaseAuth.getInstance();
         mCallbackManager = CallbackManager.Factory.create();
 
-        configureFirebaseAuthListener();
-
         validator = new Validator(this);
         validator.setValidationListener(this);
     }
@@ -147,6 +147,7 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
         inflatedView = inflater.inflate(R.layout.fragment_auth, container, false);
         unbinder = ButterKnife.bind(this,inflatedView);
 
+        configureFirebaseAuthListener();
         configureFacebookLoginButton();
 
         return inflatedView;
@@ -162,6 +163,11 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
 
     @OnClick(R.id.btn_login)
     public void onLoginButtonClicked() {
+        InputMethodManager inputManager = (InputMethodManager)
+                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
         validator.validate();
     }
 
@@ -191,8 +197,10 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    mListener.onSuccessLogon();
-
+                    String token = FirebaseInstanceId.getInstance().getToken();
+                    new UpdateUserAuthToken().execute(token);
+                    new GetAllUserDataTask(getActivity(), inflatedView, mListener).execute();
+//                    mListener.onSuccessLogon();
                 } else {
                     // User is signed out
                 }
@@ -286,12 +294,12 @@ public class AuthFragment extends Fragment implements Validator.ValidationListen
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(getContext(), "You have successfully logged in ", Toast.LENGTH_SHORT).show();
-                    String token = FirebaseInstanceId.getInstance().getToken();
-                    // TODO check if token equals token in SQLite db
-                    // TODO: remove (move) body of this if (isSuccessfull), because it should be all called on AuthListener in above method
-                    new UpdateUserAuthToken(getContext()).execute(token);
-//                    mListener.onSuccessLogon();
+//                    Toast.makeText(getContext(), "You have successfully logged in ", Toast.LENGTH_SHORT).show();
+//                    String token = FirebaseInstanceId.getInstance().getToken();
+//                    // TODO check if token equals token in SQLite db
+//                    // TODO: remove (move) body of this if (isSuccessfull), because it should be all called on AuthListener in above method
+//                    new UpdateUserAuthToken().execute(token);
+////                    mListener.onSuccessLogon();
                 }
                 else {
                     Toast.makeText(getContext(), "Authentification failed. Try again...", Toast.LENGTH_SHORT).show();

@@ -16,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -43,6 +45,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import hookupandroid.R;
+import hookupandroid.model.User;
 import hookupandroid.tasks.UpdateUserLocationTask;
 
 import static android.app.Activity.RESULT_OK;
@@ -61,15 +64,23 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
 
+    private static final String ARG_USER_PROFILE_COMPLETE = "user_profile_complete";
+    private static final String ARG_CURRENT_USER_PROFILE = "current_user_profile";
+    private boolean userProfileComplete;
+    private User currentUser;
+
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     protected static final int PLACE_PICKER_REQUEST = 0x3;
 
     private View inflatedView;
     private Unbinder unbinder;
 
-    private OnHomeFragmentInteractionListener mListener;
+    @BindView(R.id.home_personalization_layout) LinearLayout personalizationLayout;
+    @BindView(R.id.home_recommendations_layout) LinearLayout recommendationsLayout;
+    @BindView(R.id.home_nearest_hookup_distance_text) TextView nearestHookupDistanceText;
+    @BindView(R.id.home_recommended_persons_count_text) TextView recommendedPersonsCountText;
 
-//    @BindView(R.id.btn_personalization) Button btnPersonalization;
+    private OnHomeFragmentInteractionListener mListener;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -82,9 +93,11 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
      * @return A new instance of fragment HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance() {
+    public static HomeFragment newInstance(User currentUser) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
+//        args.putBoolean(ARG_USER_PROFILE_COMPLETE, userProfileComplete);
+        args.putSerializable(ARG_CURRENT_USER_PROFILE, currentUser);
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,6 +106,8 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+//            userProfileComplete = getArguments().getBoolean(ARG_USER_PROFILE_COMPLETE);
+            currentUser = (User) getArguments().getSerializable(ARG_CURRENT_USER_PROFILE);
         }
 
         if (mGoogleApiClient == null) {
@@ -113,6 +128,17 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
         // Inflate the layout for this fragment
         inflatedView = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, inflatedView);
+
+//        if(userProfileComplete) {
+        if(currentUser != null && currentUser.isProfileComplete()) {
+            personalizationLayout.setVisibility(View.GONE);
+//            personalizationLayout.setVisibility(View.INVISIBLE);
+            if(currentUser.getUnpairedRecommendationsCounter() > 0 ) {
+                recommendationsLayout.setVisibility(View.VISIBLE);
+                nearestHookupDistanceText.setText(Double.toString(currentUser.getNearestHookupDistnace()) + " km");
+                recommendedPersonsCountText.setText(Integer.toString(currentUser.getUnpairedRecommendationsCounter()));
+            }
+        }
 
         return inflatedView;
     }

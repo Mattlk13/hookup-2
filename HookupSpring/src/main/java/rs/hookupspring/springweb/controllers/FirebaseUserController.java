@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import rs.hookupspring.common.enums.Enums;
+import rs.hookupspring.common.utils.CommonUtils;
 import rs.hookupspring.dao.HookupRepository;
 import rs.hookupspring.dao.UserRepository;
 import rs.hookupspring.entity.Hookup;
@@ -71,7 +72,6 @@ public class FirebaseUserController {
                              @RequestParam(value="latitude", required = false) String latitude,
                              @RequestParam(value="longitude", required = false) String longitude,
                              @RequestParam(value="token", required = false) String token,
-//                             @RequestParam(value="age") String age
                              @RequestParam(value="birthday") String birthday,
                              @RequestParam(value="gender") String gender,
                              @RequestParam(value="city", required = false) String city,
@@ -115,6 +115,7 @@ public class FirebaseUserController {
         User user = userRepository.findByFirebaseUID(uid);
 
         if(user != null) {
+            // TODO if token is different send warning email about new login via another device
             user.setFirebaseInstaceToken(token);
             userRepository.save(user);
         }
@@ -212,6 +213,16 @@ public class FirebaseUserController {
 //        return new ResponseEntity<List<User>>(returnUsers, HttpStatus.OK);
 //    }
 
+    @RequestMapping(value = "/{uid}", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseUserDto> getCurrentUserDetails(@PathVariable String uid) {
+        ResponseUserDto retVal = null;
+        User currentUser = userRepository.findByFirebaseUID(uid);
+
+        retVal = getUser(currentUser, null);
+
+        return new ResponseEntity<ResponseUserDto>(retVal, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/{uid}/friends", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ResponseUserDto>> getAllFriends(@PathVariable String uid, ModelMap model) {
         User currentUser = userRepository.findByFirebaseUID(uid);
@@ -277,18 +288,32 @@ public class FirebaseUserController {
             user.setAboutMe(u.getAboutMe());
         }
 
-        UserBasicInfo basicInfo = new UserBasicInfo();
-        basicInfo.setCareer(u.getBasicInfo().getCareer());
-        user.setBasicInfo(basicInfo);
+        if(u.getBasicInfo() != null && u.getActivities() != null && u.getPsychology() !=null) {
+            user.setProfileComplete(true);
 
-        Hookup hookupPair = userHookupService.findHookupPair(u, currentUser);
-
-        if (hookupPair.getHookupPairedDate() != null) {
-            user.setFriendsDate(hookupPair.getHookupPairedDate());
+            user.setNearestHookupDistnace(getNearestUnpairedHookupDistance(u));
+            user.setUnpairedRecommendationsCounter(userHookupService.getHookupList(u, false).size());
+        }
+        else {
+            user.setProfileComplete(false);
         }
 
-        if(hookupPair.getHookupRequestDate() != null) {
-            user.setNotificationReceivedDate(hookupPair.getHookupRequestDate());
+        if (u.getBasicInfo()!=null) {
+            UserBasicInfo basicInfo = new UserBasicInfo();
+            basicInfo.setCareer(u.getBasicInfo().getCareer());
+            user.setBasicInfo(basicInfo);
+        }
+
+        if(currentUser != null) {
+            Hookup hookupPair = userHookupService.findHookupPair(u, currentUser);
+
+            if (hookupPair.getHookupPairedDate() != null) {
+                user.setFriendsDate(hookupPair.getHookupPairedDate());
+            }
+
+            if (hookupPair.getHookupRequestDate() != null) {
+                user.setNotificationReceivedDate(hookupPair.getHookupRequestDate());
+            }
         }
 
         return user;
@@ -312,5 +337,23 @@ public class FirebaseUserController {
         user.setBasicInfo(basicInfo);
 
         return user;
+    }
+
+    private double getNearestUnpairedHookupDistance(User user) {
+        double distance = Double.MAX_VALUE;
+        List<User> nearbyHookups = new ArrayList<User>();
+
+        List<User> hookups = userHookupService.getHookupList(user, false);
+        for (User hookup : hookups) {
+            double newDistance = locationsDistanceService.distance(user.getLatitude(),
+                    user.getLongitude(), hookup.getLatitude(), hookup.getLongitude(), 'K');
+
+            if(newDistance<distance) {
+                distance = newDistance;
+            }
+
+        }
+
+        return CommonUtils.round(distance, 2);
     }
 }

@@ -228,5 +228,7 @@
     <string name="oauth_web_client_id">651400288301-c95dhod2eb8g0ca9deedu3oum030cdde.apps.googleusercontent.com</string>
     <string name="hint_date">Date of birth</string>
     <string name="hint_about_me">About me</string>
+    <string name="hookup_recommendations_counter_text">recommended persons are in the same city!</string>
+    <string name="nearest_recommended_text">Nearest recommended person distance:</string>
 
 </resources>

@@ -34,8 +34,14 @@ public class User implements Serializable{
 
     private UserBasicInfoForJson basicInfo;
 
+    private boolean profileComplete;
+
     private Date friendsDate;
     private Date notificationReceivedDate;
+
+    private double nearestHookupDistnace;
+    private int unpairedRecommendationsCounter;
+
 
     public int getId() {
         return id;
@@ -188,4 +194,29 @@ public class User implements Serializable{
     public void setNotificationReceivedDate(Date notificationReceivedDate) {
         this.notificationReceivedDate = notificationReceivedDate;
     }
+
+    public boolean isProfileComplete() {
+        return profileComplete;
+    }
+
+    public void setProfileComplete(boolean profileComplete) {
+        this.profileComplete = profileComplete;
+    }
+
+    public double getNearestHookupDistnace() {
+        return nearestHookupDistnace;
+    }
+
+    public void setNearestHookupDistnace(double nearestHookupDistnace) {
+        this.nearestHookupDistnace = nearestHookupDistnace;
+    }
+
+    public int getUnpairedRecommendationsCounter() {
+        return unpairedRecommendationsCounter;
+    }
+
+    public void setUnpairedRecommendationsCounter(int unpairedRecommendationsCounter) {
+        this.unpairedRecommendationsCounter = unpairedRecommendationsCounter;
+    }
+
 }

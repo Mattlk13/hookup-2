@@ -24,6 +24,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -42,6 +44,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import hookupandroid.R;
 import hookupandroid.common.CommonUtils;
 import hookupandroid.common.Constants;
@@ -49,6 +52,7 @@ import hookupandroid.common.FragmentTransitionUtils;
 import hookupandroid.common.enums.PersonRelation;
 import hookupandroid.fragments.AuthFragment;
 import hookupandroid.fragments.DiscoverMatchesFragment;
+import hookupandroid.fragments.EditProfileFragment;
 import hookupandroid.fragments.FriendsFragment;
 import hookupandroid.fragments.HomeFragment;
 import hookupandroid.fragments.PendingHookupsFragment;
@@ -60,6 +64,7 @@ import hookupandroid.fragments.ViewPendingProfileFragment;
 import hookupandroid.fragments.personalizationFragmentPages.PsychologyPageFragment;
 import hookupandroid.model.Person;
 import hookupandroid.model.User;
+import hookupandroid.tasks.GetAllUserDataTask;
 import hookupandroid.tasks.GetFriendsTask;
 import hookupandroid.tasks.GetPendingHookupsTask;
 import okhttp3.FormBody;
@@ -83,11 +88,15 @@ public class NavDrawerMainActivity extends AppCompatActivity
     public static ArrayList<User> friends;
     public static ArrayList<User> pendingHookups;
 
+//    public static boolean userProfileComplete = false;
+    public static User currentUser = null;
+
     private Fragment switchFragment;
     private String switchToolbarTitle;
 
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.toolbar) Toolbar toolbar;
+//    @BindView(R.id.edit_profile_button) Button editProfileButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,10 +116,13 @@ public class NavDrawerMainActivity extends AppCompatActivity
         auth = FirebaseAuth.getInstance();
 
         if(auth.getCurrentUser() != null) {
-            friends = new ArrayList<>();
-            pendingHookups = new ArrayList<>();
-            new GetFriendsTask().execute();
-            new GetPendingHookupsTask().execute();
+            switchFragment = new HomeFragment();
+            FragmentTransitionUtils.to(switchFragment, this);
+            new GetAllUserDataTask(this, switchFragment.getView(), this).execute();
+        }
+        else {
+            switchFragment = new AuthFragment();
+            FragmentTransitionUtils.to(switchFragment, this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -121,6 +133,16 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if(auth.getCurrentUser() != null) {
+            switchFragment = new HomeFragment();
+            FragmentTransitionUtils.to(switchFragment, this);
+            new GetAllUserDataTask(this, switchFragment.getView(), this);
+        }
+        else {
+            switchFragment = new AuthFragment();
+            FragmentTransitionUtils.to(switchFragment, this);
+        }
     }
 
     @Override
@@ -183,8 +205,6 @@ public class NavDrawerMainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-//        Fragment frag = null;
-//        String toolbarTitle = "Home";
         switchFragment = null;
         switchToolbarTitle = "Home";
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -192,6 +212,10 @@ public class NavDrawerMainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             if(auth.getCurrentUser() != null) {
                 switchFragment = new HomeFragment();
+                Bundle bundle = new Bundle();
+//                bundle.putSerializable("user_profile_complete", currentUser.isProfileComplete());
+                bundle.putSerializable("current_user_profile", currentUser);
+                switchFragment.setArguments(bundle);
             }
             else {
                 switchFragment = new AuthFragment();
@@ -272,6 +296,14 @@ public class NavDrawerMainActivity extends AppCompatActivity
         return true;
     }
 
+//    @OnClick(R.id.edit_profile_button)
+//    public void OnEditProfileButtonClicked() {
+//        // TODO: pass currentUser as bundle argument
+//        FragmentTransitionUtils.to(new EditProfileFragment(), this);
+//    drawer.closeDrawer(GravityCompat.START);
+//
+//    }
+
     @Override
     public void onRegisterButtonClicked() {
         toolbar.setTitle("Sign up");
@@ -281,17 +313,19 @@ public class NavDrawerMainActivity extends AppCompatActivity
     @Override
     public void onSuccessLogon() {
         toolbar.setTitle("Home");
-
-        new GetFriendsTask().execute();
-        new GetPendingHookupsTask().execute();
-
-        FragmentTransitionUtils.to(new HomeFragment(), this);
+//        Fragment frag = new HomeFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("user_profile_complete", currentUser.isProfileComplete());
+//        frag.setArguments(bundle);
+//        FragmentTransitionUtils.to(frag, this);
+        homeFragmentTransition();
     }
 
     @Override
     public void onSuccessRegistration() {
         toolbar.setTitle("Home");
-        FragmentTransitionUtils.to(new HomeFragment(), this);
+        homeFragmentTransition();
+//        FragmentTransitionUtils.to(new HomeFragment(), this);
     }
 
     @Override
@@ -383,6 +417,8 @@ public class NavDrawerMainActivity extends AppCompatActivity
     public void onPersonalizationDone() {
         toolbar.setTitle("Home");
 
+        currentUser.setProfileComplete(true);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -391,9 +427,21 @@ public class NavDrawerMainActivity extends AppCompatActivity
             }
         }, 20000);
 
-        FragmentTransitionUtils.to(new HomeFragment(), this);
+//        Fragment frag = new HomeFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("user_profile_complete", currentUser.isProfileComplete());
+//        frag.setArguments(bundle);
+//        FragmentTransitionUtils.to(frag, this);
     }
 
+    private void homeFragmentTransition() {
+        Fragment frag = new HomeFragment();
+        Bundle bundle = new Bundle();
+//        bundle.putSerializable("user_profile_complete", currentUser.isProfileComplete());
+        bundle.putSerializable("current_user_profile", currentUser);
+        frag.setArguments(bundle);
+        FragmentTransitionUtils.to(frag, this);
+    }
 
     private void signoutUserAndReleaseData() {
         if(auth.getCurrentUser() != null) {

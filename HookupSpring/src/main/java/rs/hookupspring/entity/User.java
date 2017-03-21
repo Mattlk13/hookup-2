@@ -49,10 +49,6 @@ public class User {
 
     }
 
-//    @ManyToMany
-//    @JoinTable(name="hookups")
-//    private List<User> hookups;
-
     public int getId() {
         return id;
     }
@@ -230,4 +226,5 @@ public class User {
 //    public int hashCode() {
 //        return firebaseUID.hashCode();
 //    }
+
 }

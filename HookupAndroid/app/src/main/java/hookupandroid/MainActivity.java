@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                 Toast.makeText(MainActivity.this, "You have successfully logged in ", Toast.LENGTH_SHORT).show();
                                 String token = FirebaseInstanceId.getInstance().getToken();
                                 // TODO check if token equals token in SQLite
-                                new UpdateUserAuthToken(MainActivity.this).execute(token);
+//                                new UpdateUserAuthToken(MainActivity.this).execute(token);
                             }
                             else {
                                 Toast.makeText(MainActivity.this, "Authentification failed. Try again...", Toast.LENGTH_SHORT).show();

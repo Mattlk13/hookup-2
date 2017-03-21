@@ -24,11 +24,12 @@ public class ResponseUserDto {
 //    private Double latitude;
 //    private Double longitude;
 
-    private String city; //
-    private String country; //
-    private int age; //
+    private String city;
+    private String country;
+    private int age;
 
-//    private Enums.Gender gender;
+    private double nearestHookupDistnace;
+    private int unpairedRecommendationsCounter;
 //    private Date birthDate;
     private String aboutMe;
 
@@ -38,6 +39,8 @@ public class ResponseUserDto {
     private UserBasicInfo basicInfo;
     private UserActivities activities;
     private UserPsychology psychology;
+
+    private boolean profileComplete;
 
     public int getId() {
         return id;
@@ -150,4 +153,29 @@ public class ResponseUserDto {
     public void setPsychology(UserPsychology psychology) {
         this.psychology = psychology;
     }
+
+    public boolean isProfileComplete() {
+        return profileComplete;
+    }
+
+    public void setProfileComplete(boolean profileComplete) {
+        this.profileComplete = profileComplete;
+    }
+
+    public double getNearestHookupDistnace() {
+        return nearestHookupDistnace;
+    }
+
+    public void setNearestHookupDistnace(double nearestHookupDistnace) {
+        this.nearestHookupDistnace = nearestHookupDistnace;
+    }
+
+    public int getUnpairedRecommendationsCounter() {
+        return unpairedRecommendationsCounter;
+    }
+
+    public void setUnpairedRecommendationsCounter(int unpairedRecommendationsCounter) {
+        this.unpairedRecommendationsCounter = unpairedRecommendationsCounter;
+    }
+
 }
