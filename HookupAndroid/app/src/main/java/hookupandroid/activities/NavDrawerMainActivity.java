@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -143,6 +144,23 @@ public class NavDrawerMainActivity extends AppCompatActivity
             switchFragment = new AuthFragment();
             FragmentTransitionUtils.to(switchFragment, this);
         }
+
+//        LinearLayout header = (LinearLayout) findViewById(R.id.nav_header_container);
+        View headerview = navigationView.getHeaderView(0);
+
+        Button editProfileBtn = (Button) headerview.findViewById(R.id.edit_profile_button);
+        editProfileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment editProfileFragment = new EditProfileFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("current_user_profile", currentUser);
+                FragmentTransitionUtils.to(new EditProfileFragment(), NavDrawerMainActivity.this);
+//                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+
+
     }
 
     @Override

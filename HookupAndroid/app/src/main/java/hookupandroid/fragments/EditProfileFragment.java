@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import hookupandroid.R;
+import hookupandroid.model.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,14 +20,9 @@ import hookupandroid.R;
  * create an instance of this fragment.
  */
 public class EditProfileFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_CURRENT_USER = "current_user_profile";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private User user;
 
     private OnFragmentInteractionListener mListener;
 
@@ -38,14 +34,13 @@ public class EditProfileFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
      * @return A new instance of fragment EditProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static EditProfileFragment newInstance(String param1) {
+    public static EditProfileFragment newInstance(User user) {
         EditProfileFragment fragment = new EditProfileFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putSerializable(ARG_CURRENT_USER, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,7 +49,7 @@ public class EditProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            user = (User) getArguments().getSerializable(ARG_CURRENT_USER);
         }
     }
 
