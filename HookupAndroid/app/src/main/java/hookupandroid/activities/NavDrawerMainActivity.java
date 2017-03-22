@@ -46,6 +46,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import hookupandroid.R;
 import hookupandroid.common.CommonUtils;
 import hookupandroid.common.Constants;
@@ -103,7 +104,7 @@ public class NavDrawerMainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_drawer_main);
-        ButterKnife.bind(this);
+        Unbinder unbinder = ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
         if (mGoogleApiClient == null) {
@@ -126,7 +127,7 @@ public class NavDrawerMainActivity extends AppCompatActivity
             FragmentTransitionUtils.to(switchFragment, this);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -152,11 +153,13 @@ public class NavDrawerMainActivity extends AppCompatActivity
         editProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                drawer.closeDrawer(GravityCompat.START);
                 Fragment editProfileFragment = new EditProfileFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("current_user_profile", currentUser);
-                FragmentTransitionUtils.to(new EditProfileFragment(), NavDrawerMainActivity.this);
-//                drawer.closeDrawer(GravityCompat.START);
+                editProfileFragment.setArguments(bundle);
+                toolbar.setTitle("Edit profile");
+                FragmentTransitionUtils.to(editProfileFragment, NavDrawerMainActivity.this);
             }
         });
 
@@ -322,6 +325,8 @@ public class NavDrawerMainActivity extends AppCompatActivity
 //
 //    }
 
+
+
     @Override
     public void onRegisterButtonClicked() {
         toolbar.setTitle("Sign up");
@@ -331,11 +336,6 @@ public class NavDrawerMainActivity extends AppCompatActivity
     @Override
     public void onSuccessLogon() {
         toolbar.setTitle("Home");
-//        Fragment frag = new HomeFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("user_profile_complete", currentUser.isProfileComplete());
-//        frag.setArguments(bundle);
-//        FragmentTransitionUtils.to(frag, this);
         homeFragmentTransition();
     }
 
@@ -394,7 +394,6 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
     protected void onStart() {

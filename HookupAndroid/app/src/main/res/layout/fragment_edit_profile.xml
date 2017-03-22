@@ -9,10 +9,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_edit_profile_layout_about_me"
@@ -35,16 +31,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Choose image to upload: "/>
+                android:text="Choose image to upload "/>
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/edit_profile_upload_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:text="Upload"/>
 
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/edit_profile_image_view"
             android:layout_width="100dp"
             android:layout_height="110dp"
             android:src="@drawable/user1"
