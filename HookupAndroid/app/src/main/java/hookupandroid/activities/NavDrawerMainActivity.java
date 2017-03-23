@@ -89,7 +89,7 @@ public class NavDrawerMainActivity extends AppCompatActivity
 
     public static ArrayList<User> friends;
     public static ArrayList<User> pendingHookups;
-
+    public static ArrayList<User> nonFriends;
 //    public static boolean userProfileComplete = false;
     public static User currentUser = null;
 

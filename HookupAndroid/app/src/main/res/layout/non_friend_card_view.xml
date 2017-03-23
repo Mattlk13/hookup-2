@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    card_view:cardCornerRadius="6dp"
+    card_view:cardElevation="10dp"
+    >
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="200dp">
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Test Text"-->
+            <!--android:id="@+id/textView"-->
+            <!--android:layout_gravity="center_horizontal" />-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+            <!--android:text="Large Text"-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_gravity="center_horizontal" />-->
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:src="@drawable/user1" />
+
+        <TextView
+            android:id="@+id/txt_non_friend_view_fullname_and_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Firstname Lastname, Age" />
+
+        <TextView
+            android:id="@+id/txt_non_friend_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="City" />
+
+        <TextView
+            android:id="@+id/txt_non_friend_career"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Career" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/lbl_about_me" />
+
+
+        <TextView
+            android:id="@+id/txt_non_friend_view_about_me"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:text="@string/about_me_dummy_text" />
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

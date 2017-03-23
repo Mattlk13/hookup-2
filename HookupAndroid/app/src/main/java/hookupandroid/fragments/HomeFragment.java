@@ -129,10 +129,11 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
         inflatedView = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, inflatedView);
 
-//        if(userProfileComplete) {
-        if(currentUser != null && currentUser.isProfileComplete()) {
-            personalizationLayout.setVisibility(View.GONE);
-//            personalizationLayout.setVisibility(View.INVISIBLE);
+        if(currentUser != null && !currentUser.isProfileComplete()) {
+            personalizationLayout.setVisibility(View.VISIBLE);
+            //            personalizationLayout.setVisibility(View.INVISIBLE);
+        }
+        else if(currentUser != null && currentUser.isProfileComplete()) {
             if(currentUser.getUnpairedRecommendationsCounter() > 0 ) {
                 recommendationsLayout.setVisibility(View.VISIBLE);
                 nearestHookupDistanceText.setText(Double.toString(currentUser.getNearestHookupDistnace()) + " km");

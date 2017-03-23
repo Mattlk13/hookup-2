@@ -67,6 +67,7 @@ public class GetAllUserDataTask extends AsyncTask<String, String, String> {
         getUserFriends();
         getUserPendingProfiles();
         getUserDetails();
+        getNonFriends();
 
         return "";
     }
@@ -137,5 +138,26 @@ public class GetAllUserDataTask extends AsyncTask<String, String, String> {
             e.printStackTrace();
         }
 
+    }
+
+    private void getNonFriends() {
+        ArrayList<User> users = new ArrayList<>();
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(Constants.SERVER_URL + "/firebaseUser/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/non-friends")
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            String json = response.body().string();
+            if (!json.isEmpty() && !json.startsWith("<!DOCTYPE html>")) {
+                Type listType = new TypeToken<ArrayList<User>>() {}.getType();
+                users = new Gson().fromJson(json, listType);
+                NavDrawerMainActivity.nonFriends = users;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

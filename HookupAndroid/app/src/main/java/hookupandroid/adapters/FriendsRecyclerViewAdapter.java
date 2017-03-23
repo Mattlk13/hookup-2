@@ -48,18 +48,6 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
         holder.mItem.setTempPosition(position);
         holder.mItem.setPersonRelation(PersonRelation.FRIEND);
 
-//        int mod = position%3;
-//
-//        if(mod == 0) {
-//            holder.mItem.setPersonRelation(PersonRelation.NON_FRIEND);
-//        }
-//        else if (mod == 1) {
-//            holder.mItem.setPersonRelation(PersonRelation.FRIEND);
-//        }
-//        else {
-//            holder.mItem.setPersonRelation(PersonRelation.PENDING);
-//        }
-
         holder.setPersonData();
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

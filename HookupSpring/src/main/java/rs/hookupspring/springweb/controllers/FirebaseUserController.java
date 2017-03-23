@@ -259,6 +259,32 @@ public class FirebaseUserController {
         // TODO update enemy user android database
     }
 
+    @RequestMapping(value = "/{uid}/non-friends", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ResponseUserDto>> getNonFriends(@PathVariable String uid) {
+        List<ResponseUserDto> returnUsers = new ArrayList<ResponseUserDto>();
+        User currentUser = userRepository.findByFirebaseUID(uid);
+        List<User> resultUsers = new ArrayList<User>();
+
+        List<User> friends = userHookupService.getHookupList(currentUser, true);
+        List<User> pendingFriends = userHookupService.getPendingHookups(currentUser);
+
+        if(currentUser.getGender() == Enums.Gender.Male) {
+            resultUsers = userRepository.findAllByGender(Enums.Gender.Female);
+        }
+        else {
+            resultUsers = userRepository.findAllByGender(Enums.Gender.Male);
+        }
+
+        resultUsers.removeAll(friends);
+        resultUsers.removeAll(pendingFriends);
+
+        for(User user: resultUsers) {
+            returnUsers.add(getUser(user, null));
+        }
+
+        return new ResponseEntity<List<ResponseUserDto>>(returnUsers, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/{uid}/recommended", method = RequestMethod.GET)
     public String getAllRecommendedPersons(@PathVariable String uid, ModelMap model) {
         StringBuilder message = new StringBuilder();
