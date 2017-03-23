@@ -32,21 +32,21 @@
             android:src="@drawable/user1" />
 
         <TextView
-            android:id="@+id/txt_non_friend_view_fullname_and_age"
+            android:id="@+id/txt_non_friend_swipe_view_fullname_and_age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Firstname Lastname, Age" />
 
         <TextView
-            android:id="@+id/txt_non_friend_city"
+            android:id="@+id/txt_non_friend_swipe_view_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="City" />
 
         <TextView
-            android:id="@+id/txt_non_friend_career"
+            android:id="@+id/txt_non_friend_swipe_view_career"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -61,13 +61,30 @@
 
 
         <TextView
-            android:id="@+id/txt_non_friend_view_about_me"
+            android:id="@+id/txt_non_friend_swipe_view_about_me"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/my_border"
             android:gravity="center"
             android:textAlignment="center"
             android:text="@string/about_me_dummy_text" />
+
+        <ImageView
+            android:id="@+id/left_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/broken_heart"
+            android:layout_alignTop="@+id/imageView"
+            android:layout_toLeftOf="@+id/imageView"
+            android:layout_toStartOf="@+id/imageView" />
+        <ImageView
+            android:id="@+id/right_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/heart"
+            android:layout_below="@+id/offer_image"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_toEndOf="@+id/imageView" />
 
 
     </LinearLayout>

@@ -245,6 +245,9 @@ public class NavDrawerMainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_discover) {
             switchFragment = new DiscoverMatchesFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("non-friends", nonFriends);
+            switchFragment.setArguments(bundle);
             switchToolbarTitle = "Discover matches";
         } else if (id == R.id.nav_friends) {
             switchFragment=new FriendsFragment();

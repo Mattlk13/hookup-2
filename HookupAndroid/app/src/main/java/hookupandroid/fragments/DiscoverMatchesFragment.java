@@ -11,18 +11,26 @@ import android.preference.RingtonePreference;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.CursorLoader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ScrollView;
 
+import com.daprlabs.cardstack.SwipeDeck;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import hookupandroid.R;
+import hookupandroid.adapters.NonFriendsSwipeDeckAdapter;
 import hookupandroid.common.CommonUtils;
+import hookupandroid.model.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,24 +41,19 @@ import hookupandroid.common.CommonUtils;
  * create an instance of this fragment.
  */
 public class DiscoverMatchesFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_NON_FRIENDS = "non-friends";
+    private List<User> nonFriends;
 
 //    @BindView(R.id.authScrollview) ScrollView scrollView;
 //    @BindView(R.id.authScrollview) ScrollView scrollView;
-    @BindView(R.id.btnPlayNotification) Button btnPlayNotificaion;
 
     private View inflatedView;
     private Unbinder unbinder;
 
+//    private SwipeDeck cardStack;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-//    private OnViewFriendProfileInteractionListner mListener;
+    @BindView(R.id.swipe_deck) SwipeDeck nonFriendsSwipeDeck;
 
     public DiscoverMatchesFragment() {
         // Required empty public constructor
@@ -60,16 +63,13 @@ public class DiscoverMatchesFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment DiscoverMatchesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DiscoverMatchesFragment newInstance(String param1, String param2) {
+    public static DiscoverMatchesFragment newInstance(ArrayList<User> nonFriends) {
         DiscoverMatchesFragment fragment = new DiscoverMatchesFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_NON_FRIENDS, nonFriends);
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,9 +78,14 @@ public class DiscoverMatchesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            nonFriends = (List<User>) getArguments().getSerializable(ARG_NON_FRIENDS);
         }
+
+//        cardStack = (SwipeDeck) ButterKnife.findById(R.id.swipe_deck);
+//        cardStack = (SwipeDeck) getView().findViewById(R.id.swipe_deck);
+
+
+
     }
 
     @Override
@@ -90,27 +95,59 @@ public class DiscoverMatchesFragment extends Fragment {
         inflatedView = inflater.inflate(R.layout.fragment_discover_matches, container, false);
         unbinder = ButterKnife.bind(this, inflatedView);
 
+        final NonFriendsSwipeDeckAdapter adapter = new NonFriendsSwipeDeckAdapter(nonFriends, getContext());
+        nonFriendsSwipeDeck.setAdapter(adapter);
+
+        nonFriendsSwipeDeck.setEventCallback(new SwipeDeck.SwipeEventCallback() {
+            @Override
+            public void cardSwipedLeft(int position) {
+                Log.i("MainActivity", "card was swiped left, position in adapter: " + position);
+            }
+
+            @Override
+            public void cardSwipedRight(int position) {
+                Log.i("MainActivity", "card was swiped right, position in adapter: " + position);
+            }
+
+            @Override
+            public void cardsDepleted() {
+                Log.i("MainActivity", "no more cards");
+            }
+
+            @Override
+            public void cardActionDown() {
+
+            }
+
+            @Override
+            public void cardActionUp() {
+
+            }
+        });
+
+        nonFriendsSwipeDeck.setLeftImage(R.id.left_image);
+        nonFriendsSwipeDeck.setRightImage(R.id.right_image);
+
         return inflatedView;
     }
 
-    @OnClick(R.id.btnPlayNotification)
-    public void onPlayNotificationButtonClicked() {
-
-        String notifications_new_message_ringtone = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("notifications_new_message_ringtone", "ffs");
-//        Uri soundUri = Uri.withAppendedPath(MediaStore.Audio.Media.INTERNAL_CONTENT_URI, notifications_new_message_ringtone);
-        Uri soundUri = Uri.parse(notifications_new_message_ringtone);
-        String realAudioPath = CommonUtils.getRealAudioPathFromURI(getActivity(), soundUri);
-
-        MediaPlayer mp = MediaPlayer.create(getActivity(), Uri.parse(realAudioPath));
-        mp.start();
-    }
+//    @OnClick(R.id.btnPlayNotification)
+//    public void onPlayNotificationButtonClicked() {
+//
+//        String notifications_new_message_ringtone = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("notifications_new_message_ringtone", "ffs");
+////        Uri soundUri = Uri.withAppendedPath(MediaStore.Audio.Media.INTERNAL_CONTENT_URI, notifications_new_message_ringtone);
+//        Uri soundUri = Uri.parse(notifications_new_message_ringtone);
+//        String realAudioPath = CommonUtils.getRealAudioPathFromURI(getActivity(), soundUri);
+//
+//        MediaPlayer mp = MediaPlayer.create(getActivity(), Uri.parse(realAudioPath));
+//        mp.start();
+//    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
-
 
     //    @Override
 //    public void onAttach(Context context) {
