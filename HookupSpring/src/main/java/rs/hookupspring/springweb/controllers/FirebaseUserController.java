@@ -247,6 +247,27 @@ public class FirebaseUserController {
         return new ResponseEntity<List<ResponseUserDto>>(returnUsers, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/{uid}/like/{nonFriend}", method = RequestMethod.POST)
+    public void likePerson(@PathVariable String uid, @PathVariable String nonFriend) {
+
+        User currentUser = userRepository.findByFirebaseUID(uid);
+        User nonFriendUser = userRepository.findByFirebaseUID(nonFriend);
+
+        Hookup hookup = userHookupService.findHookupPair(currentUser, nonFriendUser);
+
+        if(hookup == null) {
+            hookup = new Hookup();
+            hookup.setUserAId(currentUser.getId());
+            hookup.setUserBId(nonFriendUser.getId());
+            hookup.setHookupPairCreated(new Date());
+            hookup.setHookupPositiveResponseCount(1);
+            hookup.setRecommended(false);
+            hookup.setUserAResponse(true);
+
+            hookupRepository.save(hookup);
+        }
+    }
+
     @RequestMapping(value = "/{uid}/unfriend/{enemyUid}", method = RequestMethod.POST)
     public void unfriend(@PathVariable String uid, @PathVariable String enemyUid) {
 

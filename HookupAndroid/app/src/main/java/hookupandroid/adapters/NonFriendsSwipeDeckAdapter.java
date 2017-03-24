@@ -68,4 +68,5 @@ public class NonFriendsSwipeDeckAdapter extends BaseAdapter {
 
         return v;
     }
+
 }
