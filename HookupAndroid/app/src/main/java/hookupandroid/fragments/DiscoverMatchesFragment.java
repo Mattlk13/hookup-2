@@ -31,6 +31,7 @@ import hookupandroid.R;
 import hookupandroid.adapters.NonFriendsSwipeDeckAdapter;
 import hookupandroid.common.CommonUtils;
 import hookupandroid.model.User;
+import hookupandroid.tasks.DislikeUserTask;
 import hookupandroid.tasks.LikeUserTask;
 
 /**
@@ -103,6 +104,7 @@ public class DiscoverMatchesFragment extends Fragment {
             @Override
             public void cardSwipedLeft(int position) {
                 Log.i("MainActivity", "card was swiped left, position in adapter: " + position);
+                new DislikeUserTask().execute(nonFriends.get(position).getFirebaseUID());
                 nonFriends.remove(position);
             }
 

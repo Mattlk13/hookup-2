@@ -10,6 +10,7 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
         <class>rs.hookupspring.entity.UserBasicInfo</class>
         <class>rs.hookupspring.entity.UserActivities</class>
         <class>rs.hookupspring.entity.UserPsychology</class>
+        <class>rs.hookupspring.entity.IgnoredPair</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

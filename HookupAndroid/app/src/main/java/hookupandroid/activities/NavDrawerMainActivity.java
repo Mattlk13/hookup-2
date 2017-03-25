@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -120,7 +121,14 @@ public class NavDrawerMainActivity extends AppCompatActivity
         if(auth.getCurrentUser() != null) {
             switchFragment = new HomeFragment();
             FragmentTransitionUtils.to(switchFragment, this);
-            new GetAllUserDataTask(this, switchFragment.getView(), this).execute();
+//            new GetAllUserDataTask(this, switchFragment.getView(), this).execute(); // don't freeze ui
+            try {
+                new GetAllUserDataTask(this, switchFragment.getView(), this).execute().get(); // freeze ui
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
         }
         else {
             switchFragment = new AuthFragment();
@@ -136,15 +144,15 @@ public class NavDrawerMainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if(auth.getCurrentUser() != null) {
-            switchFragment = new HomeFragment();
-            FragmentTransitionUtils.to(switchFragment, this);
-            new GetAllUserDataTask(this, switchFragment.getView(), this);
-        }
-        else {
-            switchFragment = new AuthFragment();
-            FragmentTransitionUtils.to(switchFragment, this);
-        }
+//        if(auth.getCurrentUser() != null) {
+//            switchFragment = new HomeFragment();
+//            FragmentTransitionUtils.to(switchFragment, this);
+//            new GetAllUserDataTask(this, switchFragment.getView(), this);
+//        }
+//        else {
+//            switchFragment = new AuthFragment();
+//            FragmentTransitionUtils.to(switchFragment, this);
+//        }
 
 //        LinearLayout header = (LinearLayout) findViewById(R.id.nav_header_container);
         View headerview = navigationView.getHeaderView(0);
@@ -174,10 +182,10 @@ public class NavDrawerMainActivity extends AppCompatActivity
             if (intent.hasExtra("profileUID")) {
                 String profileUID = intent.getStringExtra("profileUID");
                 Bundle bundle = new Bundle();
-                Person person = new Person();
-                person.setFirstname("NotificationTest");
-                person.setLastname("Testic");
-                bundle.putSerializable("personData", person);
+//                Person person = new Person();
+//                person.setFirstname("NotificationTest");
+//                person.setLastname("Testic");
+//                bundle.putSerializable("personData", person);
 
                 int notificationId = intent.getIntExtra("notificationId", 0);
 

@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import rs.hookupspring.common.enums.Enums;
 import rs.hookupspring.common.utils.CommonUtils;
 import rs.hookupspring.dao.HookupRepository;
+import rs.hookupspring.dao.IgnoredPairRepository;
 import rs.hookupspring.dao.UserRepository;
 import rs.hookupspring.entity.Hookup;
+import rs.hookupspring.entity.IgnoredPair;
 import rs.hookupspring.entity.User;
 import rs.hookupspring.entity.UserBasicInfo;
 import rs.hookupspring.springweb.dto.ResponseUserDto;
@@ -44,6 +46,9 @@ public class FirebaseUserController {
 
     @Autowired
     private HookupRepository hookupRepository;
+
+    @Autowired
+    private IgnoredPairRepository ignoredPairRepository;
 
     @Autowired
     private LocationsDistanceService locationsDistanceService;
@@ -265,7 +270,23 @@ public class FirebaseUserController {
             hookup.setUserAResponse(true);
 
             hookupRepository.save(hookup);
+
+            firebaseNotificationService.sendHookupNotification(nonFriendUser, currentUser);
         }
+    }
+
+    @RequestMapping(value = "/{uid}/dislike/{enemyUid}", method = RequestMethod.POST)
+    public void dislike(@PathVariable String uid, @PathVariable String enemyUid) {
+
+        User currentUser = userRepository.findByFirebaseUID(uid);
+        User enemy = userRepository.findByFirebaseUID(enemyUid);
+
+        IgnoredPair ignoredPair = new IgnoredPair();
+        ignoredPair.setUserAId(currentUser.getId());
+        ignoredPair.setUserBId(enemy.getId());
+        ignoredPair.setIgnoreDate(new Date());
+
+        ignoredPairRepository.save(ignoredPair);
     }
 
     @RequestMapping(value = "/{uid}/unfriend/{enemyUid}", method = RequestMethod.POST)
@@ -287,17 +308,23 @@ public class FirebaseUserController {
         List<User> resultUsers = new ArrayList<User>();
 
         List<User> friends = userHookupService.getHookupList(currentUser, true);
-        List<User> pendingFriends = userHookupService.getPendingHookups(currentUser);
+//        List<User> pendingFriends = userHookupService.getPendingHookups(currentUser);
+        List<User> pendingFriendsAndLikedPersons = userHookupService.getHookupList(currentUser, false);
+        List<User> ignoredPerson = userHookupService.getIgnoredUsers(currentUser);
 
         if(currentUser.getGender() == Enums.Gender.Male) {
             resultUsers = userRepository.findAllByGender(Enums.Gender.Female);
         }
         else {
-            resultUsers = userRepository.findAllByGender(Enums.Gender.Male);
+            resultUsers.add(userRepository.findByFirebaseUID("pV3MOTu7yigZa0KRrzsLJM2ztpw1"));
+            resultUsers.addAll(userRepository.findAllByGender(Enums.Gender.Male));
+//            resultUsers = userRepository.findAllByGender(Enums.Gender.Male);
         }
 
         resultUsers.removeAll(friends);
-        resultUsers.removeAll(pendingFriends);
+//        resultUsers.removeAll(pendingFriends);
+        resultUsers.removeAll(pendingFriendsAndLikedPersons);
+        resultUsers.removeAll(ignoredPerson);
 
         for(User user: resultUsers) {
             returnUsers.add(getUser(user, null));

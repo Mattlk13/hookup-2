@@ -1,5 +1,6 @@
 package hookupandroid.tasks;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
@@ -35,10 +36,13 @@ public class GetAllUserDataTask extends AsyncTask<String, String, String> {
     private View mRootView;
     AuthFragment.OnAuthFragmentInteractionListener mListener;
 
+    private ProgressDialog dialog = null;
+
     public GetAllUserDataTask(Context context, View rootView, AuthFragment.OnAuthFragmentInteractionListener listener){
         mContext = context;
         mRootView = rootView;
         mListener = listener;
+        dialog = new ProgressDialog(mContext);
     }
 
     @Override
@@ -46,7 +50,9 @@ public class GetAllUserDataTask extends AsyncTask<String, String, String> {
         if(mContext instanceof AuthFragment.OnAuthFragmentInteractionListener) {
             if(mRootView != null) {
                 LinearLayout linlaHeaderProgress = (LinearLayout) mRootView.findViewById(R.id.linlaHeaderProgress);
-                linlaHeaderProgress.setVisibility(View.VISIBLE);
+//                linlaHeaderProgress.setVisibility(View.VISIBLE);
+                this.dialog.setMessage("Processing...");
+                this.dialog.show();
             }
         }
     }
@@ -56,7 +62,8 @@ public class GetAllUserDataTask extends AsyncTask<String, String, String> {
         if(mContext instanceof AuthFragment.OnAuthFragmentInteractionListener) {
             if(mRootView != null) {
                 LinearLayout linlaHeaderProgress = (LinearLayout) mRootView.findViewById(R.id.linlaHeaderProgress);
-                linlaHeaderProgress.setVisibility(View.GONE);
+//                linlaHeaderProgress.setVisibility(View.GONE);
+                this.dialog.dismiss();
             }
             mListener.onSuccessLogon();
         }

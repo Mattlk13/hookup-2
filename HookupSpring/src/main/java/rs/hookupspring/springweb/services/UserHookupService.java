@@ -25,6 +25,9 @@ public class UserHookupService {
     private UserRepository userRepository;
 
     @Autowired
+    private IgnoredPairRepository ignoredPairRepository;
+
+    @Autowired
     private UserBasicInfoRepository basicInfoRepository;
 
     @Autowired
@@ -84,6 +87,20 @@ public class UserHookupService {
         }
 
         return hookupList;
+    }
+
+    public List<User> getIgnoredUsers (User user) {
+        List<User> ignoredUsers = new ArrayList<User>();
+
+        for (IgnoredPair ignoredPair : ignoredPairRepository.findAllByUserAId(user.getId())) {
+            ignoredUsers.add(userRepository.findOne(ignoredPair.getUserBId()));
+        }
+
+        for (IgnoredPair ignoredPair : ignoredPairRepository.findAllByUserBId(user.getId())) {
+            ignoredUsers.add(userRepository.findOne(ignoredPair.getUserAId()));
+        }
+
+        return ignoredUsers;
     }
 
     public List<User> getRecommendedHookupUserList(User user) {

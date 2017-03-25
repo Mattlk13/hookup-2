@@ -17,10 +17,4 @@
             swipedeck:render_above="true"
             swipedeck:rotation_degrees="15" />
 
-        <!--<Button-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="bottom"-->
-            <!--android:text="Button" />-->
-
 </com.daprlabs.cardstack.SwipeFrameLayout>
