@@ -135,7 +135,7 @@ public class FirebaseUserController {
             user.setAboutMe(userData.getAboutMe());
         }
 
-
+        userRepository.save(user);
     }
 
     @RequestMapping(value = "/updateLocation", method = RequestMethod.POST)

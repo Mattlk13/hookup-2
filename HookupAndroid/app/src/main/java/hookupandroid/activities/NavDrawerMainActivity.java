@@ -82,7 +82,8 @@ public class NavDrawerMainActivity extends AppCompatActivity
         FriendsFragment.OnFriendsListFragmentInteractionListener, PendingHookupsFragment.OnPendingHookupInteractionListener,
         HomeFragment.OnHomeFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         SignupFragment.OnSignupFragmentInteractionListner, ViewPendingProfileFragment.OnViewPendingProfileInteractionListener,
-        ViewFriendProfileFragment.OnViewFriendProfileInteractionListner, PersonalizationFragment.OnPersonalizationFragmentInteractionListener {
+        ViewFriendProfileFragment.OnViewFriendProfileInteractionListner, PersonalizationFragment.OnPersonalizationFragmentInteractionListener,
+        EditProfileFragment.OnEditProfileListener {
 
     private final String VIEW_PROFILE_ACTION = "VIEW_PROFILE_ACTION";
 
@@ -479,5 +480,11 @@ public class NavDrawerMainActivity extends AppCompatActivity
                 pendingHookups.clear();
             }
         }
+    }
+
+    @Override
+    public void onEditProfileDone() {
+        toolbar.setTitle("Home");
+        homeFragmentTransition();
     }
 }

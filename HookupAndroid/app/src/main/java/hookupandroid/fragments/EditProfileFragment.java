@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -23,11 +25,12 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import hookupandroid.R;
 import hookupandroid.model.User;
+import hookupandroid.tasks.UpdateUserProfileTask;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link EditProfileFragment.OnFragmentInteractionListener} interface
+ * {@link OnEditProfileListener} interface
  * to handle interaction events.
  * Use the {@link EditProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -42,7 +45,7 @@ public class EditProfileFragment extends Fragment {
 
     private final int SELECT_IMAGE = 1;
 
-    private OnFragmentInteractionListener mListener;
+    private OnEditProfileListener mListener;
 
     @BindView(R.id.input_edit_profile_about_me) EditText aboutMeText;
     @BindView(R.id.edit_profile_image_view) ImageView profileImageView;
@@ -77,6 +80,7 @@ public class EditProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         inflatedView = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         unbinder = ButterKnife.bind(this, inflatedView);
 
@@ -85,6 +89,30 @@ public class EditProfileFragment extends Fragment {
         }
 
         return inflatedView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.edit_profile_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.btn_edit_profile_done) {
+            user.setAboutMe(aboutMeText.getText().toString());
+            new UpdateUserProfileTask().execute(user);
+            mListener.onEditProfileDone();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @OnClick(R.id.edit_profile_upload_button)
@@ -120,22 +148,22 @@ public class EditProfileFragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnEditProfileListener) {
+            mListener = (OnEditProfileListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnEditProfileListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
     @Override
     public void onDestroyView() {
@@ -153,7 +181,7 @@ public class EditProfileFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-//        void onFragmentInteraction(Uri uri);
+    public interface OnEditProfileListener {
+        void onEditProfileDone();
     }
 }
