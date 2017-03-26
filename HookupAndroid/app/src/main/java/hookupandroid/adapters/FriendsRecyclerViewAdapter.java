@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -18,9 +21,6 @@ import hookupandroid.fragments.FriendsFragment;
 import hookupandroid.model.User;
 import hookupandroid.tasks.UnfriendUserTask;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-
 /**
  * {@link RecyclerView.Adapter} that can display a {@link User} and makes a call to the
  * TODO: Replace the implementation with code for your data type.
@@ -29,10 +29,18 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
 
     private final List<User> friends;
     private final FriendsFragment.OnFriendsListFragmentInteractionListener mListener;
+//    private final FriendsFragment.OnFriendsListPlacePickerListener mPlacePickerListener;
+    private FriendsFragment mFriendsFragment;
 
-    public FriendsRecyclerViewAdapter(List<User> items, FriendsFragment.OnFriendsListFragmentInteractionListener listener) {
+    //    public FriendsRecyclerViewAdapter(List<User> items
+//            , FriendsFragment.OnFriendsListFragmentInteractionListener listener,
+//            FriendsFragment.OnFriendsListPlacePickerListener placeListener) {
+    public FriendsRecyclerViewAdapter(List<User> items,
+                  FriendsFragment.OnFriendsListFragmentInteractionListener listener,
+                  FriendsFragment parentFragment) {
         friends = items;
         mListener = listener;
+        mFriendsFragment = parentFragment;
     }
 
     @Override
@@ -75,10 +83,14 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
     public class ViewHolder extends RecyclerView.ViewHolder {
         public User mItem;
 
-        @BindView(R.id.txt_friend_fullname) TextView txtFullname;
-        @BindView(R.id.txt_friend_hometown) TextView txtHometown;
-        @BindView(R.id.img_friend_list_item_delete) ImageView imgDelete;
-        @BindView(R.id.text_friends_date) TextView txtFriendsDate;
+        @BindView(R.id.txt_friend_fullname)
+        TextView txtFullname;
+        @BindView(R.id.txt_friend_hometown)
+        TextView txtHometown;
+        @BindView(R.id.img_friend_list_item_delete)
+        ImageView imgDelete;
+        @BindView(R.id.text_friends_date)
+        TextView txtFriendsDate;
 
         public ViewHolder(View view) {
             super(view);
@@ -110,6 +122,16 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
+        }
+
+        @OnClick(R.id.img_friend_place_finder)
+        public void suggestPlace() {
+//            if (mPlacePickerListener != null) {
+//                mPlacePickerListener.suggestPlace(mItem);
+//            }
+            if(mFriendsFragment != null) {
+                mFriendsFragment.suggestPlace(mItem);
+            }
         }
 
         private void removeItem() {

@@ -212,7 +212,6 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
                     LocationServices.FusedLocationApi.setMockLocation(mGoogleApiClient, loc);
                 }
         }
-
     }
 
     private void locationSettingsRequest() {
