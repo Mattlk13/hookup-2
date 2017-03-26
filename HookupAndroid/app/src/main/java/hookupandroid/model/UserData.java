@@ -4,7 +4,9 @@ package hookupandroid.model;
  * Created by Bandjur on 8/20/2016.
  */
 public class UserData {
+
     private String uid;
+    private String firebaseInstaceToken;
     private String email;
     private String firstname;
     private String lastname;
@@ -123,4 +125,11 @@ public class UserData {
         this.birthDay = birthDay;
     }
 
+    public String getFirebaseInstaceToken() {
+        return firebaseInstaceToken;
+    }
+
+    public void setFirebaseInstaceToken(String firebaseInstaceToken) {
+        this.firebaseInstaceToken = firebaseInstaceToken;
+    }
 }

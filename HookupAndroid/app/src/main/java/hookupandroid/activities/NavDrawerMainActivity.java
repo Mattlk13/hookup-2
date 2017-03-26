@@ -52,6 +52,7 @@ import hookupandroid.R;
 import hookupandroid.common.CommonUtils;
 import hookupandroid.common.Constants;
 import hookupandroid.common.FragmentTransitionUtils;
+import hookupandroid.common.UserUtils;
 import hookupandroid.common.enums.PersonRelation;
 import hookupandroid.fragments.AuthFragment;
 import hookupandroid.fragments.DiscoverMatchesFragment;
@@ -91,6 +92,7 @@ public class NavDrawerMainActivity extends AppCompatActivity
     public static ArrayList<User> friends;
     public static ArrayList<User> pendingHookups;
     public static ArrayList<User> nonFriends;
+    public static ArrayList<User> allUsers;
 //    public static boolean userProfileComplete = false;
     public static User currentUser = null;
 
@@ -119,11 +121,14 @@ public class NavDrawerMainActivity extends AppCompatActivity
         auth = FirebaseAuth.getInstance();
 
         if(auth.getCurrentUser() != null) {
-            switchFragment = new HomeFragment();
-            FragmentTransitionUtils.to(switchFragment, this);
+//            switchFragment = new HomeFragment();
+//            FragmentTransitionUtils.to(switchFragment, this);
+
+
 //            new GetAllUserDataTask(this, switchFragment.getView(), this).execute(); // don't freeze ui
             try {
-                new GetAllUserDataTask(this, switchFragment.getView(), this).execute().get(); // freeze ui
+//                new GetAllUserDataTask(this, switchFragment.getView(), this).execute().get(); // freeze ui
+                new GetAllUserDataTask(this, null, this).execute().get(); // freeze ui
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -144,17 +149,6 @@ public class NavDrawerMainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        if(auth.getCurrentUser() != null) {
-//            switchFragment = new HomeFragment();
-//            FragmentTransitionUtils.to(switchFragment, this);
-//            new GetAllUserDataTask(this, switchFragment.getView(), this);
-//        }
-//        else {
-//            switchFragment = new AuthFragment();
-//            FragmentTransitionUtils.to(switchFragment, this);
-//        }
-
-//        LinearLayout header = (LinearLayout) findViewById(R.id.nav_header_container);
         View headerview = navigationView.getHeaderView(0);
 
         Button editProfileBtn = (Button) headerview.findViewById(R.id.edit_profile_button);
@@ -181,19 +175,21 @@ public class NavDrawerMainActivity extends AppCompatActivity
         if(intent.getAction() == VIEW_PROFILE_ACTION ) {
             if (intent.hasExtra("profileUID")) {
                 String profileUID = intent.getStringExtra("profileUID");
-                Bundle bundle = new Bundle();
-//                Person person = new Person();
-//                person.setFirstname("NotificationTest");
-//                person.setLastname("Testic");
-//                bundle.putSerializable("personData", person);
+                User notificationUser = UserUtils.getUserFromMainActivityData(profileUID);
 
                 int notificationId = intent.getIntExtra("notificationId", 0);
-
                 mNotificationManager.cancel(notificationId);
 
-                Fragment nonFriendFragment = new ViewNonFriendProfileFragment();
-                nonFriendFragment.setArguments(bundle);
-                FragmentTransitionUtils.to(nonFriendFragment, this);
+                if(notificationUser != null) {
+
+                    if(notificationUser.getPersonRelation() == PersonRelation.NON_FRIEND
+                            || notificationUser.getPersonRelation() == PersonRelation.PENDING) {
+                        onPersonViewClicked(notificationUser);
+                    }
+                }
+                else {
+                    homeFragmentTransition();
+                }
             }
         }
     }
@@ -446,12 +442,14 @@ public class NavDrawerMainActivity extends AppCompatActivity
         toolbar.setTitle("Home");
 
         currentUser.setProfileComplete(true);
+        homeFragmentTransition();
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                new GetFriendsTask().execute();
-                new GetPendingHookupsTask().execute();
+//                new GetFriendsTask().execute();
+//                new GetPendingHookupsTask().execute();
+                new GetAllUserDataTask(NavDrawerMainActivity.this, null, NavDrawerMainActivity.this).execute();
             }
         }, 20000);
 
@@ -474,8 +472,12 @@ public class NavDrawerMainActivity extends AppCompatActivity
     private void signoutUserAndReleaseData() {
         if(auth.getCurrentUser() != null) {
             auth.signOut();
-            friends.clear();
-            pendingHookups.clear();
+            if(friends != null) {
+                friends.clear();
+            }
+            if(pendingHookups != null) {
+                pendingHookups.clear();
+            }
         }
     }
 }

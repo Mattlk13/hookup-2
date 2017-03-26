@@ -46,6 +46,13 @@ public class HookupController {
             int positiveResponseCount = hookup.getHookupPositiveResponseCount() + 1;
             hookup.setHookupPositiveResponseCount(positiveResponseCount);
 
+            if(hookup.getUserAId() ==  user.getId()) {
+                hookup.setUserAResponse(true);
+            }
+            else {
+                hookup.setUserBResponse(true);
+            }
+
             if(positiveResponseCount==2) {
                 hookup.setPaired(true);
                 hookup.setHookupPairedDate(new Date());

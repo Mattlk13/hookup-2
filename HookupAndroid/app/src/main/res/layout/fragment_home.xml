@@ -110,6 +110,14 @@
             android:layout_gravity="center"
             android:text="Set new mock location"/>
 
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_open_google_maps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:text="Open current location on maps"/>
+
     </LinearLayout>
 
     <!-- TODO: Update blank fragment layout -->

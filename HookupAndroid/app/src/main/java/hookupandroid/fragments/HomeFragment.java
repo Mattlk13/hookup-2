@@ -40,6 +40,8 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -150,14 +152,25 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
         unbinder.unbind();
     }
 
+    @OnClick(R.id.btn_open_google_maps)
+    public void openGoogleMaps() {
+        if(mLastLocation != null) {
+            String uri = String.format(Locale.ENGLISH, "geo:%f,%f", mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            getContext().startActivity(intent);
+        }
+    }
+
     @OnClick(R.id.btn_set_user_mock_location)
     public void setUserLocation() {
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-        // default should give start activity with current location but it doesn't
-//        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder()
-                .setLatLngBounds(new LatLngBounds(new LatLng(45.252112, 19.797040), new LatLng(45.252112, 19.797040)));
+        PlacePicker.IntentBuilder builder = null;
+        if(mLastLocation != null) {
+                        builder = new PlacePicker.IntentBuilder();
+        }
+        else {
+            builder = new PlacePicker.IntentBuilder()
+                    .setLatLngBounds(new LatLngBounds(new LatLng(45.252112, 19.797040), new LatLng(45.252112, 19.797040)));
+        }
 
         try {
             startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
@@ -176,7 +189,7 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
             case REQUEST_CHECK_SETTINGS:
                 switch (resultCode) {
                     case RESULT_OK:
-                        startLocationUpdates();
+//                        startLocationUpdates();
                         break;
                     case Activity.RESULT_CANCELED:
                         locationSettingsRequest();//keep asking if imp or do whatever
@@ -279,8 +292,10 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        LocationServices.FusedLocationApi.setMockMode(mGoogleApiClient,true);
+//        LocationServices.FusedLocationApi.setMockMode(mGoogleApiClient,true);
         locationSettingsRequest();
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
 //        startLocationUpdates();
     }
 
@@ -337,7 +352,7 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
     public void onResume() {
         super.onResume();
         if (mGoogleApiClient.isConnected()) {
-            startLocationUpdates();
+//            startLocationUpdates();
         }
     }
 

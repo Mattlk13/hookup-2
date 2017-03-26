@@ -126,6 +126,17 @@ public class FirebaseUserController {
         }
     }
 
+    @RequestMapping(value = "/updateProfile", method = RequestMethod.POST, consumes = "application/json")
+    public void updateUserProfile(RequestEntity<ResponseUserDto> requestEntity) {
+        ResponseUserDto userData = requestEntity.getBody();
+        User user = userRepository.findByFirebaseUID(userData.getFirebaseUID());
+
+        if(!user.getAboutMe().equals(userData.getAboutMe())) {
+            user.setAboutMe(userData.getAboutMe());
+        }
+
+
+    }
 
     @RequestMapping(value = "/updateLocation", method = RequestMethod.POST)
     public void tryUpdateLocation(@RequestParam(value="latitude") String latitude,
@@ -194,29 +205,17 @@ public class FirebaseUserController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> getAllUsers(ModelMap model) {
+    public ResponseEntity<List<ResponseUserDto>> getAllUsers(ModelMap model) {
         List<User> users = userRepository.findAll();
-        List<User> returnUsers = new ArrayList<User>();
+        List<ResponseUserDto> returnUsers = new ArrayList<ResponseUserDto>();
 
         for (User u : users) {
-            returnUsers.add(getUser(u));
+//            returnUsers.add(getUser(u));
+            returnUsers.add(getUser(u, null));
         }
 
-        return new ResponseEntity<List<User>>(returnUsers, HttpStatus.OK);
+        return new ResponseEntity<List<ResponseUserDto>>(returnUsers, HttpStatus.OK);
     }
-
-//    @RequestMapping(value = "/{uid}/friends", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<List<User>> getAllFriends(@PathVariable String uid, ModelMap model) {
-////        User currentUser = userRepository.findByFirebaseUID("pV3MOTu7yigZa0KRrzsLJM2ztpw1");
-//        User currentUser = userRepository.findByFirebaseUID(uid);
-//        List<User> returnUsers = new ArrayList<User>();
-//
-//        for (User u : userHookupService.getHookupList(currentUser, true)) {
-//            returnUsers.add(getUser(u));
-//        }
-//
-//        return new ResponseEntity<List<User>>(returnUsers, HttpStatus.OK);
-//    }
 
     @RequestMapping(value = "/{uid}", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseUserDto> getCurrentUserDetails(@PathVariable String uid) {
@@ -322,7 +321,6 @@ public class FirebaseUserController {
         }
 
         resultUsers.removeAll(friends);
-//        resultUsers.removeAll(pendingFriends);
         resultUsers.removeAll(pendingFriendsAndLikedPersons);
         resultUsers.removeAll(ignoredPerson);
 
@@ -352,6 +350,9 @@ public class FirebaseUserController {
         ResponseUserDto user = new ResponseUserDto();
 
         user.setFirebaseUID(u.getFirebaseUID());
+        if(u.getFirebaseInstaceToken() != null && !u.getFirebaseInstaceToken().isEmpty()) {
+            user.setFirebaseInstaceToken(u.getFirebaseInstaceToken());
+        }
         user.setFirstname(u.getFirstname());
         user.setLastname(u.getLastname());
         user.setAge(u.getAge());
@@ -396,6 +397,11 @@ public class FirebaseUserController {
     private User getUser(User u) {
         User user = new User();
         user.setFirebaseUID(u.getFirebaseUID());
+
+        if(u.getFirebaseInstaceToken() != null && !u.getFirebaseInstaceToken().isEmpty()) {
+            user.setFirebaseInstaceToken(u.getFirebaseInstaceToken());
+        }
+
         user.setFirstname(u.getFirstname());
         user.setLastname(u.getLastname());
         user.setAge(u.getAge());

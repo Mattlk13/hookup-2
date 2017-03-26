@@ -53,6 +53,7 @@ public class HookupMessageService extends FirebaseMessagingService {
         intent.setAction(VIEW_PROFILE_ACTION);
         intent.putExtra("profileUID", hookupUserUID);
         intent.putExtra("notificationId", notificationID);
+        intent.putExtra("friends", true);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -91,8 +92,9 @@ public class HookupMessageService extends FirebaseMessagingService {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setAutoCancel(false)
-                .setContentTitle("Mmmm! New hook up request")
+//                .setContentTitle("Mmmm! New hook up request")
                 .setContentIntent(pendingIntent)
+                .setContentText("Would you like to accept " + personName + " as friend?")
                 .setSound(soundUri);
 
         if(isVibrateOn) {
@@ -101,11 +103,14 @@ public class HookupMessageService extends FirebaseMessagingService {
 
         if(isRecommendedHookup) {
             builder.setSmallIcon(R.drawable.red_two_hearts);
-            builder.setContentText(personName + "(recommended) is nearby. Would you like to accept " + personName + " as friend?");
+            builder.setContentTitle(personName + "(recommended) is nearby.");
+//            builder.setContentText(personName + "(recommended) is nearby. Would you like to accept " + personName + " as friend?");
+//            builder.setContentText("Would you like to accept " + personName + " as friend?");
         }
         else{
             builder.setSmallIcon(R.drawable.heart);
-            builder.setContentText(personName + " is nearby. Would you like to accept " + personName + " as friend?");
+//            builder.setContentText(personName + " is nearby. Would you like to accept " + personName + " as friend?");
+            builder.setContentTitle(personName + " liked you.");
         }
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -113,8 +118,6 @@ public class HookupMessageService extends FirebaseMessagingService {
 
         manager.notify(notificationID,builder.build());
     }
-
-
 
     private void buildHookupRequestActions(NotificationCompat.Builder builder, int notificationId, String hookupUserUID) {
         int requestCode = notificationId;
