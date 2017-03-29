@@ -51,6 +51,8 @@ import hookupandroid.adapters.FriendsRecyclerViewAdapter;
 import hookupandroid.fragments.dummy.PersonContent;
 import hookupandroid.model.Person;
 import hookupandroid.model.User;
+import hookupandroid.tasks.SendFcmMeetingPlaceTask;
+import hookupandroid.tasks.SuggestPlaceFromServerTask;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -75,6 +77,8 @@ public class FriendsFragment extends Fragment implements  GoogleApiClient.Connec
     private int mColumnCount = 1;
     private ArrayList<User> friends;
     private OnFriendsListFragmentInteractionListener callback;
+
+    private User locationReceiverFriend;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -138,7 +142,6 @@ public class FriendsFragment extends Fragment implements  GoogleApiClient.Connec
         return view;
     }
 
-//    @Override
     public void suggestPlace(User suggestPlaceToUser) {
         PlacePicker.IntentBuilder builder = null;
         if(mLastLocation != null) {
@@ -150,6 +153,7 @@ public class FriendsFragment extends Fragment implements  GoogleApiClient.Connec
         }
 
         try {
+            locationReceiverFriend = suggestPlaceToUser;
             startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
         } catch (GooglePlayServicesRepairableException e) {
             e.printStackTrace();
@@ -179,15 +183,9 @@ public class FriendsFragment extends Fragment implements  GoogleApiClient.Connec
                     String toastMsg = String.format("Place: %s", place.getName());
                     Toast.makeText(getContext(), toastMsg, Toast.LENGTH_LONG).show();
 
-                    Location loc = new Location("Test");
-                    loc.setLatitude (place.getLatLng().latitude);
-                    loc.setLongitude(place.getLatLng().longitude);
-                    loc.setAltitude(0);
-                    loc.setAccuracy(10f);
-                    loc.setElapsedRealtimeNanos(System.nanoTime());
-                    loc.setTime(System.currentTimeMillis());
-//                    LocationServices.FusedLocationApi.setMockLocation(mGoogleApiClient, loc);
-                    // TODO: create notification and set location data = loc
+//                    new SendFcmMeetingPlaceTask(Double.toString(place.getLatLng().latitude), Double.toString(place.getLatLng().longitude)).execute(locationReceiverFriend);
+                    new SuggestPlaceFromServerTask(Double.toString(place.getLatLng().latitude), Double.toString(place.getLatLng().longitude)).execute(locationReceiverFriend.getFirebaseUID());
+                    locationReceiverFriend = null;
                 }
         }
     }
@@ -330,7 +328,7 @@ public class FriendsFragment extends Fragment implements  GoogleApiClient.Connec
         void onPersonViewClicked(User item);
     }
 
-    public interface OnFriendsListPlacePickerListener {
-        void suggestPlace(User suggestPlaceToUser);
-    }
+//    public interface OnFriendsListPlacePickerListener {
+//        void suggestPlace(User suggestPlaceToUser);
+//    }
 }

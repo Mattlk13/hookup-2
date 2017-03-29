@@ -61,11 +61,13 @@
             android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/img_friend_sms"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:src="@drawable/message_128x128"/>
 
             <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/img_friend_suggest_place"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginLeft="40dp"

@@ -126,9 +126,6 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
 
         @OnClick(R.id.img_friend_place_finder)
         public void suggestPlace() {
-//            if (mPlacePickerListener != null) {
-//                mPlacePickerListener.suggestPlace(mItem);
-//            }
             if(mFriendsFragment != null) {
                 mFriendsFragment.suggestPlace(mItem);
             }

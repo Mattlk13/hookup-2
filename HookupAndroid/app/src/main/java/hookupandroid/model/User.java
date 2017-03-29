@@ -42,6 +42,7 @@ public class User implements Serializable{
     private double nearestHookupDistnace;
     private int unpairedRecommendationsCounter;
 
+    private String phoneNumber;
 
     public int getId() {
         return id;
@@ -217,6 +218,14 @@ public class User implements Serializable{
 
     public void setUnpairedRecommendationsCounter(int unpairedRecommendationsCounter) {
         this.unpairedRecommendationsCounter = unpairedRecommendationsCounter;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
 }

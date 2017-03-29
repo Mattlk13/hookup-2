@@ -16,11 +16,9 @@ import rs.hookupspring.common.enums.Enums;
 import rs.hookupspring.common.utils.CommonUtils;
 import rs.hookupspring.dao.HookupRepository;
 import rs.hookupspring.dao.IgnoredPairRepository;
+import rs.hookupspring.dao.MeetingRepository;
 import rs.hookupspring.dao.UserRepository;
-import rs.hookupspring.entity.Hookup;
-import rs.hookupspring.entity.IgnoredPair;
-import rs.hookupspring.entity.User;
-import rs.hookupspring.entity.UserBasicInfo;
+import rs.hookupspring.entity.*;
 import rs.hookupspring.springweb.dto.ResponseUserDto;
 import rs.hookupspring.springweb.dto.UserPersonalizationDto;
 import rs.hookupspring.springweb.services.FirebaseNotificationService;
@@ -49,6 +47,9 @@ public class FirebaseUserController {
 
     @Autowired
     private IgnoredPairRepository ignoredPairRepository;
+
+    @Autowired
+    private MeetingRepository meetingRepository;
 
     @Autowired
     private LocationsDistanceService locationsDistanceService;
@@ -158,6 +159,7 @@ public class FirebaseUserController {
         List<User> nearbyHookups = new ArrayList<User>();
 
         List<User> hookups = userHookupService.getHookupList(user, false);
+
         for (User hookup : hookups) {
             distance = locationsDistanceService.distance(user.getLatitude(),
                     user.getLongitude(), hookup.getLatitude(), hookup.getLongitude(), 'K');
@@ -344,6 +346,42 @@ public class FirebaseUserController {
         model.addAttribute("message", message);
 
         return "hello";
+    }
+
+    @RequestMapping(value = "/{uid}/suggestPlace/{receiverUid}", method = RequestMethod.POST)
+    public void suggestPlace(@PathVariable String uid, @PathVariable String receiverUid,
+                             @RequestParam(value="latitude") String latitude,
+                             @RequestParam(value="longitude") String longitude) {
+
+        User sender = userRepository.findByFirebaseUID(uid);
+        User receiver = userRepository.findByFirebaseUID(receiverUid);
+
+        Meeting meeting = new Meeting();
+        meeting.setCreateDate(new Date());
+        meeting.setLatitude(latitude);
+        meeting.setLongitude(longitude);
+        meeting.setSenderUid(sender.getFirebaseUID());
+        meeting.setReceiverUid(receiver.getFirebaseUID());
+        Meeting savedMeeting = meetingRepository.save(meeting);
+
+        firebaseNotificationService.sendMeetupPlace(sender, receiver, latitude, longitude, savedMeeting.getId());
+    }
+
+    @RequestMapping(value = "/{uid}/meetingResponse", method = RequestMethod.POST)
+    public void handleMeetingResponse(@PathVariable String uid,
+                             @RequestParam(value="meetingId") String meetingId,
+                             @RequestParam(value="response") String response) {
+
+        Meeting meeting = meetingRepository.findOne(Integer.parseInt(meetingId));
+        User user = userRepository.findByFirebaseUID(uid);
+        boolean userResponse = Boolean.parseBoolean(response);
+        meeting.setResponse(userResponse);
+        meeting.setReceiverResponseDate(new Date());
+        meetingRepository.save(meeting);
+
+        User notifyUser = userRepository.findByFirebaseUID(meeting.getSenderUid());
+
+        firebaseNotificationService.notifyUserAboutMeetingResponse(notifyUser, user, userResponse);
     }
 
     private ResponseUserDto getUser(User u, User currentUser) {

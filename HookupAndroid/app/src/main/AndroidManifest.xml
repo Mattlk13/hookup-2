@@ -74,6 +74,14 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".receivers.MeetingResponseReceiver">
+            <intent-filter>
+                <action android:name="MEETING_OPEN_MAP_ACTION" />
+                <action android:name="MEETING_ACCEPT_ACTION" />
+                <action android:name="MEETING_DECLINE_ACTION" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings" />

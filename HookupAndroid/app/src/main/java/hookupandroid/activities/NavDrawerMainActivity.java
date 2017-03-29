@@ -94,8 +94,9 @@ public class NavDrawerMainActivity extends AppCompatActivity
     public static ArrayList<User> pendingHookups;
     public static ArrayList<User> nonFriends;
     public static ArrayList<User> allUsers;
-//    public static boolean userProfileComplete = false;
     public static User currentUser = null;
+
+//    public static Context mApplicationContext;
 
     private Fragment switchFragment;
     private String switchToolbarTitle;
@@ -111,6 +112,8 @@ public class NavDrawerMainActivity extends AppCompatActivity
         Unbinder unbinder = ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
+//        mApplicationContext = getApplicationContext();
+
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -122,19 +125,22 @@ public class NavDrawerMainActivity extends AppCompatActivity
         auth = FirebaseAuth.getInstance();
 
         if(auth.getCurrentUser() != null) {
-//            switchFragment = new HomeFragment();
-//            FragmentTransitionUtils.to(switchFragment, this);
+//            try {
+////                new GetAllUserDataTask(this, switchFragment.getView(), this).execute().get(); // freeze ui
+//                new GetAllUserDataTask(this, null, this).execute().get(); // freeze ui
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            } catch (ExecutionException e) {
+//                e.printStackTrace();
+//            }
 
-
-//            new GetAllUserDataTask(this, switchFragment.getView(), this).execute(); // don't freeze ui
-            try {
-//                new GetAllUserDataTask(this, switchFragment.getView(), this).execute().get(); // freeze ui
-                new GetAllUserDataTask(this, null, this).execute().get(); // freeze ui
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
+            final Fragment homeFragment = homeFragmentTransition();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    new GetAllUserDataTask(NavDrawerMainActivity.this, homeFragment.getView(), NavDrawerMainActivity.this).execute();
+                }
+            }, 3000);
         }
         else {
             switchFragment = new AuthFragment();
@@ -296,22 +302,10 @@ public class NavDrawerMainActivity extends AppCompatActivity
                 Toast.makeText(NavDrawerMainActivity.this, "No user signed in...", Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.nav_exitApp) {
-
             if(auth.getCurrentUser() != null) {
                 signoutUserAndReleaseData();
             }
-//            Process suProcess = null;
-//            try {
-//
-//                suProcess = Runtime.getRuntime().exec("su");
-//                DataOutputStream os = new DataOutputStream(suProcess.getOutputStream());
-//                os.writeBytes("adb shell" + "\n");
-//                os.flush();
-//                os.writeBytes("am force-stop rs.androidhookup" + "\n");
-//                os.flush();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+
             ActivityCompat.finishAffinity(this);
         }
 
@@ -324,16 +318,6 @@ public class NavDrawerMainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-//    @OnClick(R.id.edit_profile_button)
-//    public void OnEditProfileButtonClicked() {
-//        // TODO: pass currentUser as bundle argument
-//        FragmentTransitionUtils.to(new EditProfileFragment(), this);
-//    drawer.closeDrawer(GravityCompat.START);
-//
-//    }
-
-
 
     @Override
     public void onRegisterButtonClicked() {
@@ -461,13 +445,15 @@ public class NavDrawerMainActivity extends AppCompatActivity
 //        FragmentTransitionUtils.to(frag, this);
     }
 
-    private void homeFragmentTransition() {
+    private Fragment homeFragmentTransition() {
         Fragment frag = new HomeFragment();
         Bundle bundle = new Bundle();
 //        bundle.putSerializable("user_profile_complete", currentUser.isProfileComplete());
         bundle.putSerializable("current_user_profile", currentUser);
         frag.setArguments(bundle);
         FragmentTransitionUtils.to(frag, this);
+
+        return frag;
     }
 
     private void signoutUserAndReleaseData() {
@@ -487,4 +473,5 @@ public class NavDrawerMainActivity extends AppCompatActivity
         toolbar.setTitle("Home");
         homeFragmentTransition();
     }
+
 }

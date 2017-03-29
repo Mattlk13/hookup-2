@@ -2,7 +2,9 @@ package hookupandroid.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -58,8 +60,7 @@ public class ViewFriendProfileFragment extends Fragment {
      *
      * @return A new instance of fragment ViewFriendProfileFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static ViewFriendProfileFragment newInstance(String param1, String param2) {
+    public static ViewFriendProfileFragment newInstance() {
         ViewFriendProfileFragment fragment = new ViewFriendProfileFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -118,6 +119,19 @@ public class ViewFriendProfileFragment extends Fragment {
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    @OnClick(R.id.img_friend_sms)
+    public void sendSms() {
+        Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+        if(!friend.getPhoneNumber().isEmpty()) {
+            smsIntent.setData(Uri.parse("sms:" + friend.getPhoneNumber()));
+        }
+        else {
+            smsIntent.setData(Uri.parse("sms:"));
+        }
+
+        startActivity(smsIntent);
     }
 
     @Override

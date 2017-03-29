@@ -6,6 +6,7 @@ import java.util.Map;
  * Created by Bandjur on 8/21/2016.
  */
 public class FcmJsonBody {
+
     private String to;
     private Map<String, String> data;
 
@@ -24,4 +25,5 @@ public class FcmJsonBody {
     public void setData(Map<String, String> data) {
         this.data = data;
     }
+
 }

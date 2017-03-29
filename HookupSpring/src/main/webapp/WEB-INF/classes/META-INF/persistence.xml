@@ -11,6 +11,7 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
         <class>rs.hookupspring.entity.UserActivities</class>
         <class>rs.hookupspring.entity.UserPsychology</class>
         <class>rs.hookupspring.entity.IgnoredPair</class>
+        <class>rs.hookupspring.entity.Meeting</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
