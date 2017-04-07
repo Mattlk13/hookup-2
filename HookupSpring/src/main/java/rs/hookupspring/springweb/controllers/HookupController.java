@@ -57,6 +57,7 @@ public class HookupController {
                 hookup.setPaired(true);
                 hookup.setHookupPairedDate(new Date());
                 firebaseNotificationService.sendFriendsNotification(user, hookupPerson);
+                firebaseNotificationService.sendFriendsNotification(hookupPerson, user);
             }
 
             hookupRepository.save(hookup);

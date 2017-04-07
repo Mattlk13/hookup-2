@@ -100,8 +100,10 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
         public void setPersonData() {
             txtFullname.setText(mItem.getFirstname() + " " + mItem.getLastname());
             txtHometown.setText(mItem.getCity() + ", " + mItem.getCountry());
-//            txtFriendsDate.setText(mItem.getFriendsDate().toString());
-            txtFriendsDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(mItem.getFriendsDate()));
+//            txtFriendsDate.setText(mItem.getFriendsDate().toString());'
+            if(mItem.getFriendsDate() != null) {
+                txtFriendsDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(mItem.getFriendsDate()));
+            }
         }
 
         @OnClick(R.id.img_friend_list_item_delete)

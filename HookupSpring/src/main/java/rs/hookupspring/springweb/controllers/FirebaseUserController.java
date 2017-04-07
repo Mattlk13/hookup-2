@@ -28,9 +28,7 @@ import rs.hookupspring.springweb.services.WekaMiningService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Bandjur on 8/20/2016.
@@ -209,6 +207,7 @@ public class FirebaseUserController {
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ResponseUserDto>> getAllUsers(ModelMap model) {
         List<User> users = userRepository.findAll();
+
         List<ResponseUserDto> returnUsers = new ArrayList<ResponseUserDto>();
 
         for (User u : users) {
@@ -326,6 +325,17 @@ public class FirebaseUserController {
         resultUsers.removeAll(pendingFriendsAndLikedPersons);
         resultUsers.removeAll(ignoredPerson);
 
+        Collections.sort(resultUsers, new Comparator<User>() {
+            @Override
+            public int compare(User u1, User u2) {
+                if (u1.getBirthDate() == null || u2.getBirthDate() == null)
+                    return 0;
+                return u1.getBirthDate().compareTo(u2.getBirthDate());
+            }
+        });
+
+        Collections.reverse(resultUsers);
+
         for(User user: resultUsers) {
             returnUsers.add(getUser(user, null));
         }
@@ -339,8 +349,15 @@ public class FirebaseUserController {
 
         User currentUser = userRepository.findByFirebaseUID(uid);
 
-        for (User u : userHookupService.getRecommendedHookupUserList(currentUser)) {
+        List<User> recommededPartners = userHookupService.getRecommendedHookupUserList(currentUser);
+        for (User u : recommededPartners) {
             message.append(u.getLatitude() + ", " + u.getLongitude() + " </br>");
+        }
+
+        message.append("</br>");
+
+        for (User u : recommededPartners) {
+            message.append(u.getId() + " " + u.getFirstname() + " " + u.getLastname() + " </br>");
         }
 
         model.addAttribute("message", message);

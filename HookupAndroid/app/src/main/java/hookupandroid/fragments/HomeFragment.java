@@ -209,7 +209,8 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
                     loc.setAccuracy(10f);
                     loc.setElapsedRealtimeNanos(System.nanoTime());
                     loc.setTime(System.currentTimeMillis());
-                    LocationServices.FusedLocationApi.setMockLocation(mGoogleApiClient, loc);
+//                    LocationServices.FusedLocationApi.setMockLocation(mGoogleApiClient, loc);
+                    new UpdateUserLocationTask().execute(loc);
                 }
         }
     }
@@ -282,10 +283,11 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
         // for wi-fi and tower settings
 //        mLocationRequest.setInterval(30000);
 //        mLocationRequest.setFastestInterval(6000);
+        //        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+
         // for GPS settings, precise location
         mLocationRequest.setInterval(5000);
         mLocationRequest.setFastestInterval(1000);
-//        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 

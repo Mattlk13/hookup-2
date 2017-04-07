@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import hookupandroid.R;
+import hookupandroid.activities.NavDrawerMainActivity;
 import hookupandroid.adapters.NonFriendsSwipeDeckAdapter;
 import hookupandroid.common.CommonUtils;
 import hookupandroid.model.User;
@@ -46,19 +47,17 @@ public class DiscoverMatchesFragment extends Fragment {
     private static final String ARG_NON_FRIENDS = "non-friends";
     private List<User> nonFriends;
 
-//    @BindView(R.id.authScrollview) ScrollView scrollView;
-//    @BindView(R.id.authScrollview) ScrollView scrollView;
-
     private View inflatedView;
     private Unbinder unbinder;
 
-//    private SwipeDeck cardStack;
-
+    private User currentDisplayingUser;
+    private List<Integer> listPositionsToDelete;
 
     @BindView(R.id.swipe_deck) SwipeDeck nonFriendsSwipeDeck;
 
     public DiscoverMatchesFragment() {
         // Required empty public constructor
+        listPositionsToDelete = new ArrayList<>();
     }
 
     /**
@@ -83,11 +82,6 @@ public class DiscoverMatchesFragment extends Fragment {
             nonFriends = (List<User>) getArguments().getSerializable(ARG_NON_FRIENDS);
         }
 
-//        cardStack = (SwipeDeck) ButterKnife.findById(R.id.swipe_deck);
-//        cardStack = (SwipeDeck) getView().findViewById(R.id.swipe_deck);
-
-
-
     }
 
     @Override
@@ -100,24 +94,35 @@ public class DiscoverMatchesFragment extends Fragment {
         final NonFriendsSwipeDeckAdapter adapter = new NonFriendsSwipeDeckAdapter(nonFriends, getContext());
         nonFriendsSwipeDeck.setAdapter(adapter);
 
+        if(nonFriends.size() > 0) {
+            currentDisplayingUser = nonFriends.get(0);
+        }
+
         nonFriendsSwipeDeck.setEventCallback(new SwipeDeck.SwipeEventCallback() {
             @Override
             public void cardSwipedLeft(int position) {
                 Log.i("MainActivity", "card was swiped left, position in adapter: " + position);
                 new DislikeUserTask().execute(nonFriends.get(position).getFirebaseUID());
-                nonFriends.remove(position);
+//                new DislikeUserTask().execute(currentDisplayingUser.getFirebaseUID());
+//                currentDisplayingUser = nonFriends.get(position);
+//                nonFriends.remove(position);
+                listPositionsToDelete.add(position);
             }
 
             @Override
             public void cardSwipedRight(int position) {
                 Log.i("MainActivity", "card was swiped right, position in adapter: " + position);
                 new LikeUserTask().execute(nonFriends.get(position).getFirebaseUID());
-                nonFriends.remove(position);
+//                new LikeUserTask().execute(currentDisplayingUser.getFirebaseUID());
+//                currentDisplayingUser = nonFriends.get(position);
+//                nonFriends.remove(position);
+                listPositionsToDelete.add(position);
             }
 
             @Override
             public void cardsDepleted() {
                 Log.i("MainActivity", "no more cards");
+                currentDisplayingUser = null;
             }
 
             @Override
@@ -137,21 +142,14 @@ public class DiscoverMatchesFragment extends Fragment {
         return inflatedView;
     }
 
-//    @OnClick(R.id.btnPlayNotification)
-//    public void onPlayNotificationButtonClicked() {
-//
-//        String notifications_new_message_ringtone = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("notifications_new_message_ringtone", "ffs");
-////        Uri soundUri = Uri.withAppendedPath(MediaStore.Audio.Media.INTERNAL_CONTENT_URI, notifications_new_message_ringtone);
-//        Uri soundUri = Uri.parse(notifications_new_message_ringtone);
-//        String realAudioPath = CommonUtils.getRealAudioPathFromURI(getActivity(), soundUri);
-//
-//        MediaPlayer mp = MediaPlayer.create(getActivity(), Uri.parse(realAudioPath));
-//        mp.start();
-//    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        for(int position : listPositionsToDelete) {
+            if(NavDrawerMainActivity.nonFriends.get(position) != null) {
+                NavDrawerMainActivity.nonFriends.remove(position);
+            }
+        }
         unbinder.unbind();
     }
 

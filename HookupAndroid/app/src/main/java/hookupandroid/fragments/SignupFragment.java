@@ -11,6 +11,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -268,6 +269,12 @@ public class SignupFragment extends Fragment implements Validator.ValidationList
 
     @OnClick(R.id.btn_register)
     public void register() {
+        InputMethodManager inputManager = (InputMethodManager)
+                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+
         validator.validate();
     }
 

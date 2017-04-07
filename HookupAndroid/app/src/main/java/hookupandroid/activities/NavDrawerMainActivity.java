@@ -41,6 +41,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -162,13 +163,18 @@ public class NavDrawerMainActivity extends AppCompatActivity
         editProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawer.closeDrawer(GravityCompat.START);
-                Fragment editProfileFragment = new EditProfileFragment();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("current_user_profile", currentUser);
-                editProfileFragment.setArguments(bundle);
-                toolbar.setTitle("Edit profile");
-                FragmentTransitionUtils.to(editProfileFragment, NavDrawerMainActivity.this);
+                if(auth.getCurrentUser() != null) {
+                    drawer.closeDrawer(GravityCompat.START);
+                    Fragment editProfileFragment = new EditProfileFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("current_user_profile", currentUser);
+                    editProfileFragment.setArguments(bundle);
+                    toolbar.setTitle("Edit profile");
+                    FragmentTransitionUtils.to(editProfileFragment, NavDrawerMainActivity.this);
+                }
+                else {
+                    Toast.makeText(NavDrawerMainActivity.this, "No user logged in...", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -188,9 +194,16 @@ public class NavDrawerMainActivity extends AppCompatActivity
                 mNotificationManager.cancel(notificationId);
 
                 if(notificationUser != null) {
-
                     if(notificationUser.getPersonRelation() == PersonRelation.NON_FRIEND
                             || notificationUser.getPersonRelation() == PersonRelation.PENDING) {
+                        if(intent.hasExtra("friends")) {
+                            notificationUser.setPersonRelation(PersonRelation.FRIEND);
+                            if(nonFriends.contains(notificationUser)) {
+                                nonFriends.remove(notificationUser);
+                            }
+                            notificationUser.setFriendsDate(new Date());
+                            friends.add(notificationUser);
+                        }
                         onPersonViewClicked(notificationUser);
                     }
                 }
@@ -334,6 +347,9 @@ public class NavDrawerMainActivity extends AppCompatActivity
     @Override
     public void onSuccessRegistration() {
         toolbar.setTitle("Home");
+        currentUser = new User();
+        currentUser.setProfileComplete(false);
+
         homeFragmentTransition();
 //        FragmentTransitionUtils.to(new HomeFragment(), this);
     }
@@ -436,13 +452,7 @@ public class NavDrawerMainActivity extends AppCompatActivity
 //                new GetPendingHookupsTask().execute();
                 new GetAllUserDataTask(NavDrawerMainActivity.this, null, NavDrawerMainActivity.this).execute();
             }
-        }, 20000);
-
-//        Fragment frag = new HomeFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("user_profile_complete", currentUser.isProfileComplete());
-//        frag.setArguments(bundle);
-//        FragmentTransitionUtils.to(frag, this);
+        }, 2000);
     }
 
     private Fragment homeFragmentTransition() {
@@ -465,6 +475,10 @@ public class NavDrawerMainActivity extends AppCompatActivity
             if(pendingHookups != null) {
                 pendingHookups.clear();
             }
+            if(nonFriends != null) {
+                nonFriends.clear();
+            }
+            currentUser = null;
         }
     }
 

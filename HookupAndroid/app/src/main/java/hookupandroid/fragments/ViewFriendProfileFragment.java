@@ -124,7 +124,7 @@ public class ViewFriendProfileFragment extends Fragment {
     @OnClick(R.id.img_friend_sms)
     public void sendSms() {
         Intent smsIntent = new Intent(Intent.ACTION_VIEW);
-        if(!friend.getPhoneNumber().isEmpty()) {
+        if(friend != null && friend.getPhoneNumber() != null && !friend.getPhoneNumber().isEmpty()) {
             smsIntent.setData(Uri.parse("sms:" + friend.getPhoneNumber()));
         }
         else {

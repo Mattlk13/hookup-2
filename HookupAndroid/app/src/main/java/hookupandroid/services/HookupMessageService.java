@@ -158,7 +158,7 @@ public class HookupMessageService extends FirebaseMessagingService {
     private void notifyHookupUser(String personName, String hookupUserUID, boolean isRecommendedHookup) {
         int notificationID = UUID.randomUUID().toString().hashCode();
         Intent intent = new Intent(this, NavDrawerMainActivity.class);
-        intent.setAction(VIEW_PROFILE_ACTION);
+//        intent.setAction(VIEW_PROFILE_ACTION);
         intent.putExtra("profileUID", hookupUserUID);
         intent.putExtra("notificationId", notificationID);
 
@@ -225,13 +225,6 @@ public class HookupMessageService extends FirebaseMessagingService {
         PendingIntent pendingIntentDecideLater = PendingIntent.getBroadcast(this, requestCode, decideLaterIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.addAction(R.drawable.question_mark_icon, "Later", pendingIntentDecideLater);
 
-//        Intent viewProfileIntent = new Intent();
-//        viewProfileIntent.setAction(HOOKUP_REQUEST_VIEW_PROFILE_ACTION);
-//        Bundle viewProfileBundle = new Bundle();
-//        viewProfileBundle.putInt("notificationId", notificationId);
-//        viewProfileIntent.putExtras(viewProfileBundle);
-//        PendingIntent pendingIntentViewProfile = PendingIntent.getBroadcast(this, requestCode, viewProfileIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        builder.addAction(R.drawable.information_icon, "View Profile", pendingIntentViewProfile);
     }
 
     private void buildMeetingResponseActions(NotificationCompat.Builder builder, int notificationId,

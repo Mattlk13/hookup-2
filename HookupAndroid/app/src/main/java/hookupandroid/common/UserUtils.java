@@ -27,35 +27,43 @@ public class UserUtils {
     public static User getUserFromMainActivityData (String uid) {
         User retVal = null;
 
-        for (User user: NavDrawerMainActivity.nonFriends) {
-            if(user.getFirebaseUID().equals(uid)) {
-                retVal = user;
-                retVal.setPersonRelation(PersonRelation.NON_FRIEND);
-                return retVal;
+        if(NavDrawerMainActivity.nonFriends != null) {
+            for (User user : NavDrawerMainActivity.nonFriends) {
+                if (user.getFirebaseUID().equals(uid)) {
+                    retVal = user;
+                    retVal.setPersonRelation(PersonRelation.NON_FRIEND);
+                    return retVal;
+                }
             }
         }
 
-        for (User user: NavDrawerMainActivity.pendingHookups) {
-            if(user.getFirebaseUID().equals(uid)) {
-                retVal = user;
-                retVal.setPersonRelation(PersonRelation.PENDING);
-                return retVal;
+        if(NavDrawerMainActivity.pendingHookups != null) {
+            for (User user : NavDrawerMainActivity.pendingHookups) {
+                if (user.getFirebaseUID().equals(uid)) {
+                    retVal = user;
+                    retVal.setPersonRelation(PersonRelation.PENDING);
+                    return retVal;
+                }
             }
         }
 
-        for (User user: NavDrawerMainActivity.friends) {
-            if(user.getFirebaseUID().equals(uid)) {
-                retVal = user;
-                retVal.setPersonRelation(PersonRelation.FRIEND);
-                return retVal;
+        if(NavDrawerMainActivity.friends != null) {
+            for (User user : NavDrawerMainActivity.friends) {
+                if (user.getFirebaseUID().equals(uid)) {
+                    retVal = user;
+                    retVal.setPersonRelation(PersonRelation.FRIEND);
+                    return retVal;
+                }
             }
         }
 
-        for (User user: NavDrawerMainActivity.allUsers) {
-            if(user.getFirebaseUID().equals(uid)) {
-                retVal = user;
-                retVal.setPersonRelation(PersonRelation.PENDING); // TODO: change this logic completely
-                return retVal;
+        if(NavDrawerMainActivity.allUsers != null) {
+            for (User user : NavDrawerMainActivity.allUsers) {
+                if (user.getFirebaseUID().equals(uid)) {
+                    retVal = user;
+                    retVal.setPersonRelation(PersonRelation.PENDING); // TODO: change this logic completely
+                    return retVal;
+                }
             }
         }
 
