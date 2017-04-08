@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,6 +49,7 @@ public class EditProfileFragment extends Fragment {
     private OnEditProfileListener mListener;
 
     @BindView(R.id.input_edit_profile_about_me) EditText aboutMeText;
+    @BindView(R.id.edit_profile_fullname) AppCompatTextView fullnameText;
     @BindView(R.id.edit_profile_image_view) ImageView profileImageView;
 
     public EditProfileFragment() {
@@ -86,6 +88,7 @@ public class EditProfileFragment extends Fragment {
 
         if(user != null) {
             aboutMeText.setText(user.getAboutMe());
+            fullnameText.setText(user.getFirstname() + " " + user.getLastname());
         }
 
         return inflatedView;

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -87,8 +88,9 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
         TextView txtFullname;
         @BindView(R.id.txt_friend_hometown)
         TextView txtHometown;
-        @BindView(R.id.img_friend_list_item_delete)
-        ImageView imgDelete;
+//        @BindView(R.id.img_friend_list_item_delete)
+//        ImageView imgDelete;
+        @BindView(R.id.layout_friend_delete) LinearLayout unfriendLayout;
         @BindView(R.id.text_friends_date)
         TextView txtFriendsDate;
 
@@ -106,9 +108,36 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
             }
         }
 
-        @OnClick(R.id.img_friend_list_item_delete)
-        public void unfriend() {
-            new AlertDialog.Builder(imgDelete.getContext())
+//        @OnClick(R.id.img_friend_list_item_delete)
+//        public void unfriend() {
+//            new AlertDialog.Builder(imgDelete.getContext())
+//                    .setTitle("Unfriend")
+//                    .setMessage("Are you sure you want to unfriend this person?")
+//                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            new UnfriendUserTask().execute(mItem.getFirebaseUID());
+//                            removeItem();
+//                        }
+//                    })
+//                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            // do nothing
+//                        }
+//                    })
+//                    .setIcon(android.R.drawable.ic_dialog_alert)
+//                    .show();
+//        }
+
+//        @OnClick(R.id.img_friend_place_finder)
+//        public void suggestPlace() {
+//            if(mFriendsFragment != null) {
+//                mFriendsFragment.suggestPlace(mItem);
+//            }
+//        }
+
+        @OnClick(R.id.layout_friend_delete)
+        public void unfriend(){
+            new AlertDialog.Builder(unfriendLayout.getContext())
                     .setTitle("Unfriend")
                     .setMessage("Are you sure you want to unfriend this person?")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -126,7 +155,7 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
                     .show();
         }
 
-        @OnClick(R.id.img_friend_place_finder)
+        @OnClick(R.id.layout_friend_meetup)
         public void suggestPlace() {
             if(mFriendsFragment != null) {
                 mFriendsFragment.suggestPlace(mItem);

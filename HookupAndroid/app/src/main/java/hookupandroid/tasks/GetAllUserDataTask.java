@@ -50,8 +50,14 @@ public class GetAllUserDataTask extends AsyncTask<String, String, String> {
     protected void onPreExecute() {
         if(mContext instanceof AuthFragment.OnAuthFragmentInteractionListener) {
             if(mRootView != null) {
-                LinearLayout linlaHeaderProgress = (LinearLayout) mRootView.findViewById(R.id.linlaHeaderProgress);
+//                LinearLayout linlaHeaderProgress = (LinearLayout) mRootView.findViewById(R.id.linlaHeaderProgress);
 //                linlaHeaderProgress.setVisibility(View.VISIBLE);
+
+//                this.dialog.setMessage("Processing...");
+//                this.dialog.show();
+            }
+
+            if(this.dialog != null) {
                 this.dialog.setMessage("Processing...");
                 this.dialog.show();
             }
@@ -62,8 +68,11 @@ public class GetAllUserDataTask extends AsyncTask<String, String, String> {
     protected void onPostExecute(String s) {
         if(mContext instanceof AuthFragment.OnAuthFragmentInteractionListener) {
             if(mRootView != null) {
-                LinearLayout linlaHeaderProgress = (LinearLayout) mRootView.findViewById(R.id.linlaHeaderProgress);
+//                LinearLayout linlaHeaderProgress = (LinearLayout) mRootView.findViewById(R.id.linlaHeaderProgress);
 //                linlaHeaderProgress.setVisibility(View.GONE);
+//                this.dialog.dismiss();
+            }
+            if(this.dialog !=null) {
                 this.dialog.dismiss();
             }
             mListener.onSuccessLogon();

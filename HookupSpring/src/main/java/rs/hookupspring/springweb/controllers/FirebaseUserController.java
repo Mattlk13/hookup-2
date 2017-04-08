@@ -125,7 +125,7 @@ public class FirebaseUserController {
         }
     }
 
-    @RequestMapping(value = "/updateProfile", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
     public void updateUserProfile(RequestEntity<ResponseUserDto> requestEntity) {
         ResponseUserDto userData = requestEntity.getBody();
         User user = userRepository.findByFirebaseUID(userData.getFirebaseUID());
@@ -137,7 +137,7 @@ public class FirebaseUserController {
         userRepository.save(user);
     }
 
-    @RequestMapping(value = "/updateLocation", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateLocation", method = RequestMethod.POST, consumes = "application/json")
     public void tryUpdateLocation(@RequestParam(value="latitude") String latitude,
                                   @RequestParam(value="longitude") String longitude) {
         int a = 1;
@@ -162,7 +162,7 @@ public class FirebaseUserController {
             distance = locationsDistanceService.distance(user.getLatitude(),
                     user.getLongitude(), hookup.getLatitude(), hookup.getLongitude(), 'K');
 
-            if(distance < 0.5 && distance > 0.0) {
+            if(distance < 0.5 && distance >= 0.0) {
                 nearbyHookups.add(hookup);
             }
         }
@@ -316,7 +316,7 @@ public class FirebaseUserController {
             resultUsers = userRepository.findAllByGender(Enums.Gender.Female);
         }
         else {
-            resultUsers.add(userRepository.findByFirebaseUID("pV3MOTu7yigZa0KRrzsLJM2ztpw1"));
+//            resultUsers.add(userRepository.findByFirebaseUID("pV3MOTu7yigZa0KRrzsLJM2ztpw1"));
             resultUsers.addAll(userRepository.findAllByGender(Enums.Gender.Male));
 //            resultUsers = userRepository.findAllByGender(Enums.Gender.Male);
         }
@@ -336,8 +336,11 @@ public class FirebaseUserController {
 
         Collections.reverse(resultUsers);
 
+//        resultUsers = friends;
+
         for(User user: resultUsers) {
             returnUsers.add(getUser(user, null));
+//            returnUsers.add(getUser(user, currentUser));
         }
 
         return new ResponseEntity<List<ResponseUserDto>>(returnUsers, HttpStatus.OK);
@@ -356,8 +359,9 @@ public class FirebaseUserController {
 
         message.append("</br>");
 
+        int counter = 0;
         for (User u : recommededPartners) {
-            message.append(u.getId() + " " + u.getFirstname() + " " + u.getLastname() + " </br>");
+            message.append(++counter + " " + u.getId() + " " + u.getFirstname() + " " + u.getLastname() + " </br>");
         }
 
         model.addAttribute("message", message);

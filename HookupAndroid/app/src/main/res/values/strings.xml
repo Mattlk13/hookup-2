@@ -230,5 +230,6 @@
     <string name="hint_about_me">About me</string>
     <string name="hookup_recommendations_counter_text">recommended persons are in the same city!</string>
     <string name="nearest_recommended_text">Nearest recommended person distance:</string>
+    <string name="action_refresh">Refresh</string>
 
 </resources>

@@ -113,8 +113,6 @@ public class NavDrawerMainActivity extends AppCompatActivity
         Unbinder unbinder = ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-//        mApplicationContext = getApplicationContext();
-
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -141,7 +139,7 @@ public class NavDrawerMainActivity extends AppCompatActivity
                 public void run() {
                     new GetAllUserDataTask(NavDrawerMainActivity.this, homeFragment.getView(), NavDrawerMainActivity.this).execute();
                 }
-            }, 3000);
+            }, 1000);
         }
         else {
             switchFragment = new AuthFragment();
@@ -239,9 +237,15 @@ public class NavDrawerMainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
+        if (id == R.id.action_refresh) {
+            if(auth.getCurrentUser() != null) {
+                new GetAllUserDataTask(this, toolbar, this).execute();
+            }
+            else {
+                Toast.makeText(this, "No user signed in ...", Toast.LENGTH_SHORT).show();
+            }
+//            Toast.makeText(this, "Refresh button clicked!", Toast.LENGTH_SHORT).show();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -268,11 +272,16 @@ public class NavDrawerMainActivity extends AppCompatActivity
             switchToolbarTitle = "Home";
         }
         else if (id == R.id.nav_discover) {
-            switchFragment = new DiscoverMatchesFragment();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("non-friends", nonFriends);
-            switchFragment.setArguments(bundle);
-            switchToolbarTitle = "Discover matches";
+            if(nonFriends == null || nonFriends.size() == 0) {
+                Toast.makeText(this, "Couldn't retrieve users data ...", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                switchFragment = new DiscoverMatchesFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("non-friends", nonFriends);
+                switchFragment.setArguments(bundle);
+                switchToolbarTitle = "Discover matches";
+            }
         } else if (id == R.id.nav_friends) {
             switchFragment=new FriendsFragment();
             Bundle bundle = new Bundle();
