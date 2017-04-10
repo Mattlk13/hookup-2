@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Hookup</string>
+    <string name="app_name">Matchbaker</string>
     <string name="server_url">http://192.168.0.18:8080</string>
     <string name="delete">Delete</string>
     <string name="search">Search</string>

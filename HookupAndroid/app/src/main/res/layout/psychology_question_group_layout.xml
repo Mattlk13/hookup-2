@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<hookupandroid.customComponents.PsychologyQuestionGroupView xmlns:android="http://schemas.android.com/apk/res/android"
+<matchbaker.customComponents.PsychologyQuestionGroupView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -94,4 +94,4 @@
         <include android:id="@+id/shared_interests_seek_bar" layout="@layout/seekbar_scale100"></include>
     </LinearLayout>
 
-</hookupandroid.customComponents.PsychologyQuestionGroupView>
+</matchbaker.customComponents.PsychologyQuestionGroupView>

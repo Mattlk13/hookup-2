@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="hookupandroid.fragments.HomeFragment">
+    tools:context="matchbaker.fragments.HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,49 +55,66 @@
             android:visibility="gone"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
 
-                <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                <TextView
-                    android:id="@+id/home_recommended_persons_count_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="15"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"
-                    android:textAlignment="center"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textAlignment="center"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/hookup_recommendations_counter_text"/>
+                <!--&lt;!&ndash;android:textAppearance="?android:attr/textAppearanceLarge"&ndash;&gt;-->
+                <!--<TextView-->
+                    <!--android:id="@+id/home_recommended_persons_count_text"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="15"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:textAlignment="center"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:text="@string/hookup_recommendations_counter_text"/>-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textAlignment="center"
-                    android:text="@string/nearest_recommended_text"/>
+            <TextView
+                android:id="@+id/hookup_recommendations_counter_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:text="@string/hookup_recommendations_counter_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-                <TextView
-                    android:id="@+id/home_nearest_hookup_distance_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="2000 km"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"
-                    android:textAlignment="center"/>
-            </LinearLayout>
+            <TextView
+                android:id="@+id/home_nearest_hookup_distance_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/nearest_recommended_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:text="@string/nearest_recommended_text"/>-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/home_nearest_hookup_distance_text"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:text="2000 km"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:textAlignment="center"/>-->
+            <!--</LinearLayout>-->
 
         </LinearLayout>
 

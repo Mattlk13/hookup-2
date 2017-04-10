@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="hookupandroid">
+    package="matchbaker">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -23,15 +23,15 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".MainActivity" />
-        <activity android:name=".activities.PersonRecyclerViewActivity" />
-        <activity android:name=".activities.NavDrawerExampleActivity" />
+        <activity android:name="matchbaker.MainActivity" />
+        <activity android:name="matchbaker.activities.PersonRecyclerViewActivity" />
+        <activity android:name="matchbaker.activities.NavDrawerExampleActivity" />
         <!-- <activity android:name=".activities.MockLocationActivity" /> -->
         <activity
-            android:name=".activities.OldGeoLocActivity"
+            android:name="matchbaker.activities.OldGeoLocActivity"
             android:theme="@style/MaterialTheme" />
 
-        <activity android:name=".activities.Splash" />
+        <activity android:name="matchbaker.activities.Splash" />
         <!--<activity-->
             <!--android:name=".activities.Splash"-->
             <!--android:launchMode="singleTop"-->
@@ -45,7 +45,7 @@
         <!--<activity android:name=".activities.NavDrawerMainActivity" />-->
 
         <activity
-            android:name=".activities.NavDrawerMainActivity"
+            android:name="matchbaker.activities.NavDrawerMainActivity"
             android:launchMode="singleTop"
             android:theme="@style/MaterialTheme">
             <intent-filter>
@@ -54,18 +54,18 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".services.HookupMessageService">
+        <service android:name="matchbaker.services.HookupMessageService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".services.FirebaseInstanceIDService">
+        <service android:name="matchbaker.services.FirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <receiver android:name=".receivers.HookupRequestReceiver">
+        <receiver android:name="matchbaker.receivers.HookupRequestReceiver">
             <intent-filter>
                 <action android:name="HOOKUP_REQUEST_YES_ACTION" />
                 <action android:name="HOOKUP_REQUEST_NO_ACTION" />
@@ -74,7 +74,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".receivers.MeetingResponseReceiver">
+        <receiver android:name="matchbaker.receivers.MeetingResponseReceiver">
             <intent-filter>
                 <action android:name="MEETING_OPEN_MAP_ACTION" />
                 <action android:name="MEETING_ACCEPT_ACTION" />
@@ -83,7 +83,7 @@
         </receiver>
 
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name="matchbaker.activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
     </application>
 

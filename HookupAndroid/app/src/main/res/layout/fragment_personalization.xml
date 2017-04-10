@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:orientation="vertical"
-    tools:context="hookupandroid.fragments.PersonalizationFragment">
+    tools:context="matchbaker.fragments.PersonalizationFragment">
 
     <!--android:overScrollMode="never"-->
     <android.support.v4.view.ViewPager
