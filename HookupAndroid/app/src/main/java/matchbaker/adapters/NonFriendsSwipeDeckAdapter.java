@@ -55,7 +55,7 @@ public class NonFriendsSwipeDeckAdapter extends BaseAdapter {
         User nonFriend = nonFriends.get(position);
         ((TextView) v.findViewById(R.id.txt_non_friend_swipe_view_fullname_and_age)).setText(nonFriend.getFirstname() + " " + nonFriend.getLastname() + ", " + nonFriend.getAge());
         ((TextView) v.findViewById(R.id.txt_non_friend_swipe_view_city)).setText(nonFriend.getCity());
-//        ((TextView) v.findViewById(R.id.txt_non_friend_swipe_view_career)).setText(nonFriend.get);
+        ((TextView) v.findViewById(R.id.txt_non_friend_swipe_view_career)).setText(nonFriend.getBasicInfo().getCareer());
         ((TextView) v.findViewById(R.id.txt_non_friend_swipe_view_about_me)).setText(nonFriend.getAboutMe());
 
         v.setOnClickListener(new View.OnClickListener() {
